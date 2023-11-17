@@ -1,5 +1,6 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -58,6 +59,7 @@ class AmountFragment : Fragment() {
         binding.keyboard.buttonClear.setOnClickListener(View.OnClickListener { binding.displayKeyboard.txtPriceValue.setText(
             R.string.default_amount
         ).toString() })
+        binding.keyboard.buttonConfirm.setOnClickListener(View.OnClickListener { goToCardTypeFragment() })
 
         binding.displayKeyboard.txtPriceValue.setMovementMethod(null)
         binding.displayKeyboard.txtPriceValue.addTextChangedListener(object : TextWatcher {
@@ -102,5 +104,27 @@ class AmountFragment : Fragment() {
         symbols.setCurrencySymbol("")
         decimalFormat.setDecimalFormatSymbols(symbols)
         return decimalFormat.format(amount / 100)
+    }
+
+    private fun goToCardTypeFragment() {
+        val amount = getAmount(binding.displayKeyboard.txtPriceValue.getText())
+
+        if (amount > 0) {
+            navController?.navigate(R.id.action_amountFragment_to_cardTypeFragment)
+        } else {
+            showDialogEmptyAmount()
+        }
+    }
+
+    private fun showDialogEmptyAmount() {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Por favor, remova o cartão!")
+            .setMessage("O valor não pode estar vazio, digite um valor e insira novamente o cartão.")
+        builder.setCancelable(false)
+        builder.setPositiveButton(
+            "OK"
+        ) { dialog, which -> onResume() }
+        val dialog = builder.create()
+        dialog.show()
     }
 }

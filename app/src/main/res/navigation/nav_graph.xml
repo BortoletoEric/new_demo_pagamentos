@@ -8,7 +8,15 @@
         android:id="@+id/amountFragment"
         android:name="br.com.gertec.autostart.new_demo_pagamentos.fragments.AmountFragment"
         android:label="Amount Fragment"
-        tools:layout="@layout/fragment_amount" />
+        tools:layout="@layout/fragment_amount">
+    <action
+        android:id="@+id/action_amountFragment_to_cardTypeFragment"
+        app:destination="@id/cardTypeFragment" />
+    </fragment>
 
-
+    <fragment
+        android:id="@+id/cardTypeFragment"
+        android:name="br.com.gertec.autostart.new_demo_pagamentos.fragments.CardTypeFragment"
+        android:label="Card Type Fragment"
+        tools:layout="@layout/fragment_card_type"/>
 </navigation>
