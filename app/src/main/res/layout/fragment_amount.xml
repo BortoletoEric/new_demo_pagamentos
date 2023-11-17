@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout_pinPad"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/keyboard_gradient"
+    android:orientation="vertical"
+    tools:context="br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/backgroundView"
+        android:layout_width="match_parent"
+        android:layout_height="193dp"
+        android:background="@drawable/background_blue_gertec"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/infoPayment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/noto_sans"
+        android:text="Insira, passe o cartão ou"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/displayKeyboard"
+        layout="@layout/layout_display_keyboard" />
+
+    <include
+        android:id="@+id/keyboard"
+        layout="@layout/layout_keyboard" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

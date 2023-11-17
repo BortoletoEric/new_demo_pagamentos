@@ -1,0 +1,14 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/amountFragment">
+
+    <fragment
+        android:id="@+id/amountFragment"
+        android:name="br.com.gertec.autostart.new_demo_pagamentos.fragments.AmountFragment"
+        android:label="Amount Fragment"
+        tools:layout="@layout/fragment_amount" />
+
+
+</navigation>
