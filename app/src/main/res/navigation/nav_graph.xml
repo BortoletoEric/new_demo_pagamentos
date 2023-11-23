@@ -18,5 +18,32 @@
         android:id="@+id/cardTypeFragment"
         android:name="br.com.gertec.autostart.new_demo_pagamentos.fragments.CardTypeFragment"
         android:label="Card Type Fragment"
-        tools:layout="@layout/fragment_card_type"/>
+        tools:layout="@layout/fragment_card_type">
+        <argument
+            android:name="amount"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_cardTypeFragment_to_checkCardFragment"
+            app:destination="@id/checkCardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkCardFragment"
+        android:name="br.com.gertec.autostart.new_demo_pagamentos.fragments.CheckCardFragment"
+        android:label="fragment_check_card"
+        tools:layout="@layout/fragment_check_card" >
+        <argument
+            android:name="amount"
+            app:argType="long" />
+        <argument
+            android:name="transactionType"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_checkCardFragment_to_pinFragment"
+            app:destination="@id/pinFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pinFragment"
+        android:name="br.com.gertec.autostart.new_demo_pagamentos.fragments.PinFragment"
+        android:label="fragment_pin"
+        tools:layout="@layout/fragment_pin" />
 </navigation>

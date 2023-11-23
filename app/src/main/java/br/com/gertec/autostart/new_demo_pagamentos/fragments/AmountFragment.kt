@@ -8,8 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentAmountBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutDisplayKeyboardBinding
@@ -18,15 +18,13 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
 
-
 class AmountFragment : Fragment() {
 
     private var _binding: FragmentAmountBinding? = null
     private val binding get() = _binding!!
     private lateinit var displayKeyboardBinding: LayoutDisplayKeyboardBinding
     private lateinit var keyboardBinding: LayoutKeyboardBinding
-
-    private var navController: NavController? = null
+    private var amount: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,26 +40,26 @@ class AmountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        navController = Navigation.findNavController(view);
 
-        binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount);
+        binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount)
 
-        binding.keyboard.button0.setOnClickListener(View.OnClickListener { addDigitToAmount("0"); })
-        binding.keyboard.button1.setOnClickListener(View.OnClickListener { addDigitToAmount("1"); })
-        binding.keyboard.button2.setOnClickListener(View.OnClickListener { addDigitToAmount("2"); })
-        binding.keyboard.button3.setOnClickListener(View.OnClickListener { addDigitToAmount("3"); })
-        binding.keyboard.button4.setOnClickListener(View.OnClickListener { addDigitToAmount("4"); })
-        binding.keyboard.button5.setOnClickListener(View.OnClickListener { addDigitToAmount("5"); })
-        binding.keyboard.button6.setOnClickListener(View.OnClickListener { addDigitToAmount("6"); })
-        binding.keyboard.button7.setOnClickListener(View.OnClickListener { addDigitToAmount("7"); })
-        binding.keyboard.button8.setOnClickListener(View.OnClickListener { addDigitToAmount("8"); })
-        binding.keyboard.button9.setOnClickListener(View.OnClickListener { addDigitToAmount("9"); })
-        binding.keyboard.buttonClear.setOnClickListener(View.OnClickListener { binding.displayKeyboard.txtPriceValue.setText(
-            R.string.default_amount
-        ).toString() })
-        binding.keyboard.buttonConfirm.setOnClickListener(View.OnClickListener { goToCardTypeFragment() })
+        //pepao
+        binding.keyboard.button0.setOnClickListener{ addDigitToAmount("0") }
+        binding.keyboard.button1.setOnClickListener{ addDigitToAmount("1") }
+        binding.keyboard.button2.setOnClickListener{ addDigitToAmount("2") }
+        binding.keyboard.button3.setOnClickListener{ addDigitToAmount("3") }
+        binding.keyboard.button4.setOnClickListener{ addDigitToAmount("4") }
+        binding.keyboard.button5.setOnClickListener{ addDigitToAmount("5") }
+        binding.keyboard.button6.setOnClickListener{ addDigitToAmount("6") }
+        binding.keyboard.button7.setOnClickListener{ addDigitToAmount("7") }
+        binding.keyboard.button8.setOnClickListener{ addDigitToAmount("8") }
+        binding.keyboard.button9.setOnClickListener{ addDigitToAmount("9") }
+        binding.keyboard.buttonClear.setOnClickListener{
+            binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()
+        }
+        binding.keyboard.buttonConfirm.setOnClickListener{ goToCardTypeFragment(it) }
 
-        binding.displayKeyboard.txtPriceValue.setMovementMethod(null)
+        binding.displayKeyboard.txtPriceValue.movementMethod = null
         binding.displayKeyboard.txtPriceValue.addTextChangedListener(object : TextWatcher {
             private var currentFormattedAmount = ""
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
@@ -70,24 +68,19 @@ class AmountFragment : Fragment() {
                     binding.displayKeyboard.txtPriceValue.removeTextChangedListener(this)
                     val currentAmount: Double = getAmount(s)
                     currentFormattedAmount = formatAmount(currentAmount).toString()
-                    binding.displayKeyboard.txtPriceValue.setText(currentFormattedAmount)
+                    binding.displayKeyboard.txtPriceValue.text = currentFormattedAmount
                     binding.displayKeyboard.txtPriceValue.addTextChangedListener(this)
                 }
             }
-
             override fun afterTextChanged(s: Editable) {}
         })
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     private fun addDigitToAmount(digit: String) {
-        val currentAmount: String = binding.displayKeyboard.txtPriceValue.getText().toString()
+        val currentAmount: String = binding.displayKeyboard.txtPriceValue.text.toString()
         if (currentAmount.length < 9) {
-            binding.displayKeyboard.txtPriceValue.setText(String.format("%s%s", currentAmount, digit))
+            binding.displayKeyboard.txtPriceValue.text = String.format("%s%s", currentAmount, digit)
         }
     }
 
@@ -100,17 +93,21 @@ class AmountFragment : Fragment() {
 
     private fun formatAmount(amount: Double): String? {
         val decimalFormat: DecimalFormat = NumberFormat.getCurrencyInstance() as DecimalFormat
-        val symbols: DecimalFormatSymbols = decimalFormat.getDecimalFormatSymbols()
-        symbols.setCurrencySymbol("")
-        decimalFormat.setDecimalFormatSymbols(symbols)
+        val symbols: DecimalFormatSymbols = decimalFormat.decimalFormatSymbols
+        symbols.currencySymbol = ""
+        decimalFormat.decimalFormatSymbols = symbols
         return decimalFormat.format(amount / 100)
     }
 
-    private fun goToCardTypeFragment() {
-        val amount = getAmount(binding.displayKeyboard.txtPriceValue.getText())
+    //pepao
+    private fun goToCardTypeFragment(view: View) {
+        val amount = getAmount(binding.displayKeyboard.txtPriceValue.text)
 
         if (amount > 0) {
-            navController?.navigate(R.id.action_amountFragment_to_cardTypeFragment)
+            //pepao
+            view.findNavController().navigate(
+                AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount * 100).toLong())
+            )
         } else {
             showDialogEmptyAmount()
         }
@@ -123,8 +120,13 @@ class AmountFragment : Fragment() {
         builder.setCancelable(false)
         builder.setPositiveButton(
             "OK"
-        ) { dialog, which -> onResume() }
+        ) { _, _ -> onResume() }
         val dialog = builder.create()
         dialog.show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

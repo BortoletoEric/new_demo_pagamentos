@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/keyboard_gradient"
     android:orientation="vertical"
-    tools:context=".fragments.AmountFragment">
+    tools:context=".fragments.PinFragment">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/backgroundView"
@@ -36,11 +36,13 @@
 
     <include
         android:id="@+id/displayKeyboard"
-        layout="@layout/layout_display_keyboard" />
+        layout="@layout/layout_display_keyboard"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="82dp" />
 
     <include
         android:id="@+id/keyboard"
-        layout="@layout/layout_keyboard" />
+        layout="@layout/layout_pin_keyboard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

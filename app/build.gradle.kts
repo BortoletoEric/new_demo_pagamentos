@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -9,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "br.com.gertec.autostart.new_demo_pagamentos"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -64,10 +66,25 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.2")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.2")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    //Navigation
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:2.5.3")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.2")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.2")
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:2.5.3")
+
+    //viewmodel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.6.1")
+    implementation("androidx.activity:activity-ktx:1.7.2")
+
+    //GERTEC SDK
+    implementation(files("libs/libgedi-0.18.8-gpos760-eng-release.aar","libs/libgandi-0.3.5-gpos760-payment-release.aar","libs/PPCompGPOS760-v1.08-Complete-debug.aar"))
+
 }
