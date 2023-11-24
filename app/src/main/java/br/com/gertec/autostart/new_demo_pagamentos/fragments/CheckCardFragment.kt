@@ -45,9 +45,6 @@ class CheckCardFragment : Fragment() {
                         CheckCardFragmentDirections.actionCheckCardFragmentToPinFragment(args.amount)
                     )
                 }
-                "GOC" -> {
-                    Toast.makeText(requireContext(), "GOC OK",Toast.LENGTH_LONG).show()
-                }
             }
         }
 
@@ -58,10 +55,17 @@ class CheckCardFragment : Fragment() {
             delay(1_000)
             mainActivity.mainViewModel.ppCompCommands.let{
                 val result = it.getCard("00${args.transactionType}000000001000231122121636135799753100")//0099000000000100231122115800135799753100
-                //0099000000001000231122121636135799753100
+                Log.d("msgg","GCR --> $result")
+//                val pan = result.substring(234,253)
+//                mainActivity.mainViewModel.pan = hidePan(pan.trim())
+//                Log.d("msgg","GCR --> re${pan.length}")
                 mainActivity.mainViewModel.processCompleted("GCR")
             }
         }
+    }
+
+    private fun hidePan(pan: String): String {
+        return pan.substring(pan.length - 4, pan.length)
     }
 
     override fun onDestroy() {

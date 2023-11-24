@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
+import java.util.Locale
 
 class AmountFragment : Fragment() {
 
@@ -32,6 +33,7 @@ class AmountFragment : Fragment() {
     private lateinit var keyboardBinding: LayoutKeyboardBinding
     private var amount: Long = 0
     private lateinit var mainActivity: MainActivity
+    private var currentFormattedAmount = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +43,7 @@ class AmountFragment : Fragment() {
 
         displayKeyboardBinding = binding.displayKeyboard
         keyboardBinding = binding.keyboard
-        mainActivity =(activity as MainActivity)
+        mainActivity = (activity as MainActivity)
 
         return binding.root
     }
@@ -69,7 +71,6 @@ class AmountFragment : Fragment() {
 
         binding.displayKeyboard.txtPriceValue.movementMethod = null
         binding.displayKeyboard.txtPriceValue.addTextChangedListener(object : TextWatcher {
-            private var currentFormattedAmount = ""
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, i1: Int, i2: Int) {
                 if (s.toString() != currentFormattedAmount) {
@@ -120,9 +121,10 @@ class AmountFragment : Fragment() {
         val amount = getAmount(binding.displayKeyboard.txtPriceValue.text)
 
         if (amount > 0) {
-            //pepao
+            mainActivity.mainViewModel.transactionAmount = currentFormattedAmount
+
             view.findNavController().navigate(
-                AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount * 100).toLong())
+                AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong())
             )
         } else {
             showDialogEmptyAmount()

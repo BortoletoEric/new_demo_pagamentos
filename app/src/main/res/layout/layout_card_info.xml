@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:text="3388"
         android:textColor="#FFFFFF"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/txtApplicationType"
         app:layout_constraintEnd_toEndOf="parent"

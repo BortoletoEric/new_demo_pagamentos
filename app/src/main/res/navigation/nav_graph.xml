@@ -49,5 +49,13 @@
         <argument
             android:name="amount"
             app:argType="long" />
+        <action
+            android:id="@+id/action_pinFragment_to_sucessPayFragment"
+            app:destination="@id/sucessPayFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/sucessPayFragment"
+        android:name="br.com.gertec.autostart.new_demo_pagamentos.fragments.SucessPayFragment"
+        android:label="fragment_sucess_pay"
+        tools:layout="@layout/fragment_sucess_pay" />
 </navigation>

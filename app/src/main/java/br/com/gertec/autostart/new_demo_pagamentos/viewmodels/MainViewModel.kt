@@ -14,6 +14,11 @@ class MainViewModel: ViewModel() {
     val processOk: LiveData<String>
         get() = _processOk
 
+    //dados da transação
+    var pan = ""
+    var transactionAmount = ""
+    var applicationType = ""
+
     init {
         _processOk.postValue("AMOUNT")
     }

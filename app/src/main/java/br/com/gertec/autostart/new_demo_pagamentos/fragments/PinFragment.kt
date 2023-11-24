@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentPinBinding
@@ -21,7 +22,6 @@ class PinFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var mainActivity: MainActivity
     var pin = ""
-
     private val args: PinFragmentArgs by navArgs()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,31 +39,42 @@ class PinFragment : Fragment() {
         setupViews()
         setupButtons()
         goOnChip()
+
+        mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){ step ->
+            when(step){
+                "GOC" -> {
+                    view.findNavController().navigate(
+                        PinFragmentDirections.actionPinFragmentToSucessPayFragment()
+                    )
+                }
+            }
+        }
     }
 
     private fun setupViews() {
-        binding.txtPriceValue.text = formatAmount(args.amount)
+        binding.txtPriceValue.text = mainActivity.mainViewModel.transactionAmount
 //        GPOS760 NÃO
-//        with(binding){
-//            mainActivity.mainViewModel.ppCompCommands.setPinKeyboard(
-//                button1,
-//                button2,
-//                button3,
-//                button4,
-//                button5,
-//                button6,
-//                button7,
-//                button8,
-//                button9,
-//                button0,
-//                buttonErase,
-//                buttonConfirm,
-//                buttonClear,
-//                mainActivity
-//            )
-//        }
+        with(binding){
+            mainActivity.setKeyboard(
+                button1,
+                button2,
+                button3,
+                button4,
+                button5,
+                button6,
+                button7,
+                button8,
+                button9,
+                button0,
+                buttonErase,
+                buttonConfirm,
+                buttonClear,
+                true
+            )
+        }
 
     }
+
 
     private fun setupButtons() {
         binding.button0.setOnClickListener{ addDigitToPin("0") }
@@ -89,7 +100,7 @@ class PinFragment : Fragment() {
 
 
     private fun formatAmount(amount: Long): CharSequence? {
-        return DecimalFormat("#,##0.00", DecimalFormatSymbols(Locale("pt","BR"))).format(amount/10000)
+        return DecimalFormat("#,##0.00", DecimalFormatSymbols(Locale("pt","BR"))).format(amount/100)
     }
 
     private fun erasePin() {

@@ -24,11 +24,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="10dp"
                 android:fontFamily="@font/noto_sans"
                 android:text="Pagamento realizado com sucesso"
                 android:textColor="#30b404"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/txtPrice"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -38,27 +40,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="55dp"
                 android:fontFamily="@font/inter"
                 android:text="Valor Total"
                 android:textColor="#001A45"
-                android:textSize="14dp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/number_of_installment_label"
+                app:layout_constraintTop_toTopOf="@id/txtAmount"
+                app:layout_constraintBottom_toBottomOf="@id/txtAmount"
                 />
 
             <TextView
                 android:id="@+id/txtPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="55dp"
                 android:fontFamily="@font/inter"
                 android:text="R$"
                 android:textColor="#001A45"
                 android:textSize="18dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/txtAmount"
-                app:layout_constraintTop_toBottomOf="@+id/number_of_installment_label"
+                app:layout_constraintTop_toTopOf="@id/txtAmount"
                 />
 
             <TextView
@@ -66,13 +67,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
-                android:layout_marginTop="55dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/inter"
                 android:text="65,00"
                 android:textColor="#001A45"
-                android:textSize="24sp"
+                android:textSize="40sp"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/number_of_installment_label"
+                app:layout_constraintBottom_toBottomOf="parent"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

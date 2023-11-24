@@ -161,9 +161,9 @@ class PPCompCommands private constructor() {
         b7: Button, b8: Button,
         b9: Button, b0: Button,
         bCancel: Button, bConfirm: Button,
-        bClear: Button, activity: Activity,
+        bClear: Button, activity: Activity, beep: Boolean
     ){
-        ppComp?.PP_SetKbd(b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,bCancel, bConfirm, bClear, activity)
+        ppComp?.PP_SetKbd(b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,bCancel, bConfirm, bClear, activity, beep)
     }
 //    fun getTagsString(input: String): String {
 //        return String.format("%03d", tags.length / 2) + tags

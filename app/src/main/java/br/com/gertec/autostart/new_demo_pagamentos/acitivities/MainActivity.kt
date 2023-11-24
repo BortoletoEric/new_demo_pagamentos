@@ -1,6 +1,9 @@
 package br.com.gertec.autostart.new_demo_pagamentos.acitivities
 
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -37,12 +40,45 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupPPCompCommands() {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO).launch{
             mainViewModel.ppCompCommands.let{
                 it.init(this@MainActivity)
                 it.open()
                 it.setDspCallback(outputCallbacks)
             }
+        }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        Log.d("msgg","key $keyCode")
+        return super.onKeyDown(keyCode, event)
+
+    }
+
+    fun setKeyboard(
+        b1: Button,
+        b2: Button,
+        b3: Button,
+        b4: Button,
+        b5: Button,
+        b6: Button,
+        b7: Button,
+        b8: Button,
+        b9: Button,
+        b0: Button,
+        bCancel: Button,
+        bConfirm: Button,
+        bClear: Button,
+        beep: Boolean
+    ){
+        CoroutineScope(Dispatchers.IO).launch{
+            mainViewModel.ppCompCommands.setPinKeyboard(
+                b1,b2,b3,b4,
+                b5,b6,b7,b8,
+                b9,b0,bCancel,bConfirm,
+                bClear,this@MainActivity,
+                beep
+            )
         }
     }
 

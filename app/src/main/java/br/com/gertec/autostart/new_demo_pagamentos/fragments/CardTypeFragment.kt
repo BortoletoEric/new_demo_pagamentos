@@ -42,11 +42,13 @@ class CardTypeFragment : Fragment() {
 
     private fun setupButtons() {
         binding.button1.setOnClickListener {
+            mainActivity.mainViewModel.applicationType = "Débito"
             it.findNavController().navigate(
                 CardTypeFragmentDirections.actionCardTypeFragmentToCheckCardFragment(args.amount,"02")
             )
         }
         binding.button2.setOnClickListener {
+            mainActivity.mainViewModel.applicationType = "Crédito"
             it.findNavController().navigate(
                 CardTypeFragmentDirections.actionCardTypeFragmentToCheckCardFragment(args.amount,"01")
             )
