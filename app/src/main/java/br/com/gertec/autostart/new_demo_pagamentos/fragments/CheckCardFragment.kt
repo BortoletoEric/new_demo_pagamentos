@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
@@ -20,13 +21,14 @@ class CheckCardFragment : Fragment() {
     private val binding get() = _binding!!
     private val args: CheckCardFragmentArgs by navArgs()
     private lateinit var mainActivity: MainActivity
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentCheckCardBinding.inflate(inflater, container, false)
-        mainActivity =(activity as MainActivity)
+        mainActivity = (activity as MainActivity)
 
         return binding.root
     }
@@ -38,7 +40,14 @@ class CheckCardFragment : Fragment() {
 
         mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){ step ->
             when(step){
-                "GCR" -> {}
+                "GCR" -> {
+                    view.findNavController().navigate(
+                        CheckCardFragmentDirections.actionCheckCardFragmentToPinFragment(args.amount)
+                    )
+                }
+                "GOC" -> {
+                    Toast.makeText(requireContext(), "GOC OK",Toast.LENGTH_LONG).show()
+                }
             }
         }
 
@@ -48,12 +57,8 @@ class CheckCardFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             delay(1_000)
             mainActivity.mainViewModel.ppCompCommands.let{
-                it.open()
-                val result = it.getCard("0099000000001000231122121636135799753100")//0099000000000100231122115800135799753100
+                val result = it.getCard("00${args.transactionType}000000001000231122121636135799753100")//0099000000000100231122115800135799753100
                 //0099000000001000231122121636135799753100
-                Log.d("msgg","grande susto: $result")
-                it.close("Obrigado")
-
                 mainActivity.mainViewModel.processCompleted("GCR")
             }
         }

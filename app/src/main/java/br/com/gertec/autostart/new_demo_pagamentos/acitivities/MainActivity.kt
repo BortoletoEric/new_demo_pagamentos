@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import br.com.gertec.autostart.new_demo_pagamentos.R
+import br.com.gertec.autostart.new_demo_pagamentos.callbacks.OutputCallbacks
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.ActivityMainBinding
 import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModel
 import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModelFactory
@@ -18,11 +19,14 @@ class MainActivity : AppCompatActivity() {
     private val binding get() = _binding!!
     lateinit var mainViewModel: MainViewModel
     private lateinit var navController: NavController
+    val outputCallbacks = OutputCallbacks()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
 
         setupViewModel()
         setupPPCompCommands()
@@ -34,7 +38,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupPPCompCommands() {
         CoroutineScope(Dispatchers.IO).launch {
-            mainViewModel.ppCompCommands.init(this@MainActivity)
+            mainViewModel.ppCompCommands.let{
+                it.init(this@MainActivity)
+                it.open()
+                it.setDspCallback(outputCallbacks)
+            }
         }
     }
 

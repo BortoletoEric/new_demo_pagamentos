@@ -5,4 +5,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="aproxime">Para continuar o pagamento, <b>Aproxime</b>, <b>Insira</b> ou <b>Passe</b> o cartão</string>
+    <string name="default_pin"> </string>
 </resources>

@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/fragment_pin"
-    android:id="@+id/pin_keyboard">
+    android:id="@+id/pinKeyboard">
 
     <Button
         android:id="@+id/button1"
@@ -30,9 +30,18 @@
         style="@style/CustomButtonKeyboard"
         android:text="3"
         app:layout_constraintBottom_toTopOf="@+id/button6"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/button_clear"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button2" />
+
+    <ImageButton
+        android:id="@+id/button_clear"
+        style="@style/CustomButtonKeyboard"
+        android:src="@drawable/clearall"
+        app:layout_constraintBottom_toTopOf="@+id/button_erase"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button3" />
 
     <Button
         android:id="@+id/button4"
@@ -57,15 +66,24 @@
         style="@style/CustomButtonKeyboard"
         android:text="6"
         app:layout_constraintBottom_toTopOf="@+id/button9"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/button_erase"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button5" />
+
+    <ImageButton
+        android:id="@+id/button_erase"
+        style="@style/CustomButtonKeyboard"
+        android:src="@drawable/erase"
+        app:layout_constraintBottom_toTopOf="@+id/button9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button6" />
 
     <Button
         android:id="@+id/button7"
         style="@style/CustomButtonKeyboard"
         android:text="7"
-        app:layout_constraintBottom_toTopOf="@+id/buttonClear"
+        app:layout_constraintBottom_toTopOf="@+id/button_null_0"
         app:layout_constraintEnd_toStartOf="@+id/button8"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
@@ -83,14 +101,24 @@
         android:id="@+id/button9"
         style="@style/CustomButtonKeyboard"
         android:text="9"
-        app:layout_constraintBottom_toTopOf="@+id/buttonConfirm"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button_null_1"
+        app:layout_constraintEnd_toStartOf="@id/button_confirm"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button8" />
 
+    <ImageButton
+        android:id="@+id/button_confirm"
+        style="@style/CustomButtonKeyboardConfirmPin"
+        android:src="@drawable/confirm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_erase"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button9" />
+
     <Button
-        android:id="@+id/buttonClear"
-        style="@style/CustomButtonKeyboardClear"
+        android:id="@+id/button_null_0"
+        style="@style/CustomButtonKeyboard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button0"
         app:layout_constraintHorizontal_bias="0.5"
@@ -101,15 +129,15 @@
         style="@style/CustomButtonKeyboard"
         android:text="0"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonConfirm"
+        app:layout_constraintEnd_toStartOf="@+id/button_null_1"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/buttonClear" />
+        app:layout_constraintStart_toEndOf="@+id/button_null_0" />
 
     <Button
-        android:id="@+id/buttonConfirm"
-        style="@style/CustomButtonKeyboardConfirm"
+        android:id="@+id/button_null_1"
+        style="@style/CustomButtonKeyboard"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/button_confirm"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button0" />
 

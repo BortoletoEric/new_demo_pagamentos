@@ -45,5 +45,9 @@
         android:id="@+id/pinFragment"
         android:name="br.com.gertec.autostart.new_demo_pagamentos.fragments.PinFragment"
         android:label="fragment_pin"
-        tools:layout="@layout/fragment_pin" />
+        tools:layout="@layout/fragment_pin" >
+        <argument
+            android:name="amount"
+            app:argType="long" />
+    </fragment>
 </navigation>

@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import br.com.gertec.autostart.new_demo_pagamentos.R
+import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentAmountBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutDisplayKeyboardBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutKeyboardBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
@@ -25,6 +31,7 @@ class AmountFragment : Fragment() {
     private lateinit var displayKeyboardBinding: LayoutDisplayKeyboardBinding
     private lateinit var keyboardBinding: LayoutKeyboardBinding
     private var amount: Long = 0
+    private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,12 +41,13 @@ class AmountFragment : Fragment() {
 
         displayKeyboardBinding = binding.displayKeyboard
         keyboardBinding = binding.keyboard
+        mainActivity =(activity as MainActivity)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount)
 
@@ -75,6 +83,14 @@ class AmountFragment : Fragment() {
             override fun afterTextChanged(s: Editable) {}
         })
 
+        checkEvent()
+    }
+
+    private fun checkEvent(){
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(2_000)
+            mainActivity.mainViewModel.ppCompCommands.checkEvent("0110") //magnético e chip apenas
+        }
     }
 
     private fun addDigitToAmount(digit: String) {
