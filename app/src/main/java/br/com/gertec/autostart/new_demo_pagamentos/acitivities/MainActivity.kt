@@ -5,19 +5,24 @@ import android.util.Log
 import android.view.KeyEvent
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.callbacks.OutputCallbacks
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.ActivityMainBinding
 import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModel
 import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModelFactory
+import br.com.gertec.ppcomp.IPPCompDSPCallbacks
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicLong
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     lateinit var mainViewModel: MainViewModel
@@ -28,8 +33,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
 
         setupViewModel()
         setupPPCompCommands()
@@ -49,11 +52,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        Log.d("msgg","key $keyCode")
-        return super.onKeyDown(keyCode, event)
-
-    }
 
     fun setKeyboard(
         b1: Button,
@@ -72,13 +70,13 @@ class MainActivity : AppCompatActivity() {
         beep: Boolean
     ){
         CoroutineScope(Dispatchers.IO).launch{
-            mainViewModel.ppCompCommands.setPinKeyboard(
-                b1,b2,b3,b4,
-                b5,b6,b7,b8,
-                b9,b0,bCancel,bConfirm,
-                bClear,this@MainActivity,
-                beep
-            )
+//            mainViewModel.ppCompCommands.setPinKeyboard(
+//                b1,b2,b3,b4,
+//                b5,b6,b7,b8,
+//                b9,b0,bCancel,bConfirm,
+//                bClear,this@MainActivity,
+//                beep
+//            )
         }
     }
 
@@ -90,9 +88,24 @@ class MainActivity : AppCompatActivity() {
         )[MainViewModel::class.java]
     }
 
+    fun showSnackBar(msg: String){
+        Snackbar.make(
+            binding.mainContainer,
+            msg,
+            Snackbar.LENGTH_LONG
+        ).show()
+    }
+
     //pepao
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        navController.popBackStack(navController.graph.startDestinationId, false)
+        mainViewModel.ppCompCommands.abort()
+    }
+
 }

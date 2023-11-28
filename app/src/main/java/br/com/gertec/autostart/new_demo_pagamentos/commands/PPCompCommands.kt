@@ -7,6 +7,7 @@ import android.widget.Button
 import br.com.gertec.ppcomp.IPPCompDSPCallbacks
 import br.com.gertec.ppcomp.PPComp
 import br.com.gertec.ppcomp.exceptions.PPCompCancelException
+import br.com.gertec.ppcomp.exceptions.PPCompNoCardException
 import br.com.gertec.ppcomp.exceptions.PPCompProcessingException
 import br.com.gertec.ppcomp.exceptions.PPCompTabExpException
 
@@ -66,14 +67,17 @@ class PPCompCommands private constructor() {
         }
     }
 
+
+
     fun checkEvent(input: String){
         try{
             ppComp?.PP_StartCheckEvent(input)
             while (true) {
-                if (cancelCheckEvent) {
-                    ppComp?.PP_Abort()
-                    throw PPCompCancelException()
-                }
+//                if (cancelCheckEvent) {
+//                    ppComp?.PP_Abort()
+//                    cancelCheckEvent = false
+//                    throw PPCompCancelException()
+//                }
                 try {
                     var resp = ppComp?.PP_CheckEvent()
                     break
@@ -84,32 +88,30 @@ class PPCompCommands private constructor() {
         } catch (e: Exception){
             e.printStackTrace()
         }
-
     }
 
-    fun getCard(input: String): String{
-        var gcrOut: String
+    fun getCard(input: String): Pair<Boolean,String?>{
+        var gcrOut: String?
         try{
             ppComp?.PP_StartGetCard(input)
 
             while(true){
                 try{
-                    gcrOut = ppComp?.PP_GetCard()?:"afff"
-
-                    return gcrOut
+                    gcrOut = ppComp?.PP_GetCard()
+                    return Pair(true,gcrOut)
                 }catch(e: PPCompTabExpException){
                     if(tableLoad("010123456789")){  // se nao der, tenta esse kk 001357997531
                         try{
                             ppComp?.PP_ResumeGetCard()
 
-                        }catch (e:Exception){e.printStackTrace()}
+                        }catch (e:Exception){
+                            e.printStackTrace()
+                        }
                     }
-                    //return e.message?:"saff"
                 }
             }
-
         }catch(e: Exception){
-            return e.message?:""
+            return Pair(false,e.toString())
         }
     }
 
@@ -145,14 +147,33 @@ class PPCompCommands private constructor() {
             while(true){
                 try{
                     return ppComp?.PP_GoOnChip()
+                }catch(e: PPCompNoCardException){
+                    cancelCheckEvent = false
+                    e.printStackTrace()
+                    return "GOC_NO_CARD"
                 }catch(e: Exception){
+                    cancelCheckEvent = false
+                    try {
+                        ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
+                        ppComp?.PP_RemoveCard()
+                        return ""
+                    }catch (e: Exception){ e.printStackTrace() }
                     e.printStackTrace()
                 }
             }
         }catch (e: Exception){
+            cancelCheckEvent = false
+            try {
+                ppComp?.PP_RemoveCard()
+            }catch (e: Exception){ e.printStackTrace() }
             return ""
         }
     }
+
+    fun finishChip(){
+
+    }
+
 
     fun setPinKeyboard(
         b1: Button, b2: Button,

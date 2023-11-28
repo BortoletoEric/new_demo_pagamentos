@@ -39,6 +39,7 @@ class CheckCardFragment : Fragment() {
         getCard()
 
         mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){ step ->
+
             when(step){
                 "GCR" -> {
                     view.findNavController().navigate(
@@ -55,17 +56,25 @@ class CheckCardFragment : Fragment() {
             delay(1_000)
             mainActivity.mainViewModel.ppCompCommands.let{
                 val result = it.getCard("00${args.transactionType}000000001000231122121636135799753100")//0099000000000100231122115800135799753100
-                Log.d("msgg","GCR --> $result")
-//                val pan = result.substring(234,253)
-//                mainActivity.mainViewModel.pan = hidePan(pan.trim())
-//                Log.d("msgg","GCR --> re${pan.length}")
-                mainActivity.mainViewModel.processCompleted("GCR")
+
+                if(!result.second.isNullOrEmpty()) {
+                    if(!result.first){
+                        mainActivity.showSnackBar(result.second!!)
+                    }else{
+                        try {
+                            val pan = result.second!!.substring(234,253)
+                            mainActivity.mainViewModel.pan = hidePan(pan.trim())?:""
+                        }catch (e: Exception){e.printStackTrace()}
+                        mainActivity.mainViewModel.processCompleted("GCR")
+                    }
+                }
+
             }
         }
     }
 
-    private fun hidePan(pan: String): String {
-        return pan.substring(pan.length - 4, pan.length)
+    private fun hidePan(pan: String?): String? {
+        return pan?.substring(pan.length - 4, pan.length)
     }
 
     override fun onDestroy() {

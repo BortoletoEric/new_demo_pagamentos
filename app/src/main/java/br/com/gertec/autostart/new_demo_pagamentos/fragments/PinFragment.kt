@@ -41,10 +41,17 @@ class PinFragment : Fragment() {
         goOnChip()
 
         mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){ step ->
+
             when(step){
                 "GOC" -> {
                     view.findNavController().navigate(
                         PinFragmentDirections.actionPinFragmentToSucessPayFragment()
+                    )
+                }
+                "GOC_NO_CARD" -> {
+                    mainActivity.showSnackBar("Cartão removido")
+                    view.findNavController().navigate(
+                        PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
                 }
             }
@@ -124,14 +131,22 @@ class PinFragment : Fragment() {
 
     private fun goOnChip() {
         val vai = fixAmountSize(args.amount)
+        var result: String? = ""
         CoroutineScope(Dispatchers.IO).launch {
-            val result = mainActivity.mainViewModel.ppCompCommands.goOnChip(
-                "${vai}000000000000001321000000000000000000000000000000001000003E820000003E880000",
-                "0019B",
-                "0119F0B1F813A9F6B9F6C9F66"
-            )
-            Log.d("msgg","GOC RESP: $result")
-            mainActivity.mainViewModel.processCompleted("GOC")
+            mainActivity.mainViewModel.ppCompCommands.let{
+                result = it.goOnChip(
+                    "${vai}000000000000001321000000000000000000000000000000001000003E820000003E880000",
+                    "0019B",
+                    "0119F0B1F813A9F6B9F6C9F66"
+                )
+
+                if(result == "GOC_NO_CARD"){
+                    mainActivity.mainViewModel.processCompleted("GOC_NO_CARD")
+                }else if(!result.isNullOrEmpty()){
+                    it.finishChip()
+                    mainActivity.mainViewModel.processCompleted("GOC")
+                }
+            }
         }
     }
 
@@ -143,6 +158,8 @@ class PinFragment : Fragment() {
         }
         return tempAm
     }
+
+
 
     override fun onDestroy() {
         super.onDestroy()

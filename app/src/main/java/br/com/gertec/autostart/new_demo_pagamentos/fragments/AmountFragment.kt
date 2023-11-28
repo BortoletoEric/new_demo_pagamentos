@@ -2,6 +2,8 @@ package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -53,7 +55,6 @@ class AmountFragment : Fragment() {
 
         binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount)
 
-        //pepao
         binding.keyboard.button0.setOnClickListener{ addDigitToAmount("0") }
         binding.keyboard.button1.setOnClickListener{ addDigitToAmount("1") }
         binding.keyboard.button2.setOnClickListener{ addDigitToAmount("2") }
@@ -84,13 +85,26 @@ class AmountFragment : Fragment() {
             override fun afterTextChanged(s: Editable) {}
         })
 
-        checkEvent()
+        Handler(Looper.getMainLooper()).postDelayed({
+            checkEvent()
+        },1000)
+
+
+//        mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){
+//            when(it){
+//                "CKE" -> {
+//                    view.findNavController().navigate(
+//                        AmountFragmentDirections.actionAmountFragmentToCardTypeFragment(19000)
+//                    )
+//                }
+//            }
+//        }
     }
 
     private fun checkEvent(){
         CoroutineScope(Dispatchers.IO).launch {
-            delay(2_000)
-            mainActivity.mainViewModel.ppCompCommands.checkEvent("0110") //magnético e chip apenas
+            mainActivity.mainViewModel.ppCompCommands.checkEvent("0110") //magnético, chip e ctlss apenas
+            mainActivity.mainViewModel.processCompleted("CKE")
         }
     }
 
@@ -116,7 +130,6 @@ class AmountFragment : Fragment() {
         return decimalFormat.format(amount / 100)
     }
 
-    //pepao
     private fun goToCardTypeFragment(view: View) {
         val amount = getAmount(binding.displayKeyboard.txtPriceValue.text)
 
@@ -147,4 +160,5 @@ class AmountFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
 }

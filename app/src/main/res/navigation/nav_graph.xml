@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_pinFragment_to_sucessPayFragment"
             app:destination="@id/sucessPayFragment" />
+        <action
+            android:id="@+id/action_pinFragment_to_amountFragment"
+            app:destination="@id/amountFragment" />
     </fragment>
     <fragment
         android:id="@+id/sucessPayFragment"
