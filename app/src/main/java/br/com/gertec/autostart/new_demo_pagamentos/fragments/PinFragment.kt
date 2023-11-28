@@ -49,7 +49,7 @@ class PinFragment : Fragment() {
                     )
                 }
                 "GOC_NO_CARD" -> {
-                    mainActivity.showSnackBar("Cartão removido")
+                    mainActivity.showSnackBar("Cartão removido", false)
                     view.findNavController().navigate(
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )

@@ -1,33 +1,27 @@
 package br.com.gertec.autostart.new_demo_pagamentos.acitivities
 
 import android.os.Bundle
-import android.util.Log
-import android.view.KeyEvent
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.callbacks.OutputCallbacks
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.ActivityMainBinding
 import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModel
 import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModelFactory
-import br.com.gertec.ppcomp.IPPCompDSPCallbacks
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.concurrent.atomic.AtomicLong
 
 class MainActivity : AppCompatActivity(){
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     lateinit var mainViewModel: MainViewModel
     private lateinit var navController: NavController
-    val outputCallbacks = OutputCallbacks()
+    val outputCallbacks = OutputCallbacks(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,12 +82,20 @@ class MainActivity : AppCompatActivity(){
         )[MainViewModel::class.java]
     }
 
-    fun showSnackBar(msg: String){
-        Snackbar.make(
+    fun showSnackBar(msg: String, success: Boolean? = null){
+        val message = Snackbar.make(
             binding.mainContainer,
             msg,
             Snackbar.LENGTH_LONG
-        ).show()
+        )
+
+        if(success == true){
+            message.setBackgroundTint(resources.getColor(R.color.successGreen))
+        }else if(success == false){
+            message.setBackgroundTint(resources.getColor(R.color.errorRed))
+        }
+
+        message.show()
     }
 
     //pepao

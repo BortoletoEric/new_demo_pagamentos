@@ -59,7 +59,7 @@ class CheckCardFragment : Fragment() {
 
                 if(!result.second.isNullOrEmpty()) {
                     if(!result.first){
-                        mainActivity.showSnackBar(result.second!!)
+                        mainActivity.showSnackBar(result.second!!, false)
                     }else{
                         try {
                             val pan = result.second!!.substring(234,253)

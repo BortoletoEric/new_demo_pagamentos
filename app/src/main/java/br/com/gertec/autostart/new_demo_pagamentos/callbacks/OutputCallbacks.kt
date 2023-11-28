@@ -2,16 +2,17 @@ package br.com.gertec.autostart.new_demo_pagamentos.callbacks
 
 import android.util.Log
 import android.widget.Toast
+import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.ppcomp.IPPCompDSPCallbacks
 import java.util.concurrent.atomic.AtomicLong
 
-class OutputCallbacks: IPPCompDSPCallbacks {
+class OutputCallbacks(private val mainActivity: MainActivity): IPPCompDSPCallbacks {
     override fun Clear() {
         Unit
     }
 
     override fun Text(p0: Long, p1: String?, p2: String?) {
-        Unit
+        Log.d("msgg","OUT: $p1\n$p2")
     }
 
     override fun MenuStart(p0: String?, p1: AtomicLong?): Int {

@@ -51,7 +51,11 @@ class SucessPayFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         GEDI.init(context)
+
+        setupObservers(view)
+
         amount = mainActivity.mainViewModel.transactionAmount
         pan = mainActivity.mainViewModel.pan
         applicationType = mainActivity.mainViewModel.applicationType
@@ -62,25 +66,37 @@ class SucessPayFragment : Fragment() {
         binding.displayCardInfo.txtCodeSaleValue.setText(codSale)
         binding.btnPrint.setOnClickListener(View.OnClickListener { printComprovante() })
         binding.btnFinish.setOnClickListener(View.OnClickListener {
-            Toast.makeText(context, "Venda finalizada com sucesso!", Toast.LENGTH_LONG).show()
+            mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
             view.findNavController()
                 .navigate(SucessPayFragmentDirections.actionSucessPayFragmentToAmountFragment())
         })
     }
 
-    fun printComprovante() {
-        val printerCommands = context?.let { PrinterCommands(it) }
+    private fun setupObservers(view: View) {
+        mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){ step ->
+            when(step){
+                "PRINT_NOK" -> {
+                    view.findNavController().navigate(
+                        SucessPayFragmentDirections.actionSucessPayFragmentToAmountFragment()
+                    )
+                }
+            }
+        }
+    }
+
+    private fun printComprovante() {
+        val printerCommands = context?.let { PrinterCommands(it,mainActivity) }
         val ns: String? = getNS()
         val html = Utils.getPaymentReceiptHtmlModel(amount, applicationType, codSale, ns)
         val qrCode = Utils.getPaymentReceiptQrCode(amount, applicationType, codSale, ns)
         printerCommands?.printComprovante(html, qrCode)
     }
 
-    fun getRandomCodSale(): Int {
+    private fun getRandomCodSale(): Int {
         return Random.nextInt(99999)
     }
 
-    fun getNS(): String? {
+    private fun getNS(): String? {
         val mGedi: IGEDI = GEDI.getInstance(context)
         try {
             return mGedi.info.ControlNumberGet(GEDI_INFO_e_ControlNumber.SN)

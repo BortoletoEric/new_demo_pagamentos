@@ -8,4 +8,7 @@
     <color name="colorAccent">#303F9F</color>
     <color name="colorPinNumber">#606060</color>
     <color name="accessibilityTextColor">#256f9d</color>
+    <color name="successGreen">#28B404</color>
+    <color name="errorRed">#B00020</color>
+
 </resources>

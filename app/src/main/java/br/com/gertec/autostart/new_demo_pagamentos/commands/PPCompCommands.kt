@@ -2,11 +2,10 @@ package br.com.gertec.autostart.new_demo_pagamentos.commands
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import android.widget.Button
+import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.ppcomp.IPPCompDSPCallbacks
 import br.com.gertec.ppcomp.PPComp
-import br.com.gertec.ppcomp.exceptions.PPCompCancelException
 import br.com.gertec.ppcomp.exceptions.PPCompNoCardException
 import br.com.gertec.ppcomp.exceptions.PPCompProcessingException
 import br.com.gertec.ppcomp.exceptions.PPCompTabExpException
@@ -100,7 +99,7 @@ class PPCompCommands private constructor() {
                     gcrOut = ppComp?.PP_GetCard()
                     return Pair(true,gcrOut)
                 }catch(e: PPCompTabExpException){
-                    if(tableLoad("010123456789")){  // se nao der, tenta esse kk 001357997531
+                    if(tableLoad("001357997531")){  // se nao der, tenta esse kk 010123456789
                         try{
                             ppComp?.PP_ResumeGetCard()
 
