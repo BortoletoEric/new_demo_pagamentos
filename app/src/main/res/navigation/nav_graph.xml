@@ -41,6 +41,7 @@
             android:id="@+id/action_checkCardFragment_to_pinFragment"
             app:destination="@id/pinFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/pinFragment"
         android:name="br.com.gertec.autostart.new_demo_pagamentos.fragments.PinFragment"
@@ -56,9 +57,13 @@
             android:id="@+id/action_pinFragment_to_amountFragment"
             app:destination="@id/amountFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/sucessPayFragment"
         android:name="br.com.gertec.autostart.new_demo_pagamentos.fragments.SucessPayFragment"
-        android:label="fragment_sucess_pay"
-        tools:layout="@layout/fragment_sucess_pay" />
+        android:label="fragment_sucess_pay">
+        <action
+            android:id="@+id/action_sucessPayFragment_to_amountFragment"
+            app:destination="@id/amountFragment" />
+    </fragment>
 </navigation>

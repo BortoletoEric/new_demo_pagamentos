@@ -85,6 +85,7 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.7.2")
 
     //GERTEC SDK
-    implementation(files("libs/libgedi-0.18.8-gpos760-eng-release.aar","libs/libgandi-0.3.5-gpos760-payment-release.aar","libs/PPCompGPOS760-v1.08-Complete-debug.aar"))
+    implementation(files("libs/libgedi-0.18.8-gpos760-eng-release.aar","libs/libgandi-0.3.5-gpos760-payment-release.aar",
+        "libs/PPCompGPOS760-v1.08-Complete-debug.aar", "libs/android-easy-layer-gpos760-release.aar"))
 
 }
