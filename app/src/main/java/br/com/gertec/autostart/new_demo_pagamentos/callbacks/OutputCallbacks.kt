@@ -11,8 +11,10 @@ class OutputCallbacks(private val mainActivity: MainActivity): IPPCompDSPCallbac
         Unit
     }
 
-    override fun Text(p0: Long, p1: String?, p2: String?) {
-        Log.d("msgg","OUT: $p1\n$p2")
+    override fun Text(lFlags: Long, p1: String?, p2: String?) {
+        Log.d("msgg","($lFlags)OUT: $p1\n$p2")
+
+        mainActivity.mainViewModel.updateDisplay(lFlags, p1?:"", p2?:"")
     }
 
     override fun MenuStart(p0: String?, p1: AtomicLong?): Int {

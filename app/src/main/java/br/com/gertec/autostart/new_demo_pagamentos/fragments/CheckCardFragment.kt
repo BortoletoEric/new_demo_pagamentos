@@ -36,6 +36,7 @@ class CheckCardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupViews()
         getCard()
 
         mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){ step ->
@@ -49,6 +50,12 @@ class CheckCardFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun setupViews() {
+        mainActivity.mainViewModel.display.observe(viewLifecycleOwner){ display ->
+            binding.textView.text = "${display[1]}\n${display[2]}" //usar logica dos flags
+        }
     }
 
     private fun getCard() {

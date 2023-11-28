@@ -1,6 +1,8 @@
 package br.com.gertec.autostart.new_demo_pagamentos.acitivities
 
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -98,7 +100,29 @@ class MainActivity : AppCompatActivity(){
         message.show()
     }
 
-    //pepao
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        mainViewModel.keyPressed(keyCode)
+        Log.d("msgg","kkkkkkk $keyCode")
+//        when(keyCode){
+//            170 -> {}
+//            9 -> {}
+//            10 -> {}
+//            4 ->{}
+//            11 -> {}
+//            12 ->{}
+//            13 -> {}
+//            67 -> {}
+//            14 -> {}
+//            15 -> {}
+//            16 -> {}
+//            7 -> {}
+//            66 -> {}
+//        }
+
+        return super.onKeyDown(keyCode, event)
+
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

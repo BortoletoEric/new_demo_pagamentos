@@ -6,13 +6,11 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentAmountBinding
@@ -20,12 +18,10 @@ import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutDisplayKeyb
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutKeyboardBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
-import java.util.Locale
 
 class AmountFragment : Fragment() {
 
@@ -53,6 +49,58 @@ class AmountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupViews()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            setupPhysicalKbd(view)
+            setupObservers(view)
+            checkEvent()
+        },1000)
+
+
+
+    }
+
+    private fun setupObservers(view: View) {
+        mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){
+            when(it){
+                "CKE" -> {
+                    val amount = getAmount(binding.displayKeyboard.txtPriceValue.text)
+                    if(amount == 0.0){
+                        mainActivity.showSnackBar("DIGITE O VALOR")
+                    }else{
+                        mainActivity.mainViewModel.transactionAmount = currentFormattedAmount
+                        view.findNavController().navigate(
+                            AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong())
+                        )
+                    }
+
+                }
+            }
+        }
+    }
+
+    private fun setupPhysicalKbd(view: View) {
+        mainActivity.mainViewModel.kbdKeyPressed.observe(viewLifecycleOwner){ keyCode ->
+            when(keyCode){
+                170, 8 -> {addDigitToAmount("1")}//1
+                9 -> {addDigitToAmount("2")}//2
+                10 -> {addDigitToAmount("3")}//3
+                11 -> {addDigitToAmount("4")}//4
+                12 ->{addDigitToAmount("5")}//5
+                13 -> {addDigitToAmount("6")}//6
+                14 -> {addDigitToAmount("7")}//7
+                15 -> {addDigitToAmount("8")}//8
+                16 -> {addDigitToAmount("9")}//9
+                7 -> {addDigitToAmount("0")}//0
+                4 ->{binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()}//anula
+                67 ->{binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()}//limpa
+                66 -> {goToCardTypeFragment(view)}//enter
+            }
+        }
+    }
+
+    private fun setupViews() {
         binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount)
 
         binding.keyboard.button0.setOnClickListener{ addDigitToAmount("0") }
@@ -84,27 +132,13 @@ class AmountFragment : Fragment() {
             }
             override fun afterTextChanged(s: Editable) {}
         })
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            checkEvent()
-        },1000)
-
-
-//        mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){
-//            when(it){
-//                "CKE" -> {
-//                    view.findNavController().navigate(
-//                        AmountFragmentDirections.actionAmountFragmentToCardTypeFragment(19000)
-//                    )
-//                }
-//            }
-//        }
     }
+
 
     private fun checkEvent(){
         CoroutineScope(Dispatchers.IO).launch {
-            mainActivity.mainViewModel.ppCompCommands.checkEvent("0110") //magnético, chip e ctlss apenas
-            mainActivity.mainViewModel.processCompleted("CKE")
+            val resp = mainActivity.mainViewModel.ppCompCommands.checkEvent("0110") //magnético, chip e ctlss apenas
+            if(!resp.isNullOrEmpty()) mainActivity.mainViewModel.processCompleted("CKE")
         }
     }
 

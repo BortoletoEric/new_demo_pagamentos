@@ -1,5 +1,6 @@
 package br.com.gertec.autostart.new_demo_pagamentos.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,14 @@ class MainViewModel: ViewModel() {
     val processOk: LiveData<String>
         get() = _processOk
 
+    private var _display = MutableLiveData<List<Any>>()
+    val display: LiveData<List<Any>>
+        get() = _display
+
+    private var _kbdKeyPressed = MutableLiveData<Int>()
+    val kbdKeyPressed: LiveData<Int>
+        get() = _kbdKeyPressed
+
     //dados da transação
     var pan = ""
     var transactionAmount = ""
@@ -21,10 +30,20 @@ class MainViewModel: ViewModel() {
 
     init {
         _processOk.postValue("AMOUNT")
+        _display.postValue(listOf(0L,"",""))
+        _kbdKeyPressed.postValue(-999)
     }
 
     fun processCompleted(step: String){
+        Log.d("msgg","process $step")
         _processOk.postValue(step)
+    }
+    fun updateDisplay(flag: Long, msg1: String, msg2: String){
+        _display.postValue(listOf(flag,msg1, msg2))
+    }
+
+    fun keyPressed(keyCode: Int){
+        _kbdKeyPressed.postValue(keyCode)
     }
 
 

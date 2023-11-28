@@ -2,6 +2,7 @@ package br.com.gertec.autostart.new_demo_pagamentos.commands
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.widget.Button
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.ppcomp.IPPCompDSPCallbacks
@@ -9,6 +10,7 @@ import br.com.gertec.ppcomp.PPComp
 import br.com.gertec.ppcomp.exceptions.PPCompNoCardException
 import br.com.gertec.ppcomp.exceptions.PPCompProcessingException
 import br.com.gertec.ppcomp.exceptions.PPCompTabExpException
+import br.com.gertec.ppcomp.exceptions.PPCompTimeoutException
 
 class PPCompCommands private constructor() {
     private var ppComp: PPComp? = null
@@ -68,8 +70,9 @@ class PPCompCommands private constructor() {
 
 
 
-    fun checkEvent(input: String){
+    fun checkEvent(input: String): String?{
         try{
+            Log.d("msgg","CKE init...")
             ppComp?.PP_StartCheckEvent(input)
             while (true) {
 //                if (cancelCheckEvent) {
@@ -79,12 +82,14 @@ class PPCompCommands private constructor() {
 //                }
                 try {
                     var resp = ppComp?.PP_CheckEvent()
-                    break
+                    Log.d("msgg","CKE OK $resp")
+                    return resp
                 } catch (e: PPCompProcessingException) {
                     e.printStackTrace()
                 }
             }
         } catch (e: Exception){
+            return ""
             e.printStackTrace()
         }
     }
@@ -145,13 +150,25 @@ class PPCompCommands private constructor() {
             }
             while(true){
                 try{
-                    return ppComp?.PP_GoOnChip()
+                    val g = ppComp?.PP_GoOnChip()
+                    Log.d("msgg","GOC OK ")
+                    return g
                 }catch(e: PPCompNoCardException){
                     cancelCheckEvent = false
                     e.printStackTrace()
                     return "GOC_NO_CARD"
+                }catch(e: PPCompTimeoutException){
+                    cancelCheckEvent = false
+                    Log.d("msgg","GOC EXCto --> $e ")
+                    try {
+                        ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
+                        ppComp?.PP_RemoveCard()
+                        return "GOC_TO"
+                    }catch (e: Exception){ e.printStackTrace() }
+                    e.printStackTrace()
                 }catch(e: Exception){
                     cancelCheckEvent = false
+                    Log.d("msgg","GOC EXC --> $e ")
                     try {
                         ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
                         ppComp?.PP_RemoveCard()
@@ -170,7 +187,10 @@ class PPCompCommands private constructor() {
     }
 
     fun finishChip(){
-
+        try {
+            ppComp?.PP_FinishChip("0000000000","011829F279F269F36958F9F37")
+            removeCard(" ")
+        }catch (e: Exception){e.printStackTrace()}
     }
 
 
@@ -194,8 +214,13 @@ class PPCompCommands private constructor() {
 //    }
 
     fun removeCard(input: String){
-        ppComp?.PP_StartRemoveCard(input)
-        ppComp?.PP_RemoveCard()
+        try{
+            ppComp?.PP_StartRemoveCard(input)
+            ppComp?.PP_RemoveCard()
+        }catch(e: Exception){
+            e.printStackTrace()
+        }
+
     }
 
 }

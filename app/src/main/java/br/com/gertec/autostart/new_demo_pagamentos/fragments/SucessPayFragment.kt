@@ -66,7 +66,6 @@ class SucessPayFragment : Fragment() {
         binding.displayCardInfo.txtCodeSaleValue.setText(codSale)
         binding.btnPrint.setOnClickListener(View.OnClickListener { printComprovante() })
         binding.btnFinish.setOnClickListener(View.OnClickListener {
-            mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
             view.findNavController()
                 .navigate(SucessPayFragmentDirections.actionSucessPayFragmentToAmountFragment())
         })
