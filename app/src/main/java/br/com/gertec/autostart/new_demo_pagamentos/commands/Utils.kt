@@ -11,7 +11,8 @@ class Utils {
         fun getPaymentReceiptHtmlModel(
             amount: String,
             applicationType: String,
-            codSale: String, ns: String?
+            codSale: String, ns: String?, pan: String,
+            user: String
         ): String? {
             val head = "<!DOCTYPE html><html>" +
                     "<head> <meta charset='UTF-8'>                              " +
@@ -27,14 +28,13 @@ class Utils {
                     "</style>                                                   " +
                     "</head>"
             val body = "<body>" +
-                    "<b style=\"font-size:14px\"> Demonstração <right>VIA CLIENTE</right></b>" +
+                    "<b style=\"font-size:14px\"> Demonstração <right>VIA " + user + "</right></b>" +
                     "<hr></hr>" +
-                    "<b> Demonstração - Gertec <right>CNPJ: 03.654.119/0001-76</right> </b>" +
-                    "<b> AV Jabaquara 3060<right> São Paulo </right> </b>" +
+                    "<b> Gertec <right>CNPJ: 03.654.119/0001-76</right> </b>" +
                     "<hr></hr>" +
                     "<h2> TOTAL: <right> " + amount + " </right> </h2> <br>" +
                     "<h4> " + applicationType + " <right> " + codSale + " </right> </h4> <br>" +
-                    "<h4> CARTÃO <right> ************* 3388 </right> </h4>" +
+                    "<h4> CARTÃO <right> ************* " + pan + "</right> </h4>" +
                     "<hr></hr>" +
                     "<b>25/09/20 - 11h09 <right> (C) </right> </b>" +
                     "<b>Auto: 73664829 <right> Term: " + ns + "</right></b> </br>" +
