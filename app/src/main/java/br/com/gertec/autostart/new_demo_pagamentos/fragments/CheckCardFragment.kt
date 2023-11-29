@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
@@ -47,6 +46,11 @@ class CheckCardFragment : Fragment() {
                         CheckCardFragmentDirections.actionCheckCardFragmentToPinFragment(args.amount)
                     )
                 }
+                "GCR_ERROR" -> {
+                    view.findNavController().navigate(
+                        CheckCardFragmentDirections.actionCheckCardFragmentToAmountFragment()
+                    )
+                }
             }
         }
 
@@ -62,10 +66,14 @@ class CheckCardFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             delay(1_000)
             mainActivity.mainViewModel.ppCompCommands.let{
-                val result = it.getCard("00${args.transactionType}000000001000231122121636135799753100")//0099000000000100231122115800135799753100
+                Log.d("msgg","args am: ${args.amount}")
+                val result = it.getCard(
+                    "00${args.transactionType}${fixAmountInput(args.amount)}231122121636135799753100"
+                )//0099000000000100231122115800135799753100
 
                 if(!result.second.isNullOrEmpty()) {
                     if(!result.first){
+                        mainActivity.mainViewModel.processCompleted("GCR_ERROR")
                         mainActivity.showSnackBar(result.second!!, false)
                     }else{
                         try {
@@ -78,6 +86,16 @@ class CheckCardFragment : Fragment() {
 
             }
         }
+    }
+
+    private fun fixAmountInput(amount: Long): String {
+        var strAmount = amount.toString()
+        val len = strAmount.length
+        for(i in 1..12-len){
+            strAmount = "0$strAmount"
+        }
+        Log.d("msgg","strAm $strAmount")
+        return strAmount
     }
 
     private fun hidePan(pan: String?): String? {

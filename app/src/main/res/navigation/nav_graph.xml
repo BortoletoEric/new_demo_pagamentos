@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_checkCardFragment_to_pinFragment"
             app:destination="@id/pinFragment" />
+        <action
+            android:id="@+id/action_checkCardFragment_to_amountFragment"
+            app:destination="@id/amountFragment" />
     </fragment>
 
     <fragment
