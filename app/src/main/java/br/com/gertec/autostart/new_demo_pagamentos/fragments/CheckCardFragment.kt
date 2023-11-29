@@ -70,6 +70,7 @@ class CheckCardFragment : Fragment() {
             delay(1_000)
             mainActivity.mainViewModel.ppCompCommands.let{
                 Log.d("msgg","args am: ${args.amount}")
+                if(!args.isCke) it.abort()
                 val result = it.getCard(
                     "00${args.transactionType}${fixAmountInput(args.amount)}231122121636135799753100"
                 )//0099000000000100231122115800135799753100

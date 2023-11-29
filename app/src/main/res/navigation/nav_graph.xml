@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_cardTypeFragment_to_checkCardFragment"
             app:destination="@id/checkCardFragment" />
+        <argument
+            android:name="isCke"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/checkCardFragment"
@@ -43,6 +46,9 @@
         <action
             android:id="@+id/action_checkCardFragment_to_amountFragment"
             app:destination="@id/amountFragment" />
+        <argument
+            android:name="isCke"
+            app:argType="boolean" />
     </fragment>
 
     <fragment

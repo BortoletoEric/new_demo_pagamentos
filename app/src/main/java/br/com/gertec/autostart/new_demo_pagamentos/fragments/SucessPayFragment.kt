@@ -39,6 +39,7 @@ class SucessPayFragment : Fragment() {
 
     private val VIA_CLIENTE: String = "CLIENTE"
     private val VIA_LOJISTA: String = "LOJISTA"
+    private var numeroDeSerie: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,19 +73,14 @@ class SucessPayFragment : Fragment() {
         binding.displayPaymentInfo.txtAmount.setText(amount)
         binding.displayCardInfo.txtApplicationType.setText(applicationType)
         binding.displayCardInfo.txtCodeSaleValue.setText(codSale)
-        binding.btnPrint.setOnClickListener(View.OnClickListener { printComprovante(VIA_CLIENTE) })
+        binding.btnPrint.setOnClickListener(View.OnClickListener { printComprovante(VIA_CLIENTE, numeroDeSerie) })
         binding.btnFinish.setOnClickListener(View.OnClickListener {
             //mainActivity.mainViewModel.ppCompCommands.removeCard("GERTEC APP DEMO")
             view.findNavController()
                 .navigate(SucessPayFragmentDirections.actionSucessPayFragmentToAmountFragment())
         })
 
-        Handler(Looper.getMainLooper()).postDelayed(
-            {
-                printComprovante(VIA_LOJISTA)
-            },
-             500
-        )
+        getNS()
     }
 
     private fun setupObservers(view: View) {
@@ -97,11 +93,14 @@ class SucessPayFragment : Fragment() {
                 }
             }
         }
+        mainActivity.mainViewModel.ns.observe(viewLifecycleOwner){
+            numeroDeSerie = it
+            printComprovante(VIA_LOJISTA, it)
+        }
     }
 
-    private fun printComprovante(user: String) {
+    private fun printComprovante(user: String, ns: String) {
         val printerCommands = context?.let { PrinterCommands(it, mainActivity) }
-        val ns: String? = getNS()
         val html = Utils.getPaymentReceiptHtmlModel(amount, applicationType, codSale, ns, pan, user)
         val qrCode = Utils.getPaymentReceiptQrCode(amount, applicationType, codSale, ns)
         printerCommands?.printComprovante(html, qrCode)
@@ -111,13 +110,14 @@ class SucessPayFragment : Fragment() {
         return Random.nextInt(99999)
     }
 
-    private fun getNS(): String? {
+    private fun getNS(){
         val mGedi: IGEDI = GEDI.getInstance(context)
         try {
-            return mGedi.info.ControlNumberGet(GEDI_INFO_e_ControlNumber.SN)
+            numeroDeSerie = mGedi.info.ControlNumberGet(GEDI_INFO_e_ControlNumber.SN)
+            mainActivity.mainViewModel.postNs(numeroDeSerie)
         } catch (e: GediException) {
             Log.e("GediException", "Erro ao obter o número de série: ", e)
-            return null
+            mainActivity.mainViewModel.postNs(null)
         }
     }
 }

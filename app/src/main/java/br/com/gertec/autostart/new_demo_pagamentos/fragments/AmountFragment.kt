@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,7 +56,7 @@ class AmountFragment : Fragment() {
             resetAllObservers()
             setupPhysicalKbd(view)
             setupObservers(view)
-            checkEvent()
+            //checkEvent()
         },1000)
 
     }
@@ -76,7 +77,7 @@ class AmountFragment : Fragment() {
                     }else{
                         mainActivity.mainViewModel.transactionAmount = currentFormattedAmount
                         view.findNavController().navigate(
-                            AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong())
+                            AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong(),true)
                         )
                     }
 
@@ -177,7 +178,7 @@ class AmountFragment : Fragment() {
             mainActivity.mainViewModel.transactionAmount = currentFormattedAmount
 
             view.findNavController().navigate(
-                AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong())
+                AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong(),false)
             )
         } else {
             showDialogEmptyAmount()

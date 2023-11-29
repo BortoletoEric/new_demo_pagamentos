@@ -33,10 +33,6 @@ class CardTypeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            mainActivity.mainViewModel.ppCompCommands.abort()
-        }
-
         setupButtons()
     }
 
@@ -44,13 +40,13 @@ class CardTypeFragment : Fragment() {
         binding.button1.setOnClickListener {
             mainActivity.mainViewModel.applicationType = "Débito"
             it.findNavController().navigate(
-                CardTypeFragmentDirections.actionCardTypeFragmentToCheckCardFragment(args.amount,"02")
+                CardTypeFragmentDirections.actionCardTypeFragmentToCheckCardFragment(args.amount,"02",args.isCke)
             )
         }
         binding.button2.setOnClickListener {
             mainActivity.mainViewModel.applicationType = "Crédito"
             it.findNavController().navigate(
-                CardTypeFragmentDirections.actionCardTypeFragmentToCheckCardFragment(args.amount,"01")
+                CardTypeFragmentDirections.actionCardTypeFragmentToCheckCardFragment(args.amount,"01",args.isCke)
             )
         }
     }
