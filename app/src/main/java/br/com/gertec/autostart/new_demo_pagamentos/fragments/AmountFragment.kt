@@ -49,6 +49,8 @@ class AmountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.keyboard.buttonConfirm.requestFocus()
+
         setupViews()
 
         Handler(Looper.getMainLooper()).postDelayed({
@@ -180,20 +182,8 @@ class AmountFragment : Fragment() {
                 AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong())
             )
         } else {
-            showDialogEmptyAmount()
+            mainActivity.showSnackBar("DIGITE O VALOR")
         }
-    }
-
-    private fun showDialogEmptyAmount() {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle("Por favor, remova o cartão!")
-            .setMessage("O valor não pode estar vazio, digite um valor e insira novamente o cartão.")
-        builder.setCancelable(false)
-        builder.setPositiveButton(
-            "OK"
-        ) { _, _ -> onResume() }
-        val dialog = builder.create()
-        dialog.show()
     }
 
     override fun onDestroy() {
