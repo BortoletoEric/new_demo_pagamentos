@@ -24,6 +24,7 @@ class PinFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
     var pin = ""
     private val args: PinFragmentArgs by navArgs()
+    private var transactionOk = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,12 +38,12 @@ class PinFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupViews()
+        setupViews(view)
         setupButtons()
         goOnChip()
 
         mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){ step ->
-
+            Log.d("msgg","processOk obs $step")
             when(step){
                 "GOC" -> {
                     view.findNavController().navigate(
@@ -65,12 +66,13 @@ class PinFragment : Fragment() {
         }
     }
 
-    private fun setupViews() {
+    private fun setupViews(view: View) {
         binding.txtPriceValue.text = mainActivity.mainViewModel.transactionAmount
         binding.removeCardContainer.visibility = View.GONE
         if(Build.MODEL.equals("GPOS760")){
             binding.touchPinKeyboard.visibility = View.GONE
         }else{
+            Log.d("msgg","MODEL IS NOT GPOS760")
             binding.touchPinKeyboard.visibility = View.VISIBLE
             with(binding){
                 mainActivity.setKeyboard(
@@ -94,11 +96,20 @@ class PinFragment : Fragment() {
 
 
         mainActivity.mainViewModel.display.observe(viewLifecycleOwner){ display ->
+            Log.d("msgg","display obs $display")
+
             when(display[0]){
                 512L -> binding.txtPin.text = display[2].toString()
                 720896L -> {
                     binding.removeCardContainer.visibility = View.VISIBLE
                     binding.tvFinalMessage.text = "RETIRE O CARTÃO"
+                }
+                256L ->{
+                    if(transactionOk) return@observe
+                    mainActivity.showSnackBar("OPERAÇÃO CANCELADA",false)
+                    view.findNavController().navigate(
+                        PinFragmentDirections.actionPinFragmentToAmountFragment()
+                    )
                 }
                 else -> { binding.txtPin.text }
             }
@@ -153,21 +164,23 @@ class PinFragment : Fragment() {
     }
 
     private fun goOnChip() {
-        val vai = fixAmountSize(args.amount)
+        val am = fixAmountSize(args.amount)
         var result: String? = ""
+
         CoroutineScope(Dispatchers.IO).launch {
             mainActivity.mainViewModel.ppCompCommands.let{
                 result = it.goOnChip(
-                    "${vai}000000000000001321000000000000000000000000000000001000003E820000003E880000",
+                    "${am}000000000000001321000000000000000000000000000000001000003E820000003E880000",
                     "0019B",
                     "0119F0B1F813A9F6B9F6C9F66"
-                )
+                )//Term floor lim: 000003E8 =
 
                 if(result == "GOC_NO_CARD"){
                     mainActivity.mainViewModel.processCompleted("GOC_NO_CARD")
                 }else if(result == "GOC_TO"){
                     mainActivity.mainViewModel.processCompleted("GOC_TO")
                 }else if(!result.isNullOrEmpty()){
+                    transactionOk = true
                     mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
                     it.finishChip()
                     mainActivity.mainViewModel.processCompleted("GOC")

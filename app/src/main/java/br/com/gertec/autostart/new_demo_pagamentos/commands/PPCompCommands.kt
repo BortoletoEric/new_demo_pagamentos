@@ -7,6 +7,7 @@ import android.widget.Button
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.ppcomp.IPPCompDSPCallbacks
 import br.com.gertec.ppcomp.PPComp
+import br.com.gertec.ppcomp.exceptions.PPCompDumbCardException
 import br.com.gertec.ppcomp.exceptions.PPCompNoCardException
 import br.com.gertec.ppcomp.exceptions.PPCompProcessingException
 import br.com.gertec.ppcomp.exceptions.PPCompTabExpException
@@ -103,14 +104,23 @@ class PPCompCommands private constructor() {
                 try{
                     gcrOut = ppComp?.PP_GetCard()
                     return Pair(true,gcrOut)
-                }catch(e: PPCompTabExpException){
+                } catch(e: PPCompTabExpException){
                     if(tableLoad("001357997531")){  // se nao der, tenta esse kk 010123456789
                         try{
                             ppComp?.PP_ResumeGetCard()
-
                         }catch (e:Exception){
                             e.printStackTrace()
                         }
+                    }
+                } catch(e: PPCompDumbCardException){
+                    Log.d("msgg","DUMB EXC? $e")
+                    try{
+                        ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
+                        ppComp?.PP_RemoveCard()
+                        return Pair(false,e.toString())
+                    }catch (e: Exception){
+                        e.printStackTrace()
+                        return Pair(false,e.toString())
                     }
                 }
             }

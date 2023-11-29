@@ -52,13 +52,18 @@ class AmountFragment : Fragment() {
         setupViews()
 
         Handler(Looper.getMainLooper()).postDelayed({
+            resetAllObservers()
             setupPhysicalKbd(view)
             setupObservers(view)
             checkEvent()
         },1000)
 
+    }
 
-
+    private fun resetAllObservers() {
+        mainActivity.mainViewModel.processCompleted("")
+        mainActivity.mainViewModel.updateDisplay(-999L, "","")
+        mainActivity.mainViewModel.keyPressed(-999)
     }
 
     private fun setupObservers(view: View) {
@@ -83,7 +88,7 @@ class AmountFragment : Fragment() {
     private fun setupPhysicalKbd(view: View) {
         mainActivity.mainViewModel.kbdKeyPressed.observe(viewLifecycleOwner){ keyCode ->
             when(keyCode){
-                170, 8 -> {addDigitToAmount("1")}//1
+                8 -> {addDigitToAmount("1")}//1
                 9 -> {addDigitToAmount("2")}//2
                 10 -> {addDigitToAmount("3")}//3
                 11 -> {addDigitToAmount("4")}//4
@@ -96,6 +101,7 @@ class AmountFragment : Fragment() {
                 4 ->{binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()}//anula
                 67 ->{binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()}//limpa
                 66 -> {goToCardTypeFragment(view)}//enter
+                170 -> checkEvent()
             }
         }
     }

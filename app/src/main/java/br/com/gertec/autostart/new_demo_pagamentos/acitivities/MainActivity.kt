@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-
     fun setKeyboard(
         b1: Button,
         b2: Button,
@@ -66,13 +65,13 @@ class MainActivity : AppCompatActivity(){
         beep: Boolean
     ){
         CoroutineScope(Dispatchers.IO).launch{
-//            mainViewModel.ppCompCommands.setPinKeyboard(
-//                b1,b2,b3,b4,
-//                b5,b6,b7,b8,
-//                b9,b0,bCancel,bConfirm,
-//                bClear,this@MainActivity,
-//                beep
-//            )
+            mainViewModel.ppCompCommands.setPinKeyboard(
+                b1,b2,b3,b4,
+                b5,b6,b7,b8,
+                b9,b0,bCancel,bConfirm,
+                bClear,this@MainActivity,
+                beep
+            )
         }
     }
 
@@ -101,26 +100,11 @@ class MainActivity : AppCompatActivity(){
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+
+        Log.d("msgg","keyCode $keyCode")
+
         mainViewModel.keyPressed(keyCode)
-        Log.d("msgg","kkkkkkk $keyCode")
-//        when(keyCode){
-//            170 -> {}
-//            9 -> {}
-//            10 -> {}
-//            4 ->{}
-//            11 -> {}
-//            12 ->{}
-//            13 -> {}
-//            67 -> {}
-//            14 -> {}
-//            15 -> {}
-//            16 -> {}
-//            7 -> {}
-//            66 -> {}
-//        }
-
         return super.onKeyDown(keyCode, event)
-
     }
 
     override fun onDestroy() {
