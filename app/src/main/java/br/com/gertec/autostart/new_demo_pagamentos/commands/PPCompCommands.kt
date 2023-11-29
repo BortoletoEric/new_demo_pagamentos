@@ -8,6 +8,7 @@ import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.ppcomp.IPPCompDSPCallbacks
 import br.com.gertec.ppcomp.PPComp
 import br.com.gertec.ppcomp.exceptions.PPCompDumbCardException
+import br.com.gertec.ppcomp.exceptions.PPCompMCDataErrException
 import br.com.gertec.ppcomp.exceptions.PPCompNoCardException
 import br.com.gertec.ppcomp.exceptions.PPCompProcessingException
 import br.com.gertec.ppcomp.exceptions.PPCompTabExpException
@@ -61,6 +62,7 @@ class PPCompCommands private constructor() {
     }
 
     fun abort(){
+        Log.d("msgg","ABORT!")
         cancelCheckEvent = true
         try {
             ppComp?.PP_Abort()
@@ -89,20 +91,28 @@ class PPCompCommands private constructor() {
                     e.printStackTrace()
                 }
             }
-        } catch (e: Exception){
-            return ""
+        } catch (e: PPCompMCDataErrException){
+            Log.d("msgg","CKE EXC $e")
             e.printStackTrace()
+            return "CKE_MC_ERR"
+        }catch (e: Exception){
+            Log.d("msgg","CKE EXC $e")
+            e.printStackTrace()
+            return ""
         }
     }
 
     fun getCard(input: String): Pair<Boolean,String?>{
         var gcrOut: String?
         try{
+            Log.d("msgg","GCR init...")
             ppComp?.PP_StartGetCard(input)
 
             while(true){
                 try{
+                    Log.d("msgg","GCR init 2...")
                     gcrOut = ppComp?.PP_GetCard()
+                    Log.d("msgg","GCR ok")
                     return Pair(true,gcrOut)
                 } catch(e: PPCompTabExpException){
                     if(tableLoad("001357997531")){  // se nao der, tenta esse kk 010123456789
@@ -117,6 +127,8 @@ class PPCompCommands private constructor() {
                     try{
                         ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
                         ppComp?.PP_RemoveCard()
+                        Log.i("GRANDE SUSTO", "ABORT 5")
+                        ppComp?.PP_Abort()
                         return Pair(false,e.toString())
                     }catch (e: Exception){
                         e.printStackTrace()
@@ -129,6 +141,9 @@ class PPCompCommands private constructor() {
                 }
             }
         }catch(e: Exception){
+            Log.i("GRANDE SUSTO", "ABORT 4")
+            ppComp?.PP_Abort()
+            Log.d("msgg","START GCR ERROR $e")
             return Pair(false,e.toString())
         }
     }
@@ -177,6 +192,8 @@ class PPCompCommands private constructor() {
                     try {
                         ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
                         ppComp?.PP_RemoveCard()
+                        Log.i("GRANDE SUSTO", "ABORT 3")
+                        ppComp?.PP_Abort()
                         return "GOC_TO"
                     }catch (e: Exception){ e.printStackTrace() }
                     e.printStackTrace()
@@ -186,6 +203,8 @@ class PPCompCommands private constructor() {
                     try {
                         ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
                         ppComp?.PP_RemoveCard()
+                        Log.i("GRANDE SUSTO", "ABORT 2")
+                        ppComp?.PP_Abort()
                         return ""
                     }catch (e: Exception){ e.printStackTrace() }
                     e.printStackTrace()
@@ -195,6 +214,8 @@ class PPCompCommands private constructor() {
             cancelCheckEvent = false
             try {
                 ppComp?.PP_RemoveCard()
+                Log.i("GRANDE SUSTO", "ABORT 1")
+                ppComp?.PP_Abort()
             }catch (e: Exception){ e.printStackTrace() }
             return ""
         }

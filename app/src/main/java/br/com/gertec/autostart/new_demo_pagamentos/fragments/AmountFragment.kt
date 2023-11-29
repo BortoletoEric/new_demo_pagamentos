@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,9 @@ import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentAmountBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutDisplayKeyboardBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutKeyboardBinding
+import br.com.gertec.gedi.GEDI
+import br.com.gertec.gedi.enums.GEDI_SMART_e_Slot
+import br.com.gertec.gedi.interfaces.IGEDI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,7 +33,6 @@ class AmountFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var displayKeyboardBinding: LayoutDisplayKeyboardBinding
     private lateinit var keyboardBinding: LayoutKeyboardBinding
-    private var amount: Long = 0
     private lateinit var mainActivity: MainActivity
     private var currentFormattedAmount = ""
 
@@ -74,14 +77,20 @@ class AmountFragment : Fragment() {
                 "CKE" -> {
                     val amount = getAmount(binding.displayKeyboard.txtPriceValue.text)
                     if(amount == 0.0){
-                        mainActivity.showSnackBar("DIGITE O VALOR")
+                        view.findNavController().navigate(
+                            AmountFragmentDirections.actionAmountFragmentToCheckEventFragment()
+                        )
+
                     }else{
                         mainActivity.mainViewModel.transactionAmount = currentFormattedAmount
                         view.findNavController().navigate(
-                            AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong())
+                            AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong(),true)
                         )
                     }
-
+                }
+                "CKE_MC_ERR" -> {
+                    checkEvent()
+                    mainActivity.showSnackBar("ERRO NA LEITURA DO CARTÃO",false)
                 }
             }
         }
@@ -103,7 +112,7 @@ class AmountFragment : Fragment() {
                 4 ->{binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()}//anula
                 67 ->{binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()}//limpa
                 66 -> {goToCardTypeFragment(view)}//enter
-                170 -> checkEvent()
+                170 -> Unit
             }
         }
     }
@@ -143,10 +152,16 @@ class AmountFragment : Fragment() {
     }
 
 
-    private fun checkEvent(){
+    private fun checkEvent() {
         CoroutineScope(Dispatchers.IO).launch {
-            val resp = mainActivity.mainViewModel.ppCompCommands.checkEvent("0110") //magnético, chip e ctlss apenas
-            if(!resp.isNullOrEmpty()) mainActivity.mainViewModel.processCompleted("CKE")
+            val resp = mainActivity.mainViewModel.ppCompCommands.checkEvent("0110") //magnético e chip apenas
+            if(!resp.isNullOrEmpty()) {
+                if(resp == "CKE_MC_ERR"){
+                    mainActivity.mainViewModel.processCompleted(resp)
+                }else{
+                    mainActivity.mainViewModel.processCompleted("CKE")
+                }
+            }
         }
     }
 
@@ -179,11 +194,28 @@ class AmountFragment : Fragment() {
             mainActivity.mainViewModel.transactionAmount = currentFormattedAmount
 
             view.findNavController().navigate(
-                AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong())
+                AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong(),false)
             )
         } else {
-            mainActivity.showSnackBar("DIGITE O VALOR")
+            view.findNavController().navigate(
+                AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong(),false)
+            )
+            showDialogEmptyAmount()
         }
+    }
+
+    private fun showDialogEmptyAmount() {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Por favor, remova o cartão!")
+            .setMessage("O valor não pode estar vazio, digite um valor e insira novamente o cartão.")
+        builder.setCancelable(false)
+        builder.setPositiveButton(
+            "OK"
+        ) { _, _ ->
+            onResume()
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 
     override fun onDestroy() {

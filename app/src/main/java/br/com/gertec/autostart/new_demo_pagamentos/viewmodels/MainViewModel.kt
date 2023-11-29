@@ -15,6 +15,10 @@ class MainViewModel: ViewModel() {
     val processOk: LiveData<String>
         get() = _processOk
 
+    private var _ns = MutableLiveData<String>()
+    val ns: LiveData<String>
+        get() = _ns
+
     private var _display = MutableLiveData<List<Any>>()
     val display: LiveData<List<Any>>
         get() = _display
@@ -44,6 +48,10 @@ class MainViewModel: ViewModel() {
 
     fun keyPressed(keyCode: Int){
         _kbdKeyPressed.postValue(keyCode)
+    }
+
+    fun postNs(ns: String?){
+        _ns.postValue(ns?:"")
     }
 
 
