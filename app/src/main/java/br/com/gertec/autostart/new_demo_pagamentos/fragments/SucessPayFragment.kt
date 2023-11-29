@@ -1,6 +1,8 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +37,10 @@ class SucessPayFragment : Fragment() {
     private lateinit var applicationType: String
     private lateinit var codSale: String
 
+    private val VIA_CLIENTE: String = "CLIENTE"
+    private val VIA_LOJISTA: String = "LOJISTA"
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -55,7 +61,6 @@ class SucessPayFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         GEDI.init(context)
-
         setupObservers(view)
 
         amount = mainActivity.mainViewModel.transactionAmount
@@ -63,20 +68,28 @@ class SucessPayFragment : Fragment() {
         applicationType = mainActivity.mainViewModel.applicationType
         codSale = getRandomCodSale().toString()
 
+
         binding.displayPaymentInfo.txtAmount.setText(amount)
         binding.displayCardInfo.txtApplicationType.setText(applicationType)
         binding.displayCardInfo.txtCodeSaleValue.setText(codSale)
-        binding.btnPrint.setOnClickListener(View.OnClickListener { printComprovante() })
+        binding.btnPrint.setOnClickListener(View.OnClickListener { printComprovante(VIA_CLIENTE) })
         binding.btnFinish.setOnClickListener(View.OnClickListener {
             //mainActivity.mainViewModel.ppCompCommands.removeCard("GERTEC APP DEMO")
             view.findNavController()
                 .navigate(SucessPayFragmentDirections.actionSucessPayFragmentToAmountFragment())
         })
+
+        Handler(Looper.getMainLooper()).postDelayed(
+            {
+                printComprovante(VIA_LOJISTA)
+            },
+             500
+        )
     }
 
     private fun setupObservers(view: View) {
-        mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){ step ->
-            when(step){
+        mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner) { step ->
+            when (step) {
                 "PRINT_NOK" -> {
                     view.findNavController().navigate(
                         SucessPayFragmentDirections.actionSucessPayFragmentToAmountFragment()
@@ -86,10 +99,10 @@ class SucessPayFragment : Fragment() {
         }
     }
 
-    private fun printComprovante() {
-        val printerCommands = context?.let { PrinterCommands(it,mainActivity) }
+    private fun printComprovante(user: String) {
+        val printerCommands = context?.let { PrinterCommands(it, mainActivity) }
         val ns: String? = getNS()
-        val html = Utils.getPaymentReceiptHtmlModel(amount, applicationType, codSale, ns)
+        val html = Utils.getPaymentReceiptHtmlModel(amount, applicationType, codSale, ns, pan, user)
         val qrCode = Utils.getPaymentReceiptQrCode(amount, applicationType, codSale, ns)
         printerCommands?.printComprovante(html, qrCode)
     }
