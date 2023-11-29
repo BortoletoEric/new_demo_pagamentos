@@ -17,6 +17,9 @@ import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentAmountBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutDisplayKeyboardBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutKeyboardBinding
+import br.com.gertec.gedi.GEDI
+import br.com.gertec.gedi.enums.GEDI_SMART_e_Slot
+import br.com.gertec.gedi.interfaces.IGEDI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,7 +33,6 @@ class AmountFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var displayKeyboardBinding: LayoutDisplayKeyboardBinding
     private lateinit var keyboardBinding: LayoutKeyboardBinding
-    private var amount: Long = 0
     private lateinit var mainActivity: MainActivity
     private var currentFormattedAmount = ""
 
@@ -73,8 +75,10 @@ class AmountFragment : Fragment() {
                 "CKE" -> {
                     val amount = getAmount(binding.displayKeyboard.txtPriceValue.text)
                     if(amount == 0.0){
-                        mainActivity.showSnackBar("DIGITE O VALOR")
-                        checkEvent()
+                        view.findNavController().navigate(
+                            AmountFragmentDirections.actionAmountFragmentToCheckEventFragment()
+                        )
+
                     }else{
                         mainActivity.mainViewModel.transactionAmount = currentFormattedAmount
                         view.findNavController().navigate(
@@ -83,8 +87,8 @@ class AmountFragment : Fragment() {
                     }
                 }
                 "CKE_MC_ERR" -> {
-                    mainActivity.showSnackBar("ERRO NA LEITURA DO CARTÃO",false)
                     checkEvent()
+                    mainActivity.showSnackBar("ERRO NA LEITURA DO CARTÃO",false)
                 }
             }
         }
@@ -146,17 +150,15 @@ class AmountFragment : Fragment() {
     }
 
 
-    private fun checkEvent(){
+    private fun checkEvent() {
         CoroutineScope(Dispatchers.IO).launch {
-            val resp = mainActivity.mainViewModel.ppCompCommands.checkEvent("0110") //magnético, chip e ctlss apenas
+            val resp = mainActivity.mainViewModel.ppCompCommands.checkEvent("0110") //magnético e chip apenas
             if(!resp.isNullOrEmpty()) {
                 if(resp == "CKE_MC_ERR"){
                     mainActivity.mainViewModel.processCompleted(resp)
                 }else{
                     mainActivity.mainViewModel.processCompleted("CKE")
                 }
-            } else{
-                checkEvent()
             }
         }
     }
@@ -193,6 +195,9 @@ class AmountFragment : Fragment() {
                 AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong(),false)
             )
         } else {
+            view.findNavController().navigate(
+                AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong(),false)
+            )
             showDialogEmptyAmount()
         }
     }
@@ -210,6 +215,8 @@ class AmountFragment : Fragment() {
         val dialog = builder.create()
         dialog.show()
     }
+
+
 
     override fun onDestroy() {
         super.onDestroy()

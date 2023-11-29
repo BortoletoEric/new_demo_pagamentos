@@ -51,6 +51,7 @@ class CheckCardFragment : Fragment() {
                 }
                 "GCR_ERROR" -> {
                     view.findNavController().navigate(
+
                         CheckCardFragmentDirections.actionCheckCardFragmentToAmountFragment()
                     )
                 }

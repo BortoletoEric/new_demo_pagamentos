@@ -12,6 +12,9 @@
     <action
         android:id="@+id/action_amountFragment_to_cardTypeFragment"
         app:destination="@id/cardTypeFragment" />
+        <action
+            android:id="@+id/action_amountFragment_to_checkEventFragment"
+            app:destination="@id/checkEventFragment" />
     </fragment>
 
     <fragment
@@ -82,5 +85,14 @@
             android:name="cardType"
             app:argType="string"
             app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkEventFragment"
+        android:name="br.com.gertec.autostart.new_demo_pagamentos.fragments.CheckEventFragment"
+        android:label="fragment_check_event"
+        tools:layout="@layout/fragment_check_event" >
+        <action
+            android:id="@+id/action_checkEventFragment_to_cardTypeFragment"
+            app:destination="@id/cardTypeFragment" />
     </fragment>
 </navigation>

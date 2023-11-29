@@ -55,6 +55,7 @@ class SucessPayFragment : Fragment() {
         cardInfoBinding = binding.displayCardInfo
         paymentInfoBinding = binding.displayPaymentInfo
         mainActivity = (activity as MainActivity)
+        mainActivity.mainViewModel.postNs("")
         return binding.root
     }
 
@@ -94,8 +95,11 @@ class SucessPayFragment : Fragment() {
             }
         }
         mainActivity.mainViewModel.ns.observe(viewLifecycleOwner){
-            numeroDeSerie = it
-            printComprovante(VIA_LOJISTA, it)
+            if(!it.isNullOrEmpty()){
+                numeroDeSerie = it
+                printComprovante(VIA_LOJISTA, it)
+            }
+
         }
     }
 
