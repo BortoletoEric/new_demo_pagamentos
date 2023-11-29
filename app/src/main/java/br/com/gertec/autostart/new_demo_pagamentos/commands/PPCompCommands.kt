@@ -8,6 +8,7 @@ import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.ppcomp.IPPCompDSPCallbacks
 import br.com.gertec.ppcomp.PPComp
 import br.com.gertec.ppcomp.exceptions.PPCompDumbCardException
+import br.com.gertec.ppcomp.exceptions.PPCompMCDataErrException
 import br.com.gertec.ppcomp.exceptions.PPCompNoCardException
 import br.com.gertec.ppcomp.exceptions.PPCompProcessingException
 import br.com.gertec.ppcomp.exceptions.PPCompTabExpException
@@ -90,9 +91,14 @@ class PPCompCommands private constructor() {
                     e.printStackTrace()
                 }
             }
-        } catch (e: Exception){
-            return ""
+        } catch (e: PPCompMCDataErrException){
+            Log.d("msgg","CKE EXC $e")
             e.printStackTrace()
+            return "CKE_MC_ERR"
+        }catch (e: Exception){
+            Log.d("msgg","CKE EXC $e")
+            e.printStackTrace()
+            return ""
         }
     }
 

@@ -69,8 +69,10 @@ class CheckCardFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             delay(1_000)
             mainActivity.mainViewModel.ppCompCommands.let{
-                Log.d("msgg","args am: ${args.amount}")
-                if(!args.isCke) it.abort()
+                Log.d("msgg","args am: ${args.amount}, isCke ${args.isCke}")
+                if(!args.isCke) {
+                    it.abort() //pegar dados automaticamente
+                }
                 val result = it.getCard(
                     "00${args.transactionType}${fixAmountInput(args.amount)}231122121636135799753100"
                 )//0099000000000100231122115800135799753100

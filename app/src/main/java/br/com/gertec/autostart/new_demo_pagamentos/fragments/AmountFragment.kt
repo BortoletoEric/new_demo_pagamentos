@@ -56,7 +56,7 @@ class AmountFragment : Fragment() {
             resetAllObservers()
             setupPhysicalKbd(view)
             setupObservers(view)
-            //checkEvent()
+            checkEvent()
         },1000)
 
     }
@@ -74,13 +74,17 @@ class AmountFragment : Fragment() {
                     val amount = getAmount(binding.displayKeyboard.txtPriceValue.text)
                     if(amount == 0.0){
                         mainActivity.showSnackBar("DIGITE O VALOR")
+                        checkEvent()
                     }else{
                         mainActivity.mainViewModel.transactionAmount = currentFormattedAmount
                         view.findNavController().navigate(
                             AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong(),true)
                         )
                     }
-
+                }
+                "CKE_MC_ERR" -> {
+                    mainActivity.showSnackBar("ERRO NA LEITURA DO CARTÃO",false)
+                    checkEvent()
                 }
             }
         }
@@ -102,7 +106,7 @@ class AmountFragment : Fragment() {
                 4 ->{binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()}//anula
                 67 ->{binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()}//limpa
                 66 -> {goToCardTypeFragment(view)}//enter
-                170 -> checkEvent()
+                170 -> Unit
             }
         }
     }
@@ -145,7 +149,15 @@ class AmountFragment : Fragment() {
     private fun checkEvent(){
         CoroutineScope(Dispatchers.IO).launch {
             val resp = mainActivity.mainViewModel.ppCompCommands.checkEvent("0110") //magnético, chip e ctlss apenas
-            if(!resp.isNullOrEmpty()) mainActivity.mainViewModel.processCompleted("CKE")
+            if(!resp.isNullOrEmpty()) {
+                if(resp == "CKE_MC_ERR"){
+                    mainActivity.mainViewModel.processCompleted(resp)
+                }else{
+                    mainActivity.mainViewModel.processCompleted("CKE")
+                }
+            } else{
+                checkEvent()
+            }
         }
     }
 
@@ -192,7 +204,9 @@ class AmountFragment : Fragment() {
         builder.setCancelable(false)
         builder.setPositiveButton(
             "OK"
-        ) { _, _ -> onResume() }
+        ) { _, _ ->
+            onResume()
+        }
         val dialog = builder.create()
         dialog.show()
     }

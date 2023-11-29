@@ -165,7 +165,7 @@ class PinFragment : Fragment() {
 
     private fun goOnChip() {
         Log.d("msgg","cardType ${args.cardType}")
-        if(args.cardType == "00"){
+        if(args.cardType != "03"){
             mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
             mainActivity.mainViewModel.processCompleted("GOC")
             return
