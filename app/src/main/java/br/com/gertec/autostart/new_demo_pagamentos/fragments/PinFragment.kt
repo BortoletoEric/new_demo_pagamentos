@@ -11,6 +11,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentPinBinding
+import br.com.gertec.gedi.GEDI
+import br.com.gertec.gedi.interfaces.IGEDI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,7 +49,7 @@ class PinFragment : Fragment() {
             when(step){
                 "GOC" -> {
                     view.findNavController().navigate(
-                        PinFragmentDirections.actionPinFragmentToSucessPayFragment()
+                        PinFragmentDirections.actionPinFragmentToSucessPayFragment(args.cardType)
                     )
                 }
                 "GOC_NO_CARD" -> {
@@ -94,12 +96,15 @@ class PinFragment : Fragment() {
             }
         }
 
-
         mainActivity.mainViewModel.display.observe(viewLifecycleOwner){ display ->
             Log.d("msgg","display obs $display")
 
             when(display[0]){
-                512L -> binding.txtPin.text = display[2].toString()
+                512L -> {
+                    val iGedi: IGEDI = GEDI.getInstance(context)
+                    iGedi.audio.Beep()
+                    binding.txtPin.text = display[2].toString()
+                }
                 720896L -> {
                     binding.removeCardContainer.visibility = View.VISIBLE
                     binding.tvFinalMessage.text = "RETIRE O CARTÃO"
@@ -139,11 +144,6 @@ class PinFragment : Fragment() {
 
     }
 
-
-    private fun formatAmount(amount: Long): CharSequence? {
-        return DecimalFormat("#,##0.00", DecimalFormatSymbols(Locale("pt","BR"))).format(amount/100)
-    }
-
     private fun erasePin() {
         if(pin.isEmpty()) return
         var pinTv = ""
@@ -164,6 +164,13 @@ class PinFragment : Fragment() {
     }
 
     private fun goOnChip() {
+        Log.d("msgg","cardType ${args.cardType}")
+        if(args.cardType == "00"){
+            mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
+            mainActivity.mainViewModel.processCompleted("GOC")
+            return
+        }
+
         val am = fixAmountSize(args.amount)
         var result: String? = ""
 

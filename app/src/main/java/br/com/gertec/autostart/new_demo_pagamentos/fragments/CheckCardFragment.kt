@@ -1,6 +1,8 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,6 +22,7 @@ class CheckCardFragment : Fragment() {
     private val binding get() = _binding!!
     private val args: CheckCardFragmentArgs by navArgs()
     private lateinit var mainActivity: MainActivity
+    private var cardType =""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +46,7 @@ class CheckCardFragment : Fragment() {
             when(step){
                 "GCR" -> {
                     view.findNavController().navigate(
-                        CheckCardFragmentDirections.actionCheckCardFragmentToPinFragment(args.amount)
+                        CheckCardFragmentDirections.actionCheckCardFragmentToPinFragment(args.amount, cardType)
                     )
                 }
                 "GCR_ERROR" -> {
@@ -78,6 +81,8 @@ class CheckCardFragment : Fragment() {
                     }else{
                         try {
                             val pan = result.second!!.substring(234,253)
+                            cardType = result.second!!.substring(0,2)
+                            Log.d("msgg","GCR resp: ${result.second}, tipe: $cardType")
                             mainActivity.mainViewModel.pan = hidePan(pan.trim())?:""
                         }catch (e: Exception){e.printStackTrace()}
                         mainActivity.mainViewModel.processCompleted("GCR")
@@ -99,7 +104,8 @@ class CheckCardFragment : Fragment() {
     }
 
     private fun hidePan(pan: String?): String? {
-        return pan?.substring(pan.length - 4, pan.length)
+        if(pan.isNullOrEmpty()) return null
+        return pan.substring(pan.length - 4, pan.length)
     }
 
     override fun onDestroy() {

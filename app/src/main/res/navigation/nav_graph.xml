@@ -59,6 +59,10 @@
         <action
             android:id="@+id/action_pinFragment_to_amountFragment"
             app:destination="@id/amountFragment" />
+        <argument
+            android:name="cardType"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -68,5 +72,9 @@
         <action
             android:id="@+id/action_sucessPayFragment_to_amountFragment"
             app:destination="@id/amountFragment" />
+        <argument
+            android:name="cardType"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>
