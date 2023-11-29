@@ -44,20 +44,22 @@ class PinFragment : Fragment() {
         setupButtons()
         goOnChip()
 
-        mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){ step ->
-            Log.d("msgg","processOk obs $step")
-            when(step){
+        mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner) { step ->
+            Log.d("msgg", "processOk obs $step")
+            when (step) {
                 "GOC" -> {
                     view.findNavController().navigate(
                         PinFragmentDirections.actionPinFragmentToSucessPayFragment(args.cardType)
                     )
                 }
+
                 "GOC_NO_CARD" -> {
                     mainActivity.showSnackBar("Cartão removido", false)
                     view.findNavController().navigate(
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
                 }
+
                 "GOC_TO" -> {
                     mainActivity.showSnackBar("TEMPO ESGOTADO", false)
                     view.findNavController().navigate(
@@ -71,12 +73,12 @@ class PinFragment : Fragment() {
     private fun setupViews(view: View) {
         binding.txtPriceValue.text = mainActivity.mainViewModel.transactionAmount
         binding.removeCardContainer.visibility = View.GONE
-        if(Build.MODEL.equals("GPOS760")){
+        if (Build.MODEL.equals("GPOS760")) {
             binding.touchPinKeyboard.visibility = View.GONE
-        }else{
-            Log.d("msgg","MODEL IS NOT GPOS760")
+        } else {
+            Log.d("msgg", "MODEL IS NOT GPOS760")
             binding.touchPinKeyboard.visibility = View.VISIBLE
-            with(binding){
+            with(binding) {
                 mainActivity.setKeyboard(
                     button1,
                     button2,
@@ -96,59 +98,66 @@ class PinFragment : Fragment() {
             }
         }
 
-        mainActivity.mainViewModel.display.observe(viewLifecycleOwner){ display ->
-            Log.d("msgg","display obs $display")
+        mainActivity.mainViewModel.display.observe(viewLifecycleOwner) { display ->
+            Log.d("msgg", "display obs $display")
 
-            when(display[0]){
+            when (display[0]) {
                 512L -> {
-                    val iGedi: IGEDI = GEDI.getInstance(context)
-                    iGedi.audio.Beep()
-                    binding.txtPin.text = display[2].toString()
+                    if (display[2].toString().length <= 4) {
+                        val iGedi: IGEDI = GEDI.getInstance(context)
+                        iGedi.audio.Beep()
+                        binding.txtPin.text = display[2].toString()
+                    }
                 }
+
                 720896L -> {
                     binding.removeCardContainer.visibility = View.VISIBLE
                     binding.tvFinalMessage.text = "RETIRE O CARTÃO"
                 }
-                256L ->{
-                    if(transactionOk) return@observe
-                    mainActivity.showSnackBar("OPERAÇÃO CANCELADA",false)
+
+                256L -> {
+                    if (transactionOk) return@observe
+                    mainActivity.showSnackBar("OPERAÇÃO CANCELADA", false)
                     view.findNavController().navigate(
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
                 }
-                else -> { binding.txtPin.text }
+
+                else -> {
+                    binding.txtPin.text
+                }
             }
         }
 
     }
 
     private fun setupButtons() {
-        binding.button0.setOnClickListener{ addDigitToPin("0") }
-        binding.button1.setOnClickListener{ addDigitToPin("1") }
-        binding.button2.setOnClickListener{ addDigitToPin("2") }
-        binding.button3.setOnClickListener{ addDigitToPin("3") }
-        binding.button4.setOnClickListener{ addDigitToPin("4") }
-        binding.button5.setOnClickListener{ addDigitToPin("5") }
-        binding.button6.setOnClickListener{ addDigitToPin("6") }
-        binding.button7.setOnClickListener{ addDigitToPin("7") }
-        binding.button8.setOnClickListener{ addDigitToPin("8") }
-        binding.button9.setOnClickListener{ addDigitToPin("9") }
-        binding.buttonClear.setOnClickListener{
+        binding.button0.setOnClickListener { addDigitToPin("0") }
+        binding.button1.setOnClickListener { addDigitToPin("1") }
+        binding.button2.setOnClickListener { addDigitToPin("2") }
+        binding.button3.setOnClickListener { addDigitToPin("3") }
+        binding.button4.setOnClickListener { addDigitToPin("4") }
+        binding.button5.setOnClickListener { addDigitToPin("5") }
+        binding.button6.setOnClickListener { addDigitToPin("6") }
+        binding.button7.setOnClickListener { addDigitToPin("7") }
+        binding.button8.setOnClickListener { addDigitToPin("8") }
+        binding.button9.setOnClickListener { addDigitToPin("9") }
+        binding.buttonClear.setOnClickListener {
             pin = ""
             binding.txtPin.text = ""
         }
-        binding.buttonErase.setOnClickListener{ erasePin() }
-        binding.buttonConfirm.setOnClickListener{
+        binding.buttonErase.setOnClickListener { erasePin() }
+        binding.buttonConfirm.setOnClickListener {
             //goOnChip()
         }
 
     }
 
     private fun erasePin() {
-        if(pin.isEmpty()) return
+        if (pin.isEmpty()) return
         var pinTv = ""
-        pin = pin.substring(0, pin.length-1)
-        pin.forEach{ _ ->
+        pin = pin.substring(0, pin.length - 1)
+        pin.forEach { _ ->
             pinTv += "*"
         }
         binding.txtPin.text = pinTv
@@ -157,15 +166,15 @@ class PinFragment : Fragment() {
     private fun addDigitToPin(digit: String) {
         var pinTv = ""
         pin += digit
-        pin.forEach{ _ ->
+        pin.forEach { _ ->
             pinTv += "*"
         }
         binding.txtPin.text = pinTv
     }
 
     private fun goOnChip() {
-        Log.d("msgg","cardType ${args.cardType}")
-        if(args.cardType != "03"){ // Se for diferente de EMV com contato, não precisa chamar o GOC
+        Log.d("msgg", "cardType ${args.cardType}")
+        if (args.cardType != "03") { // Se for diferente de EMV com contato, não precisa chamar o GOC
             mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
             mainActivity.mainViewModel.processCompleted("GOC")
             return
@@ -175,18 +184,18 @@ class PinFragment : Fragment() {
         var result: String? = ""
 
         CoroutineScope(Dispatchers.IO).launch {
-            mainActivity.mainViewModel.ppCompCommands.let{
+            mainActivity.mainViewModel.ppCompCommands.let {
                 result = it.goOnChip(
                     "${am}000000000000001321000000000000000000000000000000001000003E820000003E880000",
                     "0019B",
                     "0119F0B1F813A9F6B9F6C9F66"
                 )//Term floor lim: 000003E8 =
 
-                if(result == "GOC_NO_CARD"){
+                if (result == "GOC_NO_CARD") {
                     mainActivity.mainViewModel.processCompleted("GOC_NO_CARD")
-                }else if(result == "GOC_TO"){
+                } else if (result == "GOC_TO") {
                     mainActivity.mainViewModel.processCompleted("GOC_TO")
-                }else if(!result.isNullOrEmpty()){
+                } else if (!result.isNullOrEmpty()) {
                     transactionOk = true
                     mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
                     it.finishChip()
@@ -197,14 +206,13 @@ class PinFragment : Fragment() {
     }
 
     private fun fixAmountSize(amount: Long): String {
-        val am = (amount/100).toString()
+        val am = (amount / 100).toString()
         var tempAm = am
-        for(i in 1..(12 - am.length)){
+        for (i in 1..(12 - am.length)) {
             tempAm = "0$tempAm"
         }
         return tempAm
     }
-
 
 
     override fun onDestroy() {

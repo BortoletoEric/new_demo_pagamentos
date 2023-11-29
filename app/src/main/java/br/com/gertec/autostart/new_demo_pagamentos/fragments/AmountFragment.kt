@@ -197,25 +197,8 @@ class AmountFragment : Fragment() {
                 AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong(),false)
             )
         } else {
-            view.findNavController().navigate(
-                AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong(),false)
-            )
-            showDialogEmptyAmount()
+            mainActivity.showSnackBar("Digite o valor", false)
         }
-    }
-
-    private fun showDialogEmptyAmount() {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle("Por favor, remova o cartão!")
-            .setMessage("O valor não pode estar vazio, digite um valor e insira novamente o cartão.")
-        builder.setCancelable(false)
-        builder.setPositiveButton(
-            "OK"
-        ) { _, _ ->
-            onResume()
-        }
-        val dialog = builder.create()
-        dialog.show()
     }
 
     override fun onDestroy() {

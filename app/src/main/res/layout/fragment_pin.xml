@@ -127,6 +127,7 @@
                 android:textSize="50sp"
                 android:layout_marginBottom="7dp"
                 android:textStyle="bold"
+                android:maxLength="4"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
