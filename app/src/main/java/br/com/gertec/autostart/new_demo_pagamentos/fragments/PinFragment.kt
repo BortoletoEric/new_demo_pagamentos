@@ -49,7 +49,7 @@ class PinFragment : Fragment() {
             when(step){
                 "GOC" -> {
                     view.findNavController().navigate(
-                        PinFragmentDirections.actionPinFragmentToSucessPayFragment()
+                        PinFragmentDirections.actionPinFragmentToSucessPayFragment(args.cardType)
                     )
                 }
                 "GOC_NO_CARD" -> {
@@ -95,7 +95,6 @@ class PinFragment : Fragment() {
                 )
             }
         }
-
 
         mainActivity.mainViewModel.display.observe(viewLifecycleOwner){ display ->
             Log.d("msgg","display obs $display")
@@ -145,11 +144,6 @@ class PinFragment : Fragment() {
 
     }
 
-
-    private fun formatAmount(amount: Long): CharSequence? {
-        return DecimalFormat("#,##0.00", DecimalFormatSymbols(Locale("pt","BR"))).format(amount/100)
-    }
-
     private fun erasePin() {
         if(pin.isEmpty()) return
         var pinTv = ""
@@ -170,6 +164,13 @@ class PinFragment : Fragment() {
     }
 
     private fun goOnChip() {
+        Log.d("msgg","cardType ${args.cardType}")
+        if(args.cardType == "00"){
+            mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
+            mainActivity.mainViewModel.processCompleted("GOC")
+            return
+        }
+
         val am = fixAmountSize(args.amount)
         var result: String? = ""
 
