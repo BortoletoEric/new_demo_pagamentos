@@ -11,6 +11,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentPinBinding
+import br.com.gertec.gedi.GEDI
+import br.com.gertec.gedi.interfaces.IGEDI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -99,7 +101,11 @@ class PinFragment : Fragment() {
             Log.d("msgg","display obs $display")
 
             when(display[0]){
-                512L -> binding.txtPin.text = display[2].toString()
+                512L -> {
+                    val iGedi: IGEDI = GEDI.getInstance(context)
+                    iGedi.audio.Beep()
+                    binding.txtPin.text = display[2].toString()
+                }
                 720896L -> {
                     binding.removeCardContainer.visibility = View.VISIBLE
                     binding.tvFinalMessage.text = "RETIRE O CARTÃO"
