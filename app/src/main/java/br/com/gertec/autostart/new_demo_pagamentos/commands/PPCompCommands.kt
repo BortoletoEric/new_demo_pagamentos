@@ -122,6 +122,10 @@ class PPCompCommands private constructor() {
                         e.printStackTrace()
                         return Pair(false,e.toString())
                     }
+                } catch (e: Exception){
+                    Log.d("msgg","GCR OTHER ERR $e")
+                    e.printStackTrace()
+                    return Pair(false,e.toString())
                 }
             }
         }catch(e: Exception){
@@ -202,7 +206,6 @@ class PPCompCommands private constructor() {
             removeCard(" ")
         }catch (e: Exception){e.printStackTrace()}
     }
-
 
     fun setPinKeyboard(
         b1: Button, b2: Button,

@@ -53,7 +53,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginTop="24dp"
         android:layout_width="wrap_content"
-        android:text="3388"
+        android:text="1234"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:textStyle="bold"

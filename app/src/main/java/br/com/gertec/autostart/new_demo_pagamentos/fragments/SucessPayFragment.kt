@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.commands.PrinterCommands
 import br.com.gertec.autostart.new_demo_pagamentos.commands.Utils
@@ -29,6 +30,7 @@ class SucessPayFragment : Fragment() {
     private lateinit var cardInfoBinding: LayoutCardInfoBinding
     private lateinit var paymentInfoBinding: LayoutPaymentInfoBinding
     private lateinit var mainActivity: MainActivity
+    private val args: SucessPayFragmentArgs by navArgs()
 
     private lateinit var amount: String
     private lateinit var pan: String
@@ -72,6 +74,7 @@ class SucessPayFragment : Fragment() {
         binding.displayCardInfo.txtCodeSaleValue.setText(codSale)
         binding.btnPrint.setOnClickListener(View.OnClickListener { printComprovante(VIA_CLIENTE) })
         binding.btnFinish.setOnClickListener(View.OnClickListener {
+            //mainActivity.mainViewModel.ppCompCommands.removeCard("GERTEC APP DEMO")
             view.findNavController()
                 .navigate(SucessPayFragmentDirections.actionSucessPayFragmentToAmountFragment())
         })
