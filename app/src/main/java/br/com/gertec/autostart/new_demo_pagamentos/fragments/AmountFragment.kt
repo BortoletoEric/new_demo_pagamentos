@@ -78,7 +78,7 @@ class AmountFragment : Fragment() {
     }
 
     private fun setupObservers(view: View) {
-        mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){
+        mainActivity.mainViewModel.processOk.observe(lifecycleOwner){
             when(it){
                 "CKE" -> {
                     val amount = getAmount(binding.displayKeyboard.txtPriceValue.text)
@@ -221,10 +221,6 @@ class AmountFragment : Fragment() {
     }
 
     private fun hasPhysicalKbd(): Boolean {
-        if (Build.MODEL.equals("GPOS760")) {
-            return true
-        } else {
-            return false
-        }
+        return Build.MODEL.equals("GPOS760")
     }
 }

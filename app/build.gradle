@@ -1,0 +1,287 @@
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("androidx.navigation.safeargs.kotlin")
+}
+
+android {
+    namespace = "br.com.gertec.autostart.new_demo_pagamentos"
+    compileSdk = 33
+
+    defaultConfig {
+        applicationId = "br.com.gertec.autostart.new_demo_pagamentos"
+        minSdk = 26
+        targetSdk = 33
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        create("gpos720") {
+            storeFile = file("AndroidDefaultDev_Enhanced.jks")
+            storePassword = "GertecDefaultNDevelopmentKeyStore"
+            keyAlias = "androidenhanceddev"
+            keyPassword = "Gertec"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs["gpos720"]
+        }
+        debug {
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs["gpos720"]
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+//
+//    flavorDimensions "version"
+//
+//    productFlavors {
+//        gpos700 {
+//            dimension = "version"
+//            //signingConfig signingConfigs.gpos700
+//
+//            packagingOptions {
+//                pickFirst 'wangpos/sdk4/base/IDecodeCallback.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IDecodeCallback.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/keymanager/IBinderPool.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/keymanager/IKeyManagerService.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IBaseService.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/ICallbackListener.aidl'
+//                pickFirst 'wangpos/sdk4/base/IBinderPool.aidl'
+//                pickFirst 'wangpos/sdk4/wangpos/sdk4/base/IBaseService.aidl'
+//                pickFirst 'wangpos/sdk4/base/IBaseService.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IBinderPool.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/ICommonCallback.aidl'
+//                pickFirst 'wangpos/sdk4/base/ICommonCallback.aidl'
+//                pickFirst 'wangpos/sdk4/base/ICallbackListener.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IScannerCallback.aidl'
+//                pickFirst 'wangpos/sdk4/base/IScannerCallback.aidl'
+//                exclude 'META-INF/MANIFEST.MF'
+//                exclude 'wangpos/sdk4/base/IWifiProbeListener.aidl'
+//                exclude  'wangpos/sdk4/base/config/ScanConfig.aidl'
+//                exclude  'wangpos/wangpos/sdk4/base/config/ScanConfig.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/IWifiProbeListener.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.java'
+//                exclude 'wangpos/sdk4/base/config/ChipRecordData.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.java'
+//
+//            }
+//        }
+//
+//        gpos700x {
+//            dimension "version"
+//            //signingConfig signingConfigs.gpos700x
+//
+//            packagingOptions {
+//                pickFirst 'wangpos/sdk4/base/IDecodeCallback.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IDecodeCallback.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/keymanager/IBinderPool.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/keymanager/IKeyManagerService.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IBaseService.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/ICallbackListener.aidl'
+//                pickFirst 'wangpos/sdk4/base/IBinderPool.aidl'
+//                pickFirst 'wangpos/sdk4/wangpos/sdk4/base/IBaseService.aidl'
+//                pickFirst 'wangpos/sdk4/base/IBaseService.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IBinderPool.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/ICommonCallback.aidl'
+//                pickFirst 'wangpos/sdk4/base/ICommonCallback.aidl'
+//                pickFirst 'wangpos/sdk4/base/ICallbackListener.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IScannerCallback.aidl'
+//                pickFirst 'wangpos/sdk4/base/IScannerCallback.aidl'
+//                exclude 'wangpos/sdk4/base/IWifiProbeListener.aidl'
+//                exclude  'wangpos/sdk4/base/config/ScanConfig.aidl'
+//                exclude  'wangpos/wangpos/sdk4/base/config/ScanConfig.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/IWifiProbeListener.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.java'
+//                exclude 'wangpos/sdk4/base/config/ChipRecordData.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.java'
+//
+//            }
+//        }
+//
+//        gpos700mini {
+//            dimension "version"
+//            //signingConfig signingConfigs.gpos700mini
+//
+//            packagingOptions {
+//                pickFirst 'wangpos/sdk4/base/IDecodeCallback.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IDecodeCallback.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/keymanager/IBinderPool.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/keymanager/IKeyManagerService.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IBaseService.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/ICallbackListener.aidl'
+//                pickFirst 'wangpos/sdk4/base/IBinderPool.aidl'
+//                pickFirst 'wangpos/sdk4/wangpos/sdk4/base/IBaseService.aidl'
+//                pickFirst 'wangpos/sdk4/base/IBaseService.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IBinderPool.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/ICommonCallback.aidl'
+//                pickFirst 'wangpos/sdk4/base/ICommonCallback.aidl'
+//                pickFirst 'wangpos/sdk4/base/ICallbackListener.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IScannerCallback.aidl'
+//                pickFirst 'wangpos/sdk4/base/IScannerCallback.aidl'
+//                exclude 'wangpos/sdk4/base/IWifiProbeListener.aidl'
+//                exclude  'wangpos/sdk4/base/config/ScanConfig.aidl'
+//                exclude  'wangpos/wangpos/sdk4/base/config/ScanConfig.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/IWifiProbeListener.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.java'
+//                exclude 'wangpos/sdk4/base/config/ChipRecordData.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.java'
+//            }
+//        }
+//
+//        gpos720 {
+//            dimension "version"
+//            //signingConfig signingConfigs.gpos720
+//
+//            packagingOptions {
+//                pickFirst 'aidl/android/content/pm/IPackageDeleteObserver.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/application/IGetApplicationTrafficCallback.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/application/UnInstallCallback.aidl'
+//                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppBatteryNetService.aidl'
+//                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppBatteryCallback.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/application/IGetApplicationBatteryCallback.aidl'
+//                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppTrafficCallback.aidl'
+//                pickFirst 'aidl/com/ft/possystem/IAutoRunService.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/application/InstallCallback.aidl'
+//                pickFirst 'aidl/com/ftpos/apiservice/aidl/IServiceManager.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/IServiceManager.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/application/IApplicationManager.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/application/InstallResultCallback.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/application/UnInstallResultCallback.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/device/IDeviceManager.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/file/IEMVFileManager.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/location/IFTLocationListener.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/location/ILocationManager.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/log/IDeviceLogManager.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/modem/IModemToolManager.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/system/DefaultDataChangeResultListener.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/system/ISystemManager.aidl'
+//                pickFirst '***'
+//            }
+//        }
+//
+//        gpos760 {
+//            dimension "version"
+//            //signingConfig signingConfigs.gpos760
+//
+//            packagingOptions {
+//                pickFirst 'aidl/android/content/pm/IPackageDeleteObserver.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/application/IGetApplicationTrafficCallback.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/application/UnInstallCallback.aidl'
+//                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppBatteryNetService.aidl'
+//                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppBatteryCallback.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/application/IGetApplicationBatteryCallback.aidl'
+//                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppTrafficCallback.aidl'
+//                pickFirst 'aidl/com/ft/possystem/IAutoRunService.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/application/InstallCallback.aidl'
+//                pickFirst 'aidl/com/ftpos/apiservice/aidl/IServiceManager.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/IServiceManager.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/application/IApplicationManager.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/application/InstallResultCallback.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/application/UnInstallResultCallback.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/device/IDeviceManager.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/file/IEMVFileManager.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/location/IFTLocationListener.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/location/ILocationManager.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/log/IDeviceLogManager.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/modem/IModemToolManager.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/system/DefaultDataChangeResultListener.aidl'
+//                pickFirst 'aidl/com/ft/possystemapi/server/system/ISystemManager.aidl'
+//                pickFirst '***'
+//            }
+//        }
+//
+//        gpos780 {
+//            dimension "version"
+//            //signingConfig signingConfigs.gpos780
+//
+//            packagingOptions {
+//                pickFirst 'wangpos/sdk4/base/IDecodeCallback.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IDecodeCallback.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/keymanager/IBinderPool.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/keymanager/IKeyManagerService.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IBaseService.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/ICallbackListener.aidl'
+//                pickFirst 'wangpos/sdk4/base/IBinderPool.aidl'
+//                pickFirst 'wangpos/sdk4/wangpos/sdk4/base/IBaseService.aidl'
+//                pickFirst 'wangpos/sdk4/base/IBaseService.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IBinderPool.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/ICommonCallback.aidl'
+//                pickFirst 'wangpos/sdk4/base/ICommonCallback.aidl'
+//                pickFirst 'wangpos/sdk4/base/ICallbackListener.aidl'
+//                pickFirst 'wangpos/sdk4/base/config/ChipRecordData.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/config/ChipRecordData.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/config/ChipRecordData.java'
+//                exclude 'wangpos/sdk4/base/IWifiProbeListener.aidl'
+//                exclude  'wangpos/sdk4/base/config/ScanConfig.aidl'
+//                exclude  'wangpos/wangpos/sdk4/base/config/ScanConfig.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/IWifiProbeListener.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.java'
+//            }
+//        }
+//    }
+
+}
+
+dependencies {
+
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.6.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    //Navigation
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:2.5.3")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.2")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.2")
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:2.5.3")
+
+    //viewmodel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.6.1")
+    implementation("androidx.activity:activity-ktx:1.7.2")
+
+    //GERTEC SDK
+    implementation(files("libs/libgedi-0.18.8-gpos760-eng-release.aar","libs/libgandi-0.3.5-gpos760-payment-release.aar",
+        "libs/PPCompGPOS760-v1.08-Complete-debug.aar", "libs/android-easy-layer-gpos760-release.aar"))
+
+}

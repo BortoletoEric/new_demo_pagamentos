@@ -93,10 +93,11 @@ class PPCompCommands private constructor() {
         var gcrOut: String?
         try{
             ppComp?.PP_StartGetCard(input)
-
             while(true){
                 try{
                     gcrOut = ppComp?.PP_GetCard()
+
+                    Log.d("msgg","GCR RESP: $gcrOut")
                     return Pair(true,gcrOut)
                 } catch(e: PPCompTabExpException){
                     if(tableLoad("001357997531")){  // se nao der, tenta esse kk 010123456789
@@ -130,7 +131,9 @@ class PPCompCommands private constructor() {
 
     private fun tableLoad(input: String): Boolean {
         try {
+            Log.d("msgg","TABLE LOAD")
             ppComp?.PP_TableLoadInit(input)
+            Log.d("msgg","TABLE LOAD FINISH")
             return true
         }catch(e: Exception){
             e.printStackTrace()
@@ -176,6 +179,7 @@ class PPCompCommands private constructor() {
                     }catch (e: Exception){ e.printStackTrace() }
                     e.printStackTrace()
                 }catch(e: Exception){
+                    Log.i("GRANDE SUSTO", "GOC EXC: $e")
                     cancelCheckEvent = false
                     try {
                         ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")

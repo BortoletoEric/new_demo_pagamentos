@@ -187,7 +187,7 @@ class PinFragment : Fragment() {
                     "0019B",
                     "0119F0B1F813A9F6B9F6C9F66"
                 )//Term floor lim: 000003E8 =
-
+                Log.d("msgg","GPC RES: $result")
                 if(result == "GOC_NO_CARD"){
                     mainActivity.mainViewModel.processCompleted("GOC_NO_CARD")
                 } else if (result == "GOC_TO") {

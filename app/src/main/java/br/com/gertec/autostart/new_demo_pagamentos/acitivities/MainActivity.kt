@@ -100,7 +100,14 @@ class MainActivity : AppCompatActivity(){
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        val currentDestination = navController.currentDestination
         mainViewModel.keyPressed(keyCode)
+
+        if(keyCode == 4){
+            if (currentDestination?.id == R.id.amountFragment) {
+                return false
+            }
+        }
         return super.onKeyDown(keyCode, event)
     }
 
