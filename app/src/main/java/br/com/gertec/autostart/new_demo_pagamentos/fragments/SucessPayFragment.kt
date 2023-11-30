@@ -40,7 +40,7 @@ class SucessPayFragment : Fragment() {
     private val VIA_CLIENTE: String = "CLIENTE"
     private val VIA_LOJISTA: String = "LOJISTA"
     private var numeroDeSerie: String = ""
-
+    private var isPrintedLojista: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,11 +95,11 @@ class SucessPayFragment : Fragment() {
             }
         }
         mainActivity.mainViewModel.ns.observe(viewLifecycleOwner){
-            if(!it.isNullOrEmpty()){
+            if(!it.isNullOrEmpty() && !isPrintedLojista){
                 numeroDeSerie = it
                 printComprovante(VIA_LOJISTA, it)
+                isPrintedLojista = true
             }
-
         }
     }
 

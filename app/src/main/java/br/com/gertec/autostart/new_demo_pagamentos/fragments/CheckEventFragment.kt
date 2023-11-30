@@ -47,6 +47,8 @@ class CheckEventFragment : Fragment() {
         Handler(Looper.getMainLooper()).postDelayed({
             setupPhysicalKbd(view)
         },1000)
+
+        binding.keyboardCke.buttonConfirm.requestFocus()
     }
 
     private fun setupViews() {
@@ -137,7 +139,7 @@ class CheckEventFragment : Fragment() {
                 CheckEventFragmentDirections.actionCheckEventFragmentToCardTypeFragment((amount).toLong(),true)
             )
         } else {
-            showDialogEmptyAmount()
+            mainActivity.showSnackBar("Digite o valor", false)
         }
     }
 
