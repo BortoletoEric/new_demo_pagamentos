@@ -45,7 +45,7 @@ class PinFragment : Fragment() {
         goOnChip()
 
         mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner) { step ->
-            Log.d("msgg", "processOk obs $step")
+
             when (step) {
                 "GOC" -> {
                     view.findNavController().navigate(
@@ -76,7 +76,6 @@ class PinFragment : Fragment() {
         if (Build.MODEL.equals("GPOS760")) {
             binding.touchPinKeyboard.visibility = View.GONE
         } else {
-            Log.d("msgg", "MODEL IS NOT GPOS760")
             binding.touchPinKeyboard.visibility = View.VISIBLE
             with(binding) {
                 mainActivity.setKeyboard(
@@ -99,7 +98,6 @@ class PinFragment : Fragment() {
         }
 
         mainActivity.mainViewModel.display.observe(viewLifecycleOwner) { display ->
-            Log.d("msgg", "display obs $display")
 
             when (display[0]) {
                 512L -> {
@@ -173,7 +171,6 @@ class PinFragment : Fragment() {
     }
 
     private fun goOnChip() {
-        Log.d("msgg", "cardType ${args.cardType}")
         if (args.cardType != "03") { // Se for diferente de EMV com contato, não precisa chamar o GOC
             mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
             mainActivity.mainViewModel.processCompleted("GOC")

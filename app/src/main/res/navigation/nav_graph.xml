@@ -52,6 +52,9 @@
         <argument
             android:name="isCke"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_checkCardFragment_to_sucessPayFragment"
+            app:destination="@id/sucessPayFragment" />
     </fragment>
 
     <fragment

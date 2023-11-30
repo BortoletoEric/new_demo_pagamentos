@@ -52,6 +52,7 @@ class SucessPayFragment : Fragment() {
     ): View {
         _binding = FragmentSucessPayBinding.inflate(inflater, container, false)
 
+
         cardInfoBinding = binding.displayCardInfo
         paymentInfoBinding = binding.displayPaymentInfo
         mainActivity = (activity as MainActivity)
@@ -74,6 +75,7 @@ class SucessPayFragment : Fragment() {
         binding.displayPaymentInfo.txtAmount.setText(amount)
         binding.displayCardInfo.txtApplicationType.setText(applicationType)
         binding.displayCardInfo.txtCodeSaleValue.setText(codSale)
+        binding.displayCardInfo.txtFinalCardNumbers.setText(pan)
         binding.btnPrint.setOnClickListener(View.OnClickListener { printComprovante(VIA_CLIENTE, numeroDeSerie) })
         binding.btnFinish.setOnClickListener(View.OnClickListener {
             //mainActivity.mainViewModel.ppCompCommands.removeCard("GERTEC APP DEMO")
@@ -88,9 +90,10 @@ class SucessPayFragment : Fragment() {
         mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner) { step ->
             when (step) {
                 "PRINT_NOK" -> {
-                    view.findNavController().navigate(
-                        SucessPayFragmentDirections.actionSucessPayFragmentToAmountFragment()
-                    )
+                    //mainActivity.showSnackBar("ERRO NA IMPRESSÃO")
+//                    view.findNavController().navigate(
+//                        SucessPayFragmentDirections.actionSucessPayFragmentToAmountFragment()
+//                    )
                 }
             }
         }

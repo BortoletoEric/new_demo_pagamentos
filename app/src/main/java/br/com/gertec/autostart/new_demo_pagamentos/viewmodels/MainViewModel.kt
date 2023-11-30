@@ -39,7 +39,6 @@ class MainViewModel: ViewModel() {
     }
 
     fun processCompleted(step: String){
-        Log.d("msgg","process $step")
         _processOk.postValue(step)
     }
     fun updateDisplay(flag: Long, msg1: String, msg2: String){

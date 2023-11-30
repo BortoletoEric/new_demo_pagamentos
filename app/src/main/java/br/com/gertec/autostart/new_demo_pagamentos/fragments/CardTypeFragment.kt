@@ -1,18 +1,16 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentCardTypeBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+
 
 class CardTypeFragment : Fragment() {
 
@@ -26,6 +24,7 @@ class CardTypeFragment : Fragment() {
     ): View {
         _binding = FragmentCardTypeBinding.inflate(inflater, container, false)
         mainActivity = (activity as MainActivity)
+
         return binding.root
 
     }
@@ -34,6 +33,11 @@ class CardTypeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupButtons()
+        resetAllObservers()
+    }
+
+    private fun resetAllObservers() {
+        mainActivity.mainViewModel.processCompleted("")
     }
 
     private fun setupButtons() {

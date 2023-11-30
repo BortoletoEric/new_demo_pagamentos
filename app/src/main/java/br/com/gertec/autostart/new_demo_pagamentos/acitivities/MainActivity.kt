@@ -100,9 +100,6 @@ class MainActivity : AppCompatActivity(){
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-
-        Log.d("msgg","keyCode $keyCode")
-
         mainViewModel.keyPressed(keyCode)
         return super.onKeyDown(keyCode, event)
     }

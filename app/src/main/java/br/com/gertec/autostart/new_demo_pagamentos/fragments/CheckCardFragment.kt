@@ -42,12 +42,18 @@ class CheckCardFragment : Fragment() {
         getCard()
 
         mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){ step ->
-
             when(step){
                 "GCR" -> {
-                    view.findNavController().navigate(
-                        CheckCardFragmentDirections.actionCheckCardFragmentToPinFragment(args.amount, cardType)
-                    )
+                    if(cardType != "03"){
+                        view.findNavController().navigate(
+                            CheckCardFragmentDirections.actionCheckCardFragmentToSucessPayFragment(cardType)
+                        )
+                    }else{
+                        view.findNavController().navigate(
+                            CheckCardFragmentDirections.actionCheckCardFragmentToPinFragment(args.amount, cardType)
+                        )
+                    }
+
                 }
                 "GCR_ERROR" -> {
                     view.findNavController().navigate(
@@ -70,7 +76,6 @@ class CheckCardFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             delay(1_000)
             mainActivity.mainViewModel.ppCompCommands.let{
-                Log.d("msgg","args am: ${args.amount}, isCke ${args.isCke}")
                 if(!args.isCke) {
                     it.abort() //pegar dados automaticamente
                 }
@@ -86,7 +91,6 @@ class CheckCardFragment : Fragment() {
                         try {
                             val pan = result.second!!.substring(234,253)
                             cardType = result.second!!.substring(0,2)
-                            Log.d("msgg","GCR resp: ${result.second}, tipe: $cardType")
                             mainActivity.mainViewModel.pan = hidePan(pan.trim())?:""
                         }catch (e: Exception){e.printStackTrace()}
                         mainActivity.mainViewModel.processCompleted("GCR")
@@ -103,7 +107,6 @@ class CheckCardFragment : Fragment() {
         for(i in 1..12-len){
             strAmount = "0$strAmount"
         }
-        Log.d("msgg","strAm $strAmount")
         return strAmount
     }
 

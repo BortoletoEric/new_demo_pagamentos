@@ -37,18 +37,23 @@ class PPCompCommands private constructor() {
     }
 
     fun open(){
-        ppComp?.PP_Open()
+        try {
+            ppComp?.PP_Open()
+        }catch (e:Exception){e.printStackTrace()}
     }
     fun setDspCallback(outputCallbacks: IPPCompDSPCallbacks){
         ppComp?.PP_SetDspCallbacks(outputCallbacks)
     }
 
     fun close(message: String){
-        ppComp?.PP_Close(message)
+        try {
+            ppComp?.PP_Close(message)
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
     }
 
     fun abort(){
-        Log.d("msgg","ABORT!")
         cancelCheckEvent = true
         try {
             ppComp?.PP_Abort()
@@ -61,7 +66,6 @@ class PPCompCommands private constructor() {
 
     fun checkEvent(input: String): String?{
         try{
-            Log.d("msgg","CKE init...")
             ppComp?.PP_StartCheckEvent(input)
             while (true) {
 //                if (cancelCheckEvent) {
@@ -71,18 +75,15 @@ class PPCompCommands private constructor() {
 //                }
                 try {
                     var resp = ppComp?.PP_CheckEvent()
-                    Log.d("msgg","CKE OK $resp")
                     return resp
                 } catch (e: PPCompProcessingException) {
                     e.printStackTrace()
                 }
             }
         } catch (e: PPCompMCDataErrException){
-            Log.d("msgg","CKE EXC $e")
             e.printStackTrace()
             return "CKE_MC_ERR"
         }catch (e: Exception){
-            Log.d("msgg","CKE EXC $e")
             e.printStackTrace()
             return ""
         }
@@ -91,14 +92,11 @@ class PPCompCommands private constructor() {
     fun getCard(input: String): Pair<Boolean,String?>{
         var gcrOut: String?
         try{
-            Log.d("msgg","GCR init...")
             ppComp?.PP_StartGetCard(input)
 
             while(true){
                 try{
-                    Log.d("msgg","GCR init 2...")
                     gcrOut = ppComp?.PP_GetCard()
-                    Log.d("msgg","GCR ok")
                     return Pair(true,gcrOut)
                 } catch(e: PPCompTabExpException){
                     if(tableLoad("001357997531")){  // se nao der, tenta esse kk 010123456789
@@ -109,7 +107,6 @@ class PPCompCommands private constructor() {
                         }
                     }
                 } catch(e: PPCompDumbCardException){
-                    Log.d("msgg","DUMB EXC? $e")
                     try{
                         ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
                         ppComp?.PP_RemoveCard()
@@ -121,15 +118,12 @@ class PPCompCommands private constructor() {
                         return Pair(false,e.toString())
                     }
                 } catch (e: Exception){
-                    Log.d("msgg","GCR OTHER ERR $e")
                     e.printStackTrace()
                     return Pair(false,e.toString())
                 }
             }
         }catch(e: Exception){
-            Log.i("GRANDE SUSTO", "ABORT 4")
             ppComp?.PP_Abort()
-            Log.d("msgg","START GCR ERROR $e")
             return Pair(false,e.toString())
         }
     }
@@ -166,7 +160,6 @@ class PPCompCommands private constructor() {
             while(true){
                 try{
                     val g = ppComp?.PP_GoOnChip()
-                    Log.d("msgg","GOC OK ")
                     return g
                 }catch(e: PPCompNoCardException){
                     cancelCheckEvent = false
@@ -174,7 +167,6 @@ class PPCompCommands private constructor() {
                     return "GOC_NO_CARD"
                 }catch(e: PPCompTimeoutException){
                     cancelCheckEvent = false
-                    Log.d("msgg","GOC EXCto --> $e ")
                     try {
                         ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
                         ppComp?.PP_RemoveCard()
@@ -185,7 +177,6 @@ class PPCompCommands private constructor() {
                     e.printStackTrace()
                 }catch(e: Exception){
                     cancelCheckEvent = false
-                    Log.d("msgg","GOC EXC --> $e ")
                     try {
                         ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
                         ppComp?.PP_RemoveCard()

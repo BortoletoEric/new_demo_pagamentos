@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
@@ -35,6 +36,7 @@ class AmountFragment : Fragment() {
     private lateinit var keyboardBinding: LayoutKeyboardBinding
     private lateinit var mainActivity: MainActivity
     private var currentFormattedAmount = ""
+    lateinit var lifecycleOwner: LifecycleOwner
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +47,7 @@ class AmountFragment : Fragment() {
         displayKeyboardBinding = binding.displayKeyboard
         keyboardBinding = binding.keyboard
         mainActivity = (activity as MainActivity)
+        lifecycleOwner = viewLifecycleOwner
 
         return binding.root
     }
@@ -72,7 +75,8 @@ class AmountFragment : Fragment() {
     }
 
     private fun setupObservers(view: View) {
-        mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){
+        mainActivity.mainViewModel.processOk.observe(lifecycleOwner){
+
             when(it){
                 "CKE" -> {
                     val amount = getAmount(binding.displayKeyboard.txtPriceValue.text)
@@ -80,7 +84,6 @@ class AmountFragment : Fragment() {
                         view.findNavController().navigate(
                             AmountFragmentDirections.actionAmountFragmentToCheckEventFragment()
                         )
-
                     }else{
                         mainActivity.mainViewModel.transactionAmount = currentFormattedAmount
                         view.findNavController().navigate(
@@ -97,7 +100,7 @@ class AmountFragment : Fragment() {
     }
 
     private fun setupPhysicalKbd(view: View) {
-        mainActivity.mainViewModel.kbdKeyPressed.observe(viewLifecycleOwner){ keyCode ->
+        mainActivity.mainViewModel.kbdKeyPressed.observe(lifecycleOwner){ keyCode ->
             when(keyCode){
                 8 -> {addDigitToAmount("1")}//1
                 9 -> {addDigitToAmount("2")}//2
