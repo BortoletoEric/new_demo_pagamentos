@@ -1,6 +1,7 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
 import android.app.AlertDialog
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -58,60 +59,94 @@ class AmountFragment : Fragment() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             resetAllObservers()
-            setupPhysicalKbd(view)
             setupObservers(view)
             checkEvent()
-        },1000)
+            if (hasPhysicalKbd()) {
+                setupPhysicalKbd(view)
+            }
+        }, 1000)
 
     }
 
     private fun resetAllObservers() {
         mainActivity.mainViewModel.processCompleted("")
-        mainActivity.mainViewModel.updateDisplay(-999L, "","")
+        mainActivity.mainViewModel.updateDisplay(-999L, "", "")
         mainActivity.mainViewModel.keyPressed(-999)
     }
 
     private fun setupObservers(view: View) {
-        mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){
-            when(it){
+        mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner) {
+            when (it) {
                 "CKE" -> {
                     val amount = getAmount(binding.displayKeyboard.txtPriceValue.text)
-                    if(amount == 0.0){
+                    if (amount == 0.0) {
                         view.findNavController().navigate(
                             AmountFragmentDirections.actionAmountFragmentToCheckEventFragment()
                         )
 
-                    }else{
+                    } else {
                         mainActivity.mainViewModel.transactionAmount = currentFormattedAmount
                         view.findNavController().navigate(
-                            AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong(),true)
+                            AmountFragmentDirections.actionAmountFragmentToCardTypeFragment(
+                                (amount).toLong(),
+                                true
+                            )
                         )
                     }
                 }
+
                 "CKE_MC_ERR" -> {
                     checkEvent()
-                    mainActivity.showSnackBar("ERRO NA LEITURA DO CARTÃO",false)
+                    mainActivity.showSnackBar("ERRO NA LEITURA DO CARTÃO", false)
                 }
             }
         }
     }
 
     private fun setupPhysicalKbd(view: View) {
-        mainActivity.mainViewModel.kbdKeyPressed.observe(viewLifecycleOwner){ keyCode ->
-            when(keyCode){
-                8 -> {addDigitToAmount("1")}//1
-                9 -> {addDigitToAmount("2")}//2
-                10 -> {addDigitToAmount("3")}//3
-                11 -> {addDigitToAmount("4")}//4
-                12 ->{addDigitToAmount("5")}//5
-                13 -> {addDigitToAmount("6")}//6
-                14 -> {addDigitToAmount("7")}//7
-                15 -> {addDigitToAmount("8")}//8
-                16 -> {addDigitToAmount("9")}//9
-                7 -> {addDigitToAmount("0")}//0
-                4 ->{binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()}//anula
-                67 ->{binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()}//limpa
-                66 -> {goToCardTypeFragment(view)}//enter
+        mainActivity.mainViewModel.kbdKeyPressed.observe(viewLifecycleOwner) { keyCode ->
+            when (keyCode) {
+                8 -> {
+                    addDigitToAmount("1")
+                }//1
+                9 -> {
+                    addDigitToAmount("2")
+                }//2
+                10 -> {
+                    addDigitToAmount("3")
+                }//3
+                11 -> {
+                    addDigitToAmount("4")
+                }//4
+                12 -> {
+                    addDigitToAmount("5")
+                }//5
+                13 -> {
+                    addDigitToAmount("6")
+                }//6
+                14 -> {
+                    addDigitToAmount("7")
+                }//7
+                15 -> {
+                    addDigitToAmount("8")
+                }//8
+                16 -> {
+                    addDigitToAmount("9")
+                }//9
+                7 -> {
+                    addDigitToAmount("0")
+                }//0
+                4 -> {
+                    binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount)
+                        .toString()
+                }//anula
+                67 -> {
+                    binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount)
+                        .toString()
+                }//limpa
+                66 -> {
+                    goToCardTypeFragment(view)
+                }//enter
                 170 -> Unit
             }
         }
@@ -120,20 +155,20 @@ class AmountFragment : Fragment() {
     private fun setupViews() {
         binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount)
 
-        binding.keyboard.button0.setOnClickListener{ addDigitToAmount("0") }
-        binding.keyboard.button1.setOnClickListener{ addDigitToAmount("1") }
-        binding.keyboard.button2.setOnClickListener{ addDigitToAmount("2") }
-        binding.keyboard.button3.setOnClickListener{ addDigitToAmount("3") }
-        binding.keyboard.button4.setOnClickListener{ addDigitToAmount("4") }
-        binding.keyboard.button5.setOnClickListener{ addDigitToAmount("5") }
-        binding.keyboard.button6.setOnClickListener{ addDigitToAmount("6") }
-        binding.keyboard.button7.setOnClickListener{ addDigitToAmount("7") }
-        binding.keyboard.button8.setOnClickListener{ addDigitToAmount("8") }
-        binding.keyboard.button9.setOnClickListener{ addDigitToAmount("9") }
-        binding.keyboard.buttonClear.setOnClickListener{
+        binding.keyboard.button0.setOnClickListener { addDigitToAmount("0") }
+        binding.keyboard.button1.setOnClickListener { addDigitToAmount("1") }
+        binding.keyboard.button2.setOnClickListener { addDigitToAmount("2") }
+        binding.keyboard.button3.setOnClickListener { addDigitToAmount("3") }
+        binding.keyboard.button4.setOnClickListener { addDigitToAmount("4") }
+        binding.keyboard.button5.setOnClickListener { addDigitToAmount("5") }
+        binding.keyboard.button6.setOnClickListener { addDigitToAmount("6") }
+        binding.keyboard.button7.setOnClickListener { addDigitToAmount("7") }
+        binding.keyboard.button8.setOnClickListener { addDigitToAmount("8") }
+        binding.keyboard.button9.setOnClickListener { addDigitToAmount("9") }
+        binding.keyboard.buttonClear.setOnClickListener {
             binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()
         }
-        binding.keyboard.buttonConfirm.setOnClickListener{ goToCardTypeFragment(it) }
+        binding.keyboard.buttonConfirm.setOnClickListener { goToCardTypeFragment(it) }
 
         binding.displayKeyboard.txtPriceValue.movementMethod = null
         binding.displayKeyboard.txtPriceValue.addTextChangedListener(object : TextWatcher {
@@ -147,6 +182,7 @@ class AmountFragment : Fragment() {
                     binding.displayKeyboard.txtPriceValue.addTextChangedListener(this)
                 }
             }
+
             override fun afterTextChanged(s: Editable) {}
         })
     }
@@ -154,11 +190,12 @@ class AmountFragment : Fragment() {
 
     private fun checkEvent() {
         CoroutineScope(Dispatchers.IO).launch {
-            val resp = mainActivity.mainViewModel.ppCompCommands.checkEvent("0110") //magnético e chip apenas
-            if(!resp.isNullOrEmpty()) {
-                if(resp == "CKE_MC_ERR"){
+            val resp =
+                mainActivity.mainViewModel.ppCompCommands.checkEvent("0110") //magnético e chip apenas
+            if (!resp.isNullOrEmpty()) {
+                if (resp == "CKE_MC_ERR") {
                     mainActivity.mainViewModel.processCompleted(resp)
-                }else{
+                } else {
                     mainActivity.mainViewModel.processCompleted("CKE")
                 }
             }
@@ -194,7 +231,10 @@ class AmountFragment : Fragment() {
             mainActivity.mainViewModel.transactionAmount = currentFormattedAmount
 
             view.findNavController().navigate(
-                AmountFragmentDirections.actionAmountFragmentToCardTypeFragment((amount).toLong(),false)
+                AmountFragmentDirections.actionAmountFragmentToCardTypeFragment(
+                    (amount).toLong(),
+                    false
+                )
             )
         } else {
             mainActivity.showSnackBar("Digite o valor", false)
@@ -206,4 +246,11 @@ class AmountFragment : Fragment() {
         _binding = null
     }
 
+    private fun hasPhysicalKbd(): Boolean {
+        if (Build.MODEL.equals("GPOS760")) {
+            return true
+        } else {
+            return false
+        }
+    }
 }
