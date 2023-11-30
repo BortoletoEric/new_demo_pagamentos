@@ -62,7 +62,6 @@ class AmountFragment : Fragment() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             resetAllObservers()
-            setupPhysicalKbd(view)
             setupObservers(view)
             checkEvent()
             if (hasPhysicalKbd()) {

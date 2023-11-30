@@ -1,5 +1,6 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -109,10 +110,6 @@ class CardTypeFragment : Fragment() {
     }
 
     private fun hasPhysicalKbd(): Boolean {
-        if (Build.MODEL.equals("GPOS760")) {
-            return true
-        } else {
-            return false
-        }
+        return Build.MODEL.equals("GPOS760")
     }
 }
