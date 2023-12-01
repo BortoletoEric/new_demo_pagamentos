@@ -17,7 +17,7 @@ class PinKbdActivity : AppCompatActivity() {
         _binding = ActivityPinKbdBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val rootView = window.decorView.rootView
+//        val rootView = window.decorView.rootView
 
         mKBDData = KbdData()
         mKBDData.btn0 = binding.btn0Tag

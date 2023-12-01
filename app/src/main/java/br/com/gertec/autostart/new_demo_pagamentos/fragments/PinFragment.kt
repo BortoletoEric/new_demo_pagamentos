@@ -121,9 +121,8 @@ class PinFragment : Fragment() {
                     )
                 }
                 917504L -> {
-
                     if (BuildConfig.FLAVOR == "gpos760") return@observe
-                    mainActivity.setKeyboard()
+                    //mainActivity.setKeyboard()
                 }
                 else -> {
                     binding.txtPin.text

@@ -1,12 +1,9 @@
 package br.com.gertec.autostart.new_demo_pagamentos.acitivities
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
-import android.view.View
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -56,19 +53,33 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun setKeyboard(){
-        val intent = Intent(this, PinKbdActivity::class.java)
-        startActivity(intent)
-//        with(binding){
-//            mainViewModel.ppCompCommands.setPinKeyboard(
-//                button1 ,button2,button3,button4,
-//                button5,button6,button7,button8,
-//                button9,button0,buttonClear,buttonConfirm,
-//                buttonErase,this@MainActivity,
-//                true
-//            )
+//    fun setKeyboard(){
+//        val intent = Intent(this, PinKbdActivity::class.java)
+//        startActivity(intent)
+//
+//        Log.d("msgg", "wait activity PIN start")
+//        try {
+//            while (!PinKBDActivity.active) {
+//                Log.d(TAG, "waiting activity PIN")
+//            }
+//            Log.d(TAG, "wait activity PIN end")
+//        } catch (e: Exception) {
+//            Log.d(TAG, "wait activity PIN error")
+//            e.printStackTrace()
 //        }
-    }
+//
+//        val kbdActivity = PinKbdActivity()
+//        val kbdData = PinKbdActivity.KbdData()
+//
+//        mainViewModel.ppCompCommands.setPinKeyboard(
+//            kbdData.btn1!!,kbdData.btn2!!,kbdData.btn3!!,kbdData.btn4!!,
+//            kbdData.btn5!!,kbdData.btn6!!,kbdData.btn7!!,kbdData.btn8!!,
+//            kbdData.btn9!!,kbdData.btn0!!,kbdData.btnCancel!!,kbdData.btnConfirm!!,
+//            kbdData.btnClear!!,kbdActivity,
+//            true
+//        )
+//
+//    }
 
     private fun setupViewModel() {
         val viewModelProviderFactory = MainViewModelFactory()
