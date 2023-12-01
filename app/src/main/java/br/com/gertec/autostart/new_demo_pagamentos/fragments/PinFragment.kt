@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
@@ -76,6 +77,7 @@ class PinFragment : Fragment() {
         if (BuildConfig.FLAVOR == "gpos760") {
             //binding.touchPinKeyboard.visibility = View.GONE
         } else {
+            mainActivity.hidePinKeyboard(false)
             //binding.touchPinKeyboard.visibility = View.VISIBLE
 //            with(binding) {
 //                mainActivity.setKeyboard(
@@ -121,8 +123,8 @@ class PinFragment : Fragment() {
                     )
                 }
                 917504L -> {
-                    if (BuildConfig.FLAVOR == "gpos760") return@observe
-                    //mainActivity.setKeyboard()
+
+                    Toast.makeText(requireContext(),"917504L",Toast.LENGTH_LONG).show()
                 }
                 else -> {
                     binding.txtPin.text
@@ -217,6 +219,7 @@ class PinFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        mainActivity.hidePinKeyboard(true)
         _binding = null
     }
 }

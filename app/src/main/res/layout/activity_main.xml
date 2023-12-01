@@ -44,159 +44,254 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintGuide_percent="0.65" />
 
+    <RelativeLayout android:id="@+id/pinKeyboard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:id="@+id/touchPinKeyboard"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/guideline">-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:baselineAligned="false"
+            android:background="@android:color/transparent">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                >
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1.5"
+                android:background="@android:color/white">
 
-<!--        <Button-->
-<!--            android:id="@+id/button1"-->
-<!--            style="@style/CustomButtonPinKeyboard"-->
-<!--            android:text="1"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/button4"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/button2"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
+                <TextView
+                    android:id="@+id/input"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_above="@+id/btn1Tag"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:letterSpacing="0.5"
+                    android:textAlignment="center"
+                    android:textSize="24sp" />
 
-<!--        <Button-->
-<!--            android:id="@+id/button2"-->
-<!--            style="@style/CustomButtonPinKeyboard"-->
-<!--            android:text="2"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/button5"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/button3"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/button1" />-->
+                <Button
+                    android:id="@+id/btn1Tag"
+                    android:layout_width="75dp"
+                    android:layout_height="53dp"
+                    android:layout_alignBottom="@+id/btn2Tag"
+                    android:layout_marginStart="5dp"
+                    android:layout_toStartOf="@+id/btn2Tag"
+                    android:background="@drawable/pin_keyboard_btn_settings"
+                    android:tag="@string/btn1Tag"
+                    android:text="1"
+                    android:textColor="@android:color/black"
+                    android:textSize="17sp" />
 
-<!--        <Button-->
-<!--            android:id="@+id/button3"-->
-<!--            style="@style/CustomButtonPinKeyboard"-->
-<!--            android:text="3"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/button6"-->
-<!--            app:layout_constraintEnd_toStartOf="@id/button_clear"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/button2" />-->
+                <Button
+                    android:id="@+id/btn2Tag"
+                    android:layout_width="75dp"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="17dp"
+                    android:background="@drawable/pin_keyboard_btn_settings"
+                    android:text="2"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:layout_toStartOf="@+id/btn3Tag"
+                    android:layout_alignBottom="@+id/btn3Tag"
+                    android:tag="@string/btn2Tag"/>
 
-<!--        <Button-->
-<!--            android:id="@+id/button_clear"-->
-<!--            style="@style/CustomButtonPinKeyboard"-->
-<!--            android:background="@drawable/clearall"-->
-<!--            android:scaleY="0.5"-->
-<!--            android:scaleX="0.5"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/button_erase"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/button3" />-->
+                <Button
+                    android:id="@+id/btn3Tag"
+                    android:layout_width="75dp"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="17dp"
+                    android:background="@drawable/pin_keyboard_btn_settings"
+                    android:tag="@string/btn3Tag"
+                    android:text="3"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:layout_toStartOf="@+id/btnCancelTag"
+                    android:layout_alignBottom="@+id/btnCancelTag"/>
 
-<!--        <Button-->
-<!--            android:id="@+id/button4"-->
-<!--            style="@style/CustomButtonPinKeyboard"-->
-<!--            android:text="4"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/button1"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/button7"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/button5"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
+                <Button
+                    android:id="@+id/btnCancelTag"
+                    android:layout_width="75dp"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/clearall"
+                    android:text="Cancela"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:tag="@string/btnCancelTag"
+                    android:layout_above="@+id/btnClearTag"
+                    android:layout_alignParentEnd="true"/>
 
-<!--        <Button-->
-<!--            android:id="@+id/button5"-->
-<!--            style="@style/CustomButtonPinKeyboard"-->
-<!--            android:text="5"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/button2"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/button8"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/button6"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/button4" />-->
+                <Button
+                    android:id="@+id/btn4Tag"
+                    android:layout_width="75dp"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/pin_keyboard_btn_settings"
+                    android:text="4"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:layout_alignBottom="@+id/btn5Tag"
+                    android:layout_toStartOf="@+id/btn5Tag"
+                    android:tag="@string/btn4Tag"/>
 
-<!--        <Button-->
-<!--            android:id="@+id/button6"-->
-<!--            style="@style/CustomButtonPinKeyboard"-->
-<!--            android:text="6"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/button3"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/button9"-->
-<!--            app:layout_constraintEnd_toStartOf="@id/button_erase"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/button5" />-->
+                <Button
+                    android:id="@+id/btn5Tag"
+                    android:layout_width="75dp"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/pin_keyboard_btn_settings"
+                    android:text="5"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:layout_toStartOf="@+id/btn6Tag"
+                    android:layout_alignBottom="@+id/btn6Tag"
+                    android:tag="@string/btn5Tag"/>
 
-<!--        <Button-->
-<!--            android:id="@+id/button_erase"-->
-<!--            style="@style/CustomButtonPinKeyboard"-->
-<!--            android:background="@drawable/erase"-->
-<!--            android:scaleY="0.5"-->
-<!--            android:scaleX="0.5"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/button_clear"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/button9"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/button6" />-->
+                <Button
+                    android:id="@+id/btn6Tag"
+                    android:layout_width="75dp"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/pin_keyboard_btn_settings"
+                    android:text="6"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:layout_toStartOf="@+id/btnClearTag"
+                    android:layout_alignBottom="@+id/btnClearTag"
+                    android:tag="@string/btn6Tag"/>
 
-<!--        <Button-->
-<!--            android:id="@+id/button7"-->
-<!--            style="@style/CustomButtonPinKeyboard"-->
-<!--            android:text="7"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/button4"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/button_null_0"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/button8"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
+                <Button
+                    android:id="@+id/btnClearTag"
+                    android:layout_width="75dp"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/erase"
+                    android:text="Limpa"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:layout_above="@+id/btnEnterTag"
+                    android:layout_alignParentEnd="true"
+                    android:tag="@string/btnClearTag"/>
 
-<!--        <Button-->
-<!--            android:id="@+id/button8"-->
-<!--            style="@style/CustomButtonPinKeyboard"-->
-<!--            android:text="8"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/button5"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/button0"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/button9"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/button7" />-->
+                <Button
+                    android:id="@+id/btn7Tag"
+                    android:layout_width="75dp"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/pin_keyboard_btn_settings"
+                    android:text="7"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:layout_alignBottom="@+id/btn8Tag"
+                    android:layout_toStartOf="@+id/btn8Tag"
+                    android:tag="@string/btn7Tag"/>
 
-<!--        <Button-->
-<!--            android:id="@+id/button9"-->
-<!--            style="@style/CustomButtonPinKeyboard"-->
-<!--            android:text="9"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/button6"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/button_null_1"-->
-<!--            app:layout_constraintEnd_toStartOf="@id/button_confirm"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/button8" />-->
+                <Button
+                    android:id="@+id/btn8Tag"
+                    android:layout_width="75dp"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/pin_keyboard_btn_settings"
+                    android:text="8"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:layout_toStartOf="@+id/btn9Tag"
+                    android:layout_alignBottom="@+id/btn9Tag"
+                    android:tag="@string/btn8Tag"/>
 
-<!--        <Button-->
-<!--            android:id="@+id/button_confirm"-->
-<!--            style="@style/CustomButtonKeyboardConfirmPin"-->
-<!--            android:background="@drawable/confirm"-->
-<!--            android:layout_margin="1dp"-->
-<!--            android:scaleY="0.4"-->
-<!--            android:scaleX="0.4"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/button_erase"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/button9" />-->
+                <Button
+                    android:id="@+id/btn9Tag"
+                    android:layout_width="75dp"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginBottom="60dp"
+                    android:background="@drawable/pin_keyboard_btn_settings"
+                    android:text="9"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:layout_toStartOf="@+id/btnEnterTag"
+                    android:layout_alignTop="@+id/btnEnterTag"
+                    android:tag="@string/btn9Tag"/>
 
-<!--        <Button-->
-<!--            android:id="@+id/button_null_0"-->
-<!--            style="@style/CustomButtonPinKeyboard"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/button7"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/button0"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
+                <Button
+                    android:id="@+id/btnEnterTag"
+                    android:layout_width="75dp"
+                    android:layout_height="124dp"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/confirm"
+                    android:text="Entra"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/white"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:tag="@string/btnEnterTag"/>
 
-<!--        <Button-->
-<!--            android:id="@+id/button0"-->
-<!--            style="@style/CustomButtonPinKeyboard"-->
-<!--            android:text="0"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/button8"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/button_null_1"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/button_null_0" />-->
+                <Button
+                    android:id="@+id/btnCancel2"
+                    android:layout_width="75dp"
+                    android:layout_height="53dp"
+                    android:layout_alignBottom="@+id/btn0Tag"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_toStartOf="@+id/btn0Tag"
+                    android:background="@drawable/pin_keyboard_btn_settings"
+                    android:text="*"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"/>
 
-<!--        <Button-->
-<!--            android:id="@+id/button_null_1"-->
-<!--            style="@style/CustomButtonPinKeyboard"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/button9"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toStartOf="@id/button_confirm"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/button0" />-->
+                <Button
+                    android:id="@+id/btn0Tag"
+                    android:layout_width="75dp"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/pin_keyboard_btn_settings"
+                    android:text="0"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:layout_toStartOf="@+id/btnClear2"
+                    android:layout_alignBottom="@+id/btnClear2"
+                    android:tag="@string/btn0Tag"/>
 
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+                <Button
+                    android:id="@+id/btnClear2"
+                    android:layout_width="75dp"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginTop="70dp"
+                    android:background="@drawable/pin_keyboard_btn_settings"
+                    android:text="#"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:layout_toStartOf="@+id/btnEnterTag"
+                    android:layout_alignTop="@+id/btnEnterTag"/>
 
+            </RelativeLayout>
+        </LinearLayout>
 
-
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

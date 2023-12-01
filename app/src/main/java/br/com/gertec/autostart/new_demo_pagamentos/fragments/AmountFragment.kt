@@ -113,7 +113,7 @@ class AmountFragment : Fragment() {
                 9 -> {addDigitToAmount("2")}//2
                 10 -> {addDigitToAmount("3")}//3
                 11 -> {addDigitToAmount("4")}//4
-                12 ->{addDigitToAmount("5")}//5
+                12 -> {addDigitToAmount("5")}//5
                 13 -> {addDigitToAmount("6")}//6
                 14 -> {addDigitToAmount("7")}//7
                 15 -> {addDigitToAmount("8")}//8

@@ -1,9 +1,11 @@
 package br.com.gertec.autostart.new_demo_pagamentos.acitivities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -32,6 +34,7 @@ class MainActivity : AppCompatActivity(){
 
         setupViewModel()
         setupPPCompCommands()
+        setupKdb()
         //binding.touchPinKeyboard.visibility = View.GONE
 
         // Configurando o NavController
@@ -43,6 +46,15 @@ class MainActivity : AppCompatActivity(){
 //        }
     }
 
+    private fun setupKdb() {
+        mainViewModel.ppCompCommands.setPinKeyboard(
+            binding.btn1Tag,binding.btn2Tag,binding.btn3Tag,binding.btn4Tag,
+            binding.btn5Tag,binding.btn6Tag,binding.btn7Tag,binding.btn8Tag,
+            binding.btn9Tag,binding.btn0Tag,binding.btnCancelTag,binding.btnEnterTag,
+            binding.btnClearTag,this@MainActivity as Activity,true
+        )
+    }
+
     private fun setupPPCompCommands() {
         CoroutineScope(Dispatchers.IO).launch{
             mainViewModel.ppCompCommands.let{
@@ -52,34 +64,6 @@ class MainActivity : AppCompatActivity(){
             }
         }
     }
-
-//    fun setKeyboard(){
-//        val intent = Intent(this, PinKbdActivity::class.java)
-//        startActivity(intent)
-//
-//        Log.d("msgg", "wait activity PIN start")
-//        try {
-//            while (!PinKBDActivity.active) {
-//                Log.d(TAG, "waiting activity PIN")
-//            }
-//            Log.d(TAG, "wait activity PIN end")
-//        } catch (e: Exception) {
-//            Log.d(TAG, "wait activity PIN error")
-//            e.printStackTrace()
-//        }
-//
-//        val kbdActivity = PinKbdActivity()
-//        val kbdData = PinKbdActivity.KbdData()
-//
-//        mainViewModel.ppCompCommands.setPinKeyboard(
-//            kbdData.btn1!!,kbdData.btn2!!,kbdData.btn3!!,kbdData.btn4!!,
-//            kbdData.btn5!!,kbdData.btn6!!,kbdData.btn7!!,kbdData.btn8!!,
-//            kbdData.btn9!!,kbdData.btn0!!,kbdData.btnCancel!!,kbdData.btnConfirm!!,
-//            kbdData.btnClear!!,kbdActivity,
-//            true
-//        )
-//
-//    }
 
     private fun setupViewModel() {
         val viewModelProviderFactory = MainViewModelFactory()
@@ -126,6 +110,15 @@ class MainActivity : AppCompatActivity(){
         super.onBackPressed()
         navController.popBackStack(navController.graph.startDestinationId, false)
         mainViewModel.ppCompCommands.abort()
+    }
+
+    fun hidePinKeyboard(hide: Boolean) {
+        if(hide){
+            binding.pinKeyboard.visibility = View.INVISIBLE
+        }else{
+            Log.d("msgg","sAPARECA!")
+            binding.pinKeyboard.visibility = View.VISIBLE
+        }
     }
 
 }
