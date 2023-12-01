@@ -1,24 +1,24 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
-import android.os.Build
+//import br.com.setis.gertec.bibliotecapinpad.BuildConfig //gpos720 apenas
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
+import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentPinBinding
 import br.com.gertec.gedi.GEDI
 import br.com.gertec.gedi.interfaces.IGEDI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import java.util.Locale
 
 class PinFragment : Fragment() {
     private var _binding: FragmentPinBinding? = null
@@ -73,28 +73,28 @@ class PinFragment : Fragment() {
     private fun setupViews(view: View) {
         binding.txtPriceValue.text = mainActivity.mainViewModel.transactionAmount
         binding.removeCardContainer.visibility = View.GONE
-        if (Build.MODEL.equals("GPOS760")) {
-            binding.touchPinKeyboard.visibility = View.GONE
+        if (BuildConfig.FLAVOR == "gpos760") {
+            //binding.touchPinKeyboard.visibility = View.GONE
         } else {
-            binding.touchPinKeyboard.visibility = View.VISIBLE
-            with(binding) {
-                mainActivity.setKeyboard(
-                    button1,
-                    button2,
-                    button3,
-                    button4,
-                    button5,
-                    button6,
-                    button7,
-                    button8,
-                    button9,
-                    button0,
-                    buttonErase,
-                    buttonConfirm,
-                    buttonClear,
-                    true
-                )
-            }
+            //binding.touchPinKeyboard.visibility = View.VISIBLE
+//            with(binding) {
+//                mainActivity.setKeyboard(
+//                    button1,
+//                    button2,
+//                    button3,
+//                    button4,
+//                    button5,
+//                    button6,
+//                    button7,
+//                    button8,
+//                    button9,
+//                    button0,
+//                    buttonErase,
+//                    buttonConfirm,
+//                    buttonClear,
+//                    true
+//                )
+//            }
         }
 
         mainActivity.mainViewModel.display.observe(viewLifecycleOwner) { display ->
@@ -120,7 +120,11 @@ class PinFragment : Fragment() {
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
                 }
+                917504L -> {
 
+                    if (BuildConfig.FLAVOR == "gpos760") return@observe
+                    mainActivity.setKeyboard()
+                }
                 else -> {
                     binding.txtPin.text
                 }
@@ -128,26 +132,25 @@ class PinFragment : Fragment() {
         }
 
     }
-
     private fun setupButtons() {
-        binding.button0.setOnClickListener { addDigitToPin("0") }
-        binding.button1.setOnClickListener { addDigitToPin("1") }
-        binding.button2.setOnClickListener { addDigitToPin("2") }
-        binding.button3.setOnClickListener { addDigitToPin("3") }
-        binding.button4.setOnClickListener { addDigitToPin("4") }
-        binding.button5.setOnClickListener { addDigitToPin("5") }
-        binding.button6.setOnClickListener { addDigitToPin("6") }
-        binding.button7.setOnClickListener { addDigitToPin("7") }
-        binding.button8.setOnClickListener { addDigitToPin("8") }
-        binding.button9.setOnClickListener { addDigitToPin("9") }
-        binding.buttonClear.setOnClickListener {
-            pin = ""
-            binding.txtPin.text = ""
-        }
-        binding.buttonErase.setOnClickListener { erasePin() }
-        binding.buttonConfirm.setOnClickListener {
-            //goOnChip()
-        }
+//        binding.button0.setOnClickListener { addDigitToPin("0") }
+//        binding.button1.setOnClickListener { addDigitToPin("1") }
+//        binding.button2.setOnClickListener { addDigitToPin("2") }
+//        binding.button3.setOnClickListener { addDigitToPin("3") }
+//        binding.button4.setOnClickListener { addDigitToPin("4") }
+//        binding.button5.setOnClickListener { addDigitToPin("5") }
+//        binding.button6.setOnClickListener { addDigitToPin("6") }
+//        binding.button7.setOnClickListener { addDigitToPin("7") }
+//        binding.button8.setOnClickListener { addDigitToPin("8") }
+//        binding.button9.setOnClickListener { addDigitToPin("9") }
+//        binding.buttonClear.setOnClickListener {
+//            pin = ""
+//            binding.txtPin.text = ""
+//        }
+//        binding.buttonErase.setOnClickListener { erasePin() }
+//        binding.buttonConfirm.setOnClickListener {
+//            //goOnChip()
+//        }
 
     }
 

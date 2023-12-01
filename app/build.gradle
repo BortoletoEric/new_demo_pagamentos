@@ -7,16 +7,20 @@ plugins {
 
 android {
     namespace = "br.com.gertec.autostart.new_demo_pagamentos"
-    compileSdk = 33
+
+    compileSdkVersion 33
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId = "br.com.gertec.autostart.new_demo_pagamentos"
-        minSdk = 26
-        targetSdk = 33
+        applicationId "br.com.gertec.autostart.new_demo_pagamentos"
+        minSdkVersion 26
+        targetSdkVersion 33
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+
     }
 
     signingConfigs {
@@ -57,11 +61,12 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
-//
-//    flavorDimensions "version"
-//
-//    productFlavors {
+
+    flavorDimensions "version"
+
+    productFlavors {
 //        gpos700 {
 //            dimension = "version"
 //            //signingConfig signingConfigs.gpos700
@@ -95,7 +100,7 @@ android {
 //
 //            }
 //        }
-//
+
 //        gpos700x {
 //            dimension "version"
 //            //signingConfig signingConfigs.gpos700x
@@ -128,7 +133,7 @@ android {
 //
 //            }
 //        }
-//
+
 //        gpos700mini {
 //            dimension "version"
 //            //signingConfig signingConfigs.gpos700mini
@@ -160,69 +165,69 @@ android {
 //                exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.java'
 //            }
 //        }
-//
-//        gpos720 {
-//            dimension "version"
-//            //signingConfig signingConfigs.gpos720
-//
-//            packagingOptions {
-//                pickFirst 'aidl/android/content/pm/IPackageDeleteObserver.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/application/IGetApplicationTrafficCallback.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/application/UnInstallCallback.aidl'
-//                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppBatteryNetService.aidl'
-//                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppBatteryCallback.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/application/IGetApplicationBatteryCallback.aidl'
-//                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppTrafficCallback.aidl'
-//                pickFirst 'aidl/com/ft/possystem/IAutoRunService.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/application/InstallCallback.aidl'
-//                pickFirst 'aidl/com/ftpos/apiservice/aidl/IServiceManager.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/IServiceManager.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/application/IApplicationManager.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/application/InstallResultCallback.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/application/UnInstallResultCallback.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/device/IDeviceManager.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/file/IEMVFileManager.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/location/IFTLocationListener.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/location/ILocationManager.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/log/IDeviceLogManager.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/modem/IModemToolManager.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/system/DefaultDataChangeResultListener.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/system/ISystemManager.aidl'
-//                pickFirst '***'
-//            }
-//        }
-//
-//        gpos760 {
-//            dimension "version"
-//            //signingConfig signingConfigs.gpos760
-//
-//            packagingOptions {
-//                pickFirst 'aidl/android/content/pm/IPackageDeleteObserver.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/application/IGetApplicationTrafficCallback.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/application/UnInstallCallback.aidl'
-//                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppBatteryNetService.aidl'
-//                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppBatteryCallback.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/application/IGetApplicationBatteryCallback.aidl'
-//                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppTrafficCallback.aidl'
-//                pickFirst 'aidl/com/ft/possystem/IAutoRunService.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/application/InstallCallback.aidl'
-//                pickFirst 'aidl/com/ftpos/apiservice/aidl/IServiceManager.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/IServiceManager.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/application/IApplicationManager.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/application/InstallResultCallback.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/application/UnInstallResultCallback.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/device/IDeviceManager.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/file/IEMVFileManager.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/location/IFTLocationListener.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/location/ILocationManager.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/log/IDeviceLogManager.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/modem/IModemToolManager.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/system/DefaultDataChangeResultListener.aidl'
-//                pickFirst 'aidl/com/ft/possystemapi/server/system/ISystemManager.aidl'
-//                pickFirst '***'
-//            }
-//        }
-//
+
+        gpos720 {
+            dimension "version"
+            //signingConfig signingConfigs.gpos720
+
+            packagingOptions {
+                pickFirst 'aidl/android/content/pm/IPackageDeleteObserver.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/application/IGetApplicationTrafficCallback.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/application/UnInstallCallback.aidl'
+                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppBatteryNetService.aidl'
+                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppBatteryCallback.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/application/IGetApplicationBatteryCallback.aidl'
+                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppTrafficCallback.aidl'
+                pickFirst 'aidl/com/ft/possystem/IAutoRunService.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/application/InstallCallback.aidl'
+                pickFirst 'aidl/com/ftpos/apiservice/aidl/IServiceManager.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/IServiceManager.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/application/IApplicationManager.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/application/InstallResultCallback.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/application/UnInstallResultCallback.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/device/IDeviceManager.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/file/IEMVFileManager.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/location/IFTLocationListener.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/location/ILocationManager.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/log/IDeviceLogManager.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/modem/IModemToolManager.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/system/DefaultDataChangeResultListener.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/system/ISystemManager.aidl'
+                pickFirst '***'
+            }
+        }
+
+        gpos760 {
+            dimension "version"
+            //signingConfig signingConfigs.gpos760
+
+            packagingOptions {
+                pickFirst 'aidl/android/content/pm/IPackageDeleteObserver.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/application/IGetApplicationTrafficCallback.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/application/UnInstallCallback.aidl'
+                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppBatteryNetService.aidl'
+                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppBatteryCallback.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/application/IGetApplicationBatteryCallback.aidl'
+                pickFirst 'aidl/com/android/settings/applications/appinfo/IAppTrafficCallback.aidl'
+                pickFirst 'aidl/com/ft/possystem/IAutoRunService.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/application/InstallCallback.aidl'
+                pickFirst 'aidl/com/ftpos/apiservice/aidl/IServiceManager.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/IServiceManager.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/application/IApplicationManager.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/application/InstallResultCallback.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/application/UnInstallResultCallback.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/device/IDeviceManager.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/file/IEMVFileManager.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/location/IFTLocationListener.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/location/ILocationManager.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/log/IDeviceLogManager.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/modem/IModemToolManager.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/system/DefaultDataChangeResultListener.aidl'
+                pickFirst 'aidl/com/ft/possystemapi/server/system/ISystemManager.aidl'
+                pickFirst '***'
+            }
+        }
+
 //        gpos780 {
 //            dimension "version"
 //            //signingConfig signingConfigs.gpos780
@@ -252,7 +257,7 @@ android {
 //                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.java'
 //            }
 //        }
-//    }
+    }
 
 }
 
@@ -281,7 +286,10 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.7.2")
 
     //GERTEC SDK
-    implementation(files("libs/libgedi-0.18.8-gpos760-eng-release.aar","libs/libgandi-0.3.5-gpos760-payment-release.aar",
-        "libs/PPCompGPOS760-v1.08-Complete-debug.aar", "libs/android-easy-layer-gpos760-release.aar"))
+    gpos760Implementation(files("libs/gpos760/libgedi-0.18.8-gpos760-eng-release.aar","libs/gpos760/libgandi-0.3.5-gpos760-payment-release.aar",
+        "libs/gpos760/PPCompGPOS760-v1.08-Complete-debug.aar", "libs/gpos760/android-easy-layer-gpos760-release.aar"))
+
+    gpos720Implementation(files("libs/gpos720/libgedi-0.16.17-gpos720-payment-release.aar",
+            "libs/gpos720/PPCompGPOS720-v1.36-Complete-debug.aar", "libs/gpos720/android-easy-layer-debug_gpos720.aar"))
 
 }

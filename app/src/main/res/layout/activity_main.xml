@@ -24,23 +24,178 @@
             android:src="@drawable/ic_gertec_logo_white" />
     </androidx.appcompat.widget.Toolbar>
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <fragment
         android:id="@+id/navHostFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.65" />
+
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/touchPinKeyboard"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/guideline">-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button1"-->
+<!--            style="@style/CustomButtonPinKeyboard"-->
+<!--            android:text="1"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/button4"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/button2"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button2"-->
+<!--            style="@style/CustomButtonPinKeyboard"-->
+<!--            android:text="2"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/button5"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/button3"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/button1" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button3"-->
+<!--            style="@style/CustomButtonPinKeyboard"-->
+<!--            android:text="3"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/button6"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/button_clear"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/button2" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button_clear"-->
+<!--            style="@style/CustomButtonPinKeyboard"-->
+<!--            android:background="@drawable/clearall"-->
+<!--            android:scaleY="0.5"-->
+<!--            android:scaleX="0.5"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/button_erase"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/button3" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button4"-->
+<!--            style="@style/CustomButtonPinKeyboard"-->
+<!--            android:text="4"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/button1"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/button7"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/button5"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button5"-->
+<!--            style="@style/CustomButtonPinKeyboard"-->
+<!--            android:text="5"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/button2"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/button8"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/button6"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/button4" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button6"-->
+<!--            style="@style/CustomButtonPinKeyboard"-->
+<!--            android:text="6"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/button3"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/button9"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/button_erase"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/button5" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button_erase"-->
+<!--            style="@style/CustomButtonPinKeyboard"-->
+<!--            android:background="@drawable/erase"-->
+<!--            android:scaleY="0.5"-->
+<!--            android:scaleX="0.5"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/button_clear"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/button9"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/button6" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button7"-->
+<!--            style="@style/CustomButtonPinKeyboard"-->
+<!--            android:text="7"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/button4"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/button_null_0"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/button8"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button8"-->
+<!--            style="@style/CustomButtonPinKeyboard"-->
+<!--            android:text="8"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/button5"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/button0"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/button9"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/button7" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button9"-->
+<!--            style="@style/CustomButtonPinKeyboard"-->
+<!--            android:text="9"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/button6"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/button_null_1"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/button_confirm"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/button8" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button_confirm"-->
+<!--            style="@style/CustomButtonKeyboardConfirmPin"-->
+<!--            android:background="@drawable/confirm"-->
+<!--            android:layout_margin="1dp"-->
+<!--            android:scaleY="0.4"-->
+<!--            android:scaleX="0.4"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/button_erase"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/button9" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button_null_0"-->
+<!--            style="@style/CustomButtonPinKeyboard"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/button7"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/button0"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button0"-->
+<!--            style="@style/CustomButtonPinKeyboard"-->
+<!--            android:text="0"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/button8"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/button_null_1"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/button_null_0" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button_null_1"-->
+<!--            style="@style/CustomButtonPinKeyboard"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/button9"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/button_confirm"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/button0" />-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
 
 
 

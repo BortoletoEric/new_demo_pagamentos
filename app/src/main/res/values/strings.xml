@@ -6,4 +6,19 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="aproxime">Para continuar o pagamento, <b>Aproxime</b>, <b>Insira</b> ou <b>Passe</b> o cartão</string>
     <string name="default_pin"> </string>
+    <string name="btn0Tag">btn0Tag</string>
+    <string name="btn1Tag">btn1Tag</string>
+    <string name="btn2Tag">btn2Tag</string>
+    <string name="btn3Tag">btn3Tag</string>
+    <string name="btn4Tag">btn4Tag</string>
+    <string name="btn5Tag">btn5Tag</string>
+    <string name="btn6Tag">btn6Tag</string>
+    <string name="btn7Tag">btn7Tag</string>
+    <string name="btn8Tag">btn8Tag</string>
+    <string name="btn9Tag">btn9Tag</string>
+    <string name="btnCancelTag">btnCancelTag</string>
+    <string name="btnClearTag">btnClearTag</string>
+    <string name="btnEnterTag">btnEnterTag</string>
+    <string name="lblDigitsTag">lblDigitsTag</string>
+
 </resources>

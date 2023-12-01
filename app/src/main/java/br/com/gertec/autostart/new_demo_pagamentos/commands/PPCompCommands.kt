@@ -111,7 +111,7 @@ class PPCompCommands private constructor() {
                     try{
                         ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
                         ppComp?.PP_RemoveCard()
-                        Log.i("GRANDE SUSTO", "ABORT 5")
+                        Log.i("msgg", "ABORT 5")
                         ppComp?.PP_Abort()
                         return Pair(false,e.toString())
                     }catch (e: Exception){
@@ -173,18 +173,18 @@ class PPCompCommands private constructor() {
                     try {
                         ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
                         ppComp?.PP_RemoveCard()
-                        Log.i("GRANDE SUSTO", "ABORT 3")
+                        Log.i("msgg", "ABORT 3")
                         ppComp?.PP_Abort()
                         return "GOC_TO"
                     }catch (e: Exception){ e.printStackTrace() }
                     e.printStackTrace()
                 }catch(e: Exception){
-                    Log.i("GRANDE SUSTO", "GOC EXC: $e")
+                    Log.i("msgg", "GOC EXC: $e")
                     cancelCheckEvent = false
                     try {
                         ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
                         ppComp?.PP_RemoveCard()
-                        Log.i("GRANDE SUSTO", "ABORT 2")
+                        Log.i("msgg", "ABORT 2")
                         ppComp?.PP_Abort()
                         return ""
                     }catch (e: Exception){ e.printStackTrace() }
@@ -195,7 +195,7 @@ class PPCompCommands private constructor() {
             cancelCheckEvent = false
             try {
                 ppComp?.PP_RemoveCard()
-                Log.i("GRANDE SUSTO", "ABORT 1")
+                Log.i("msgg", "ABORT 1")
                 ppComp?.PP_Abort()
             }catch (e: Exception){ e.printStackTrace() }
             return ""

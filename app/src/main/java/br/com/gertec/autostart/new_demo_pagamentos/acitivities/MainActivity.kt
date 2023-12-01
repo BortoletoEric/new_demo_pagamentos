@@ -1,8 +1,11 @@
 package br.com.gertec.autostart.new_demo_pagamentos.acitivities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -20,7 +23,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(){
     private var _binding: ActivityMainBinding? = null
-    private val binding get() = _binding!!
+    val binding get() = _binding!!
     lateinit var mainViewModel: MainViewModel
     private lateinit var navController: NavController
     val outputCallbacks = OutputCallbacks(this)
@@ -32,10 +35,15 @@ class MainActivity : AppCompatActivity(){
 
         setupViewModel()
         setupPPCompCommands()
+        //binding.touchPinKeyboard.visibility = View.GONE
 
         // Configurando o NavController
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
+
+//        binding.button1.setOnClickListener {
+//            Log.d("msgg","btn1 estuporado")
+//        }
     }
 
     private fun setupPPCompCommands() {
@@ -48,31 +56,18 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun setKeyboard(
-        b1: Button,
-        b2: Button,
-        b3: Button,
-        b4: Button,
-        b5: Button,
-        b6: Button,
-        b7: Button,
-        b8: Button,
-        b9: Button,
-        b0: Button,
-        bCancel: Button,
-        bConfirm: Button,
-        bClear: Button,
-        beep: Boolean
-    ){
-        CoroutineScope(Dispatchers.IO).launch{
-            mainViewModel.ppCompCommands.setPinKeyboard(
-                b1,b2,b3,b4,
-                b5,b6,b7,b8,
-                b9,b0,bCancel,bConfirm,
-                bClear,this@MainActivity,
-                beep
-            )
-        }
+    fun setKeyboard(){
+        val intent = Intent(this, PinKbdActivity::class.java)
+        startActivity(intent)
+//        with(binding){
+//            mainViewModel.ppCompCommands.setPinKeyboard(
+//                button1 ,button2,button3,button4,
+//                button5,button6,button7,button8,
+//                button9,button0,buttonClear,buttonConfirm,
+//                buttonErase,this@MainActivity,
+//                true
+//            )
+//        }
     }
 
     private fun setupViewModel() {

@@ -85,6 +85,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvAmountLabel"/>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="teste"/>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/displayPinKeyboard"
         android:layout_width="match_parent"

@@ -14,6 +14,9 @@ import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentCardTypeBinding
 import br.com.gertec.gedi.GEDI
 import br.com.gertec.gedi.interfaces.IGEDI
+import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig //gpos760 apenas
+//import br.com.setis.gertec.bibliotecapinpad.BuildConfig //gpos720 apenas
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,9 +36,11 @@ class CardTypeFragment : Fragment() {
     ): View {
         _binding = FragmentCardTypeBinding.inflate(inflater, container, false)
         mainActivity = (activity as MainActivity)
+
         return binding.root
 
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -110,6 +115,6 @@ class CardTypeFragment : Fragment() {
     }
 
     private fun hasPhysicalKbd(): Boolean {
-        return Build.MODEL.equals("GPOS760")
+        return BuildConfig.FLAVOR == "gpos760"
     }
 }
