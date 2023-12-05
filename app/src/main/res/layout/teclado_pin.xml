@@ -23,7 +23,7 @@
             android:background="@android:color/white">
 
             <TextView
-                android:id="@+id/input"
+                android:id="@+id/input_not_used"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_above="@+id/btn1Tag"
@@ -34,7 +34,6 @@
                 android:layout_marginBottom="1dp"
                 android:background="@color/pinPasswordBackgroundColor"
                 android:letterSpacing="0.5"
-                android:tag="@string/lblDigitsTag"
                 android:textAlignment="center"
                 android:textColor="@color/colorPinDisplay"
                 android:textSize="24sp" />

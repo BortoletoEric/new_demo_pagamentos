@@ -11,7 +11,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
-import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentPinBinding
 import br.com.gertec.gedi.GEDI
 import br.com.gertec.gedi.interfaces.IGEDI
@@ -41,10 +40,17 @@ class PinFragment : Fragment() {
 
         setupViews(view)
         setupButtons()
-        goOnChip()
+
+        if (args.cardType != "03") { // Se for diferente de EMV com contato, não precisa chamar o GOC
+            mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
+            mainActivity.mainViewModel.processCompleted("GOC")
+        }else{
+            goOnChip()
+        }
+
 
         mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner) { step ->
-
+            Log.d("msgg","step GOC: $step")
             when (step) {
                 "GOC" -> {
                     view.findNavController().navigate(
@@ -65,6 +71,13 @@ class PinFragment : Fragment() {
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
                 }
+                "GOC_ERR" -> {
+                    if (transactionOk) return@observe
+                    mainActivity.showSnackBar("OPERAÇÃO CANCELADA", false)
+                    view.findNavController().navigate(
+                        PinFragmentDirections.actionPinFragmentToAmountFragment()
+                    )
+                }
             }
         }
     }
@@ -73,17 +86,16 @@ class PinFragment : Fragment() {
         binding.txtPriceValue.text = mainActivity.mainViewModel.transactionAmount
         binding.removeCardContainer.visibility = View.GONE
 
-        mainActivity.mainViewModel.display.observe(viewLifecycleOwner) { display ->
-
+        mainActivity.mainViewModel.display.observe(viewLifecycleOwner) { display -> //ATENÇÃO, ISSO ESTAVA GERANDO ERRO NO PIN KBD
             when (display[0]) {
-                512L -> {
-                    Log.d("msgg","obs 512")
-                    if (display[2].toString().length <= 4) {
-                        val iGedi: IGEDI = GEDI.getInstance(context)
-                        iGedi.audio.Beep()
-                        binding.txtPin.text = display[2].toString()
-                    }
-                }
+//                512L -> {
+//                    Log.d("msgg","obs 512")
+//                    if (display[2].toString().length <= 4) {
+//                        val iGedi: IGEDI = GEDI.getInstance(context)
+//                        iGedi.audio.Beep()
+//                        binding.txtPin.text = display[2].toString()
+//                    }
+//                }
 
                 720896L -> {
                     Log.d("msgg","obs 720896")
@@ -101,8 +113,8 @@ class PinFragment : Fragment() {
                 }
                 917504L -> {
                     Log.d("msgg","obs 917504")
-                    if (BuildConfig.FLAVOR == "gpos760") return@observe
-                    mainActivity.mainViewModel.ppCompCommands.showKBD(PinKbdActivity(), mainActivity, requireContext())
+//                    if (BuildConfig.FLAVOR == "gpos760") return@observe
+//                    mainActivity.mainViewModel.ppCompCommands.showKBD(PinKbdActivity(), mainActivity, requireContext())
                 }
                 else -> {
                     binding.txtPin.text
@@ -153,11 +165,6 @@ class PinFragment : Fragment() {
     }
 
     private fun goOnChip() {
-        if (args.cardType != "03") { // Se for diferente de EMV com contato, não precisa chamar o GOC
-            mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
-            mainActivity.mainViewModel.processCompleted("GOC")
-            return
-        }
 
         val am = fixAmountSize(args.amount)
         var result: String? = ""
@@ -167,14 +174,15 @@ class PinFragment : Fragment() {
                 result = it.goOnChip(
                     "${am}000000000000001101000000000000000000000000000000001000003E820000003E880000",//${am}000000000000001321000000000000000000000000000000001000003E820000003E880000
                     "0019B",
-                    "0119F0B1F813A9F6B9F6C9F66",
-                    requireContext()
+                    "0119F0B1F813A9F6B9F6C9F66"
                 )//Term floor lim: 000003E8 =
                 Log.d("msgg","G0C RES: $result")
                 if(result == "GOC_NO_CARD"){
                     mainActivity.mainViewModel.processCompleted("GOC_NO_CARD")
                 } else if (result == "GOC_TO") {
                     mainActivity.mainViewModel.processCompleted("GOC_TO")
+                }  else if(result == "GOC_ERR"){
+                    mainActivity.mainViewModel.processCompleted("GOC_ERR")
                 } else if (!result.isNullOrEmpty()) {
                     transactionOk = true
                     mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
@@ -198,6 +206,7 @@ class PinFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.d("msgg","pinFrgmt destroyed")
         _binding = null
     }
 }

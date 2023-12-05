@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Button
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
+import br.com.gertec.autostart.new_demo_pagamentos.model.KBDData
 import br.com.gertec.autostart.new_demo_pagamentos.model.Tabelas
 import br.com.gertec.ppcomp.IPPCompDSPCallbacks
 import br.com.gertec.ppcomp.PPComp
@@ -158,32 +159,25 @@ class PPCompCommands private constructor() {
     fun goOnChip(
         input: String,
         tags: String? = null,
-        opTags: String? = null,
-        requireContext: Context
+        opTags: String? = null
     ): String?{
         try {
-
-            val intent = Intent(requireContext, PinKbdActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            try {
-//            activity.startActivityForResult(intent,0)
-                requireContext.startActivity(intent)
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-            }
 
            ppComp?.PP_StartGoOnChip(input, tags, opTags)
 
             while(true){
                 try{
                     val g = ppComp?.PP_GoOnChip()
+                    PinKbdActivity.kBDData?.activity?.finish()
                     return g
                 }catch(e: PPCompNoCardException){
                     cancelCheckEvent = false
+                    PinKbdActivity.kBDData?.activity?.finish()
                     e.printStackTrace()
                     return "GOC_NO_CARD"
                 }catch(e: PPCompTimeoutException){
                     cancelCheckEvent = false
+                    PinKbdActivity.kBDData?.activity?.finish()
                     try {
                         ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
                         ppComp?.PP_RemoveCard()
@@ -196,18 +190,24 @@ class PPCompCommands private constructor() {
                 catch(e: Exception){
                     Log.i("msgg", "GOC EXC: $e")
                     cancelCheckEvent = false
+                    PinKbdActivity.kBDData?.activity?.finish()
+                    e.printStackTrace()
                     try {
                         ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
                         ppComp?.PP_RemoveCard()
                         Log.i("msgg", "ABORT 2")
                         ppComp?.PP_Abort()
-                        return ""
-                    }catch (e: Exception){ e.printStackTrace() }
-                    e.printStackTrace()
+                        return "GOC_ERR"
+                    }catch (e: Exception){
+                        e.printStackTrace()
+                        return "GOC_ERR"
+                    }
+
                 }
             }
         }catch (e: Exception){
             cancelCheckEvent = false
+            PinKbdActivity.kBDData?.activity?.finish()
             try {
                 ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
                 ppComp?.PP_RemoveCard()
@@ -250,15 +250,15 @@ class PPCompCommands private constructor() {
 //        return String.format("%03d", tagsOpt.length / 2) + tagsOpt
 //    }
 
-    fun showKBD(activity: PinKbdActivity, mainActivity: MainActivity, requireContext: Context) {
-        Log.d("msgg", "show kbd...")
-        //openPinKBD(mainActivity, requireContext)
-       // waitActivityOpen(activity)
-        setKbd()
-    }
+//    fun showKBD(requireContext: Context, mainActivity: MainActivity) {
+//        Log.d("msgg", "show kbd...")
+//        openPinKBD(requireContext,mainActivity)
+//        waitActivityOpen()
+//        setKbd()
+//    }
 
     fun setKbd(){
-        val kbdData = PinKbdActivity.mKBDData
+        val kbdData: KBDData? = PinKbdActivity.kBDData
         Log.d("msgg","setkbd WIP : bt1 ${kbdData!!.btn1}")
         ppComp?.PP_SetKbd(
             kbdData.btn1,
@@ -279,33 +279,33 @@ class PPCompCommands private constructor() {
     }
 
 
-    fun openPinKBD(activity: MainActivity, requireContext: Context) {
-        val intent = Intent(requireContext, PinKbdActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        try {
-//            activity.startActivityForResult(intent,0)
-            requireContext.startActivity(intent)
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    fun waitActivityOpen(pinActivity: PinKbdActivity) {
-        Log.d("msgg", "wait activity PIN start")
-        try {
-            while (!PinKbdActivity.active) {
-                Log.d("msgg", "waiting activity PIN")
-            }
-            Log.d("msgg", "waiting activity PIN")
-//            Thread.sleep(1500)
-//            PinKBDActivity.mKBDData.activity.runOnUiThread {
-//                PinKBDActivity.getTextView().setText(textManta)
+//    fun openPinKBD(requireContext: Context, mainActivity: MainActivity) {
+//        val intent = Intent(requireContext, PinKbdActivity::class.java)
+//        intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK)//FLAG_ACTIVITY_NEW_TASK
+//                try {
+////            mainActivity.startActivityForResult(intent,0)
+//            requireContext.startActivity(intent)
+//        } catch (e: java.lang.Exception) {
+//            e.printStackTrace()
+//        }
+//    }
+//
+//    fun waitActivityOpen() {
+//        Log.d("msgg", "wait activity PIN start")
+//        try {
+//            while (!PinKbdActivity.active) {
+//                Log.d("msgg", "waiting activity PIN")
 //            }
-        } catch (e: java.lang.Exception) {
-            Log.d("msgg", "wait activity PIN error")
-            e.printStackTrace()
-        }
-    }
+//            Log.d("msgg", "waiting activity PIN")
+////            Thread.sleep(1500)
+////            PinKBDActivity.mKBDData.activity.runOnUiThread {
+////                PinKBDActivity.getTextView().setText(textManta)
+////            }
+//        } catch (e: java.lang.Exception) {
+//            Log.d("msgg", "wait activity PIN error")
+//            e.printStackTrace()
+//        }
+//    }
 
     fun removeCard(input: String){
         try{

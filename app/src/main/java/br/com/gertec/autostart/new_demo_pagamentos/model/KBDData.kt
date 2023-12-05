@@ -20,5 +20,6 @@ class KBDData {
     var btnConfirm: Button? = null
     var textView: TextView? = null
     var activity: Activity? = null
+    var display: TextView? = null
     fun KBDData() {}
 }

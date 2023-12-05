@@ -61,7 +61,6 @@ class AmountFragment : Fragment() {
         Handler(Looper.getMainLooper()).postDelayed({
             resetAllObservers()
             setupObservers(view)
-            //mainActivity.mainViewModel.ppCompCommands.setKbd()
             checkEvent()
             if (hasPhysicalKbd()) {
                 setupPhysicalKbd(view)
@@ -74,8 +73,6 @@ class AmountFragment : Fragment() {
         mainActivity.mainViewModel.processCompleted("")
         mainActivity.mainViewModel.updateDisplay(-999L, "", "")
         mainActivity.mainViewModel.keyPressed(-999)
-
-//        mainActivity.mainViewModel.ppCompCommands.showKBD(PinKbdActivity(), mainActivity)
     }
 
     private fun setupObservers(view: View) {
