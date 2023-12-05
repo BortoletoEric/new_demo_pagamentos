@@ -228,35 +228,35 @@ android {
             }
         }
 
-//        gpos780 {
-//            dimension "version"
-//            //signingConfig signingConfigs.gpos780
-//
-//            packagingOptions {
-//                pickFirst 'wangpos/sdk4/base/IDecodeCallback.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/IDecodeCallback.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/keymanager/IBinderPool.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/keymanager/IKeyManagerService.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/IBaseService.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/ICallbackListener.aidl'
-//                pickFirst 'wangpos/sdk4/base/IBinderPool.aidl'
-//                pickFirst 'wangpos/sdk4/wangpos/sdk4/base/IBaseService.aidl'
-//                pickFirst 'wangpos/sdk4/base/IBaseService.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/IBinderPool.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/ICommonCallback.aidl'
-//                pickFirst 'wangpos/sdk4/base/ICommonCallback.aidl'
-//                pickFirst 'wangpos/sdk4/base/ICallbackListener.aidl'
-//                pickFirst 'wangpos/sdk4/base/config/ChipRecordData.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/config/ChipRecordData.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/config/ChipRecordData.java'
-//                exclude 'wangpos/sdk4/base/IWifiProbeListener.aidl'
-//                exclude  'wangpos/sdk4/base/config/ScanConfig.aidl'
-//                exclude  'wangpos/wangpos/sdk4/base/config/ScanConfig.aidl'
-//                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.aidl'
-//                exclude 'aidl/wangpos/sdk4/base/IWifiProbeListener.aidl'
-//                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.java'
-//            }
-//        }
+        gpos780 {
+            dimension "version"
+            //signingConfig signingConfigs.gpos780
+
+            packagingOptions {
+                pickFirst 'wangpos/sdk4/base/IDecodeCallback.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/IDecodeCallback.aidl'
+                pickFirst 'aidl/wangpos/sdk4/keymanager/IBinderPool.aidl'
+                pickFirst 'aidl/wangpos/sdk4/keymanager/IKeyManagerService.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/IBaseService.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/ICallbackListener.aidl'
+                pickFirst 'wangpos/sdk4/base/IBinderPool.aidl'
+                pickFirst 'wangpos/sdk4/wangpos/sdk4/base/IBaseService.aidl'
+                pickFirst 'wangpos/sdk4/base/IBaseService.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/IBinderPool.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/ICommonCallback.aidl'
+                pickFirst 'wangpos/sdk4/base/ICommonCallback.aidl'
+                pickFirst 'wangpos/sdk4/base/ICallbackListener.aidl'
+                pickFirst 'wangpos/sdk4/base/config/ChipRecordData.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/config/ChipRecordData.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/config/ChipRecordData.java'
+                exclude 'wangpos/sdk4/base/IWifiProbeListener.aidl'
+                exclude  'wangpos/sdk4/base/config/ScanConfig.aidl'
+                exclude  'wangpos/wangpos/sdk4/base/config/ScanConfig.aidl'
+                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.aidl'
+                exclude 'aidl/wangpos/sdk4/base/IWifiProbeListener.aidl'
+                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.java'
+            }
+        }
     }
 
 }
@@ -289,7 +289,11 @@ dependencies {
     gpos760Implementation(files("libs/gpos760/libgedi-0.18.8-gpos760-eng-release.aar","libs/gpos760/libgandi-0.3.5-gpos760-payment-release.aar",
         "libs/gpos760/PPCompGPOS760-v1.08-Complete-debug.aar", "libs/gpos760/android-easy-layer-gpos760-release.aar"))
 
-    gpos720Implementation(files("libs/gpos720/libgedi-0.16.17-gpos720-payment-release.aar",
-            "libs/gpos720/PPCompGPOS720-v1.36-Complete-debug.aar", "libs/gpos720/android-easy-layer-debug_gpos720.aar"))
+    gpos720Implementation(files("libs/gpos720/libgedi-0.16.9-beta.0-gpos720-payment-release.aar",
+            "libs/gpos720/PPCompGPOS720-v1.12-Complete-debug.aar", "libs/gpos720/android-easy-layer-debug_gpos720.aar"))
+
+    gpos780Implementation(files("libs/gpos780/libgedi-1.16.19-gpos780-payment-release.aar",
+            "libs/gpos780/libppcomp-001.31-230802-gpos780-release.aar", "libs/gpos780/libgandi-1.2.16-gpos780-payment-release.aar",
+            "libs/gpos780/libhcl-1.0.6-gpos780-release.aar","libs/gpos780/android-easy-layer-release_gpos720.aar"))
 
 }

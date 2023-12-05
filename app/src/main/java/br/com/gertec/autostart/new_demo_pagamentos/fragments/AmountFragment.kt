@@ -1,13 +1,12 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
-import android.app.AlertDialog
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +15,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
+import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentAmountBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutDisplayKeyboardBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutKeyboardBinding
-import br.com.gertec.gedi.GEDI
-import br.com.gertec.gedi.enums.GEDI_SMART_e_Slot
-import br.com.gertec.gedi.interfaces.IGEDI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -58,11 +55,13 @@ class AmountFragment : Fragment() {
 
         binding.keyboard.buttonConfirm.requestFocus()
 
+
         setupViews()
 
         Handler(Looper.getMainLooper()).postDelayed({
             resetAllObservers()
             setupObservers(view)
+            //mainActivity.mainViewModel.ppCompCommands.setKbd()
             checkEvent()
             if (hasPhysicalKbd()) {
                 setupPhysicalKbd(view)
@@ -75,6 +74,8 @@ class AmountFragment : Fragment() {
         mainActivity.mainViewModel.processCompleted("")
         mainActivity.mainViewModel.updateDisplay(-999L, "", "")
         mainActivity.mainViewModel.keyPressed(-999)
+
+//        mainActivity.mainViewModel.ppCompCommands.showKBD(PinKbdActivity(), mainActivity)
     }
 
     private fun setupObservers(view: View) {
@@ -159,6 +160,7 @@ class AmountFragment : Fragment() {
             }
             override fun afterTextChanged(s: Editable) {}
         })
+
     }
 
 

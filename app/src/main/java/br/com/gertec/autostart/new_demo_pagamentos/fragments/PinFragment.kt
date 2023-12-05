@@ -1,7 +1,6 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
 //import br.com.setis.gertec.bibliotecapinpad.BuildConfig //gpos720 apenas
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -73,34 +72,12 @@ class PinFragment : Fragment() {
     private fun setupViews(view: View) {
         binding.txtPriceValue.text = mainActivity.mainViewModel.transactionAmount
         binding.removeCardContainer.visibility = View.GONE
-        if (BuildConfig.FLAVOR == "gpos760") {
-            //binding.touchPinKeyboard.visibility = View.GONE
-        } else {
-            //binding.touchPinKeyboard.visibility = View.VISIBLE
-//            with(binding) {
-//                mainActivity.setKeyboard(
-//                    button1,
-//                    button2,
-//                    button3,
-//                    button4,
-//                    button5,
-//                    button6,
-//                    button7,
-//                    button8,
-//                    button9,
-//                    button0,
-//                    buttonErase,
-//                    buttonConfirm,
-//                    buttonClear,
-//                    true
-//                )
-//            }
-        }
 
         mainActivity.mainViewModel.display.observe(viewLifecycleOwner) { display ->
 
             when (display[0]) {
                 512L -> {
+                    Log.d("msgg","obs 512")
                     if (display[2].toString().length <= 4) {
                         val iGedi: IGEDI = GEDI.getInstance(context)
                         iGedi.audio.Beep()
@@ -109,11 +86,13 @@ class PinFragment : Fragment() {
                 }
 
                 720896L -> {
+                    Log.d("msgg","obs 720896")
                     binding.removeCardContainer.visibility = View.VISIBLE
                     binding.tvFinalMessage.text = "RETIRE O CARTÃO"
                 }
 
                 256L -> {
+                    Log.d("msgg","obs 256")
                     if (transactionOk) return@observe
                     mainActivity.showSnackBar("OPERAÇÃO CANCELADA", false)
                     view.findNavController().navigate(
@@ -121,8 +100,9 @@ class PinFragment : Fragment() {
                     )
                 }
                 917504L -> {
+                    Log.d("msgg","obs 917504")
                     if (BuildConfig.FLAVOR == "gpos760") return@observe
-                    //mainActivity.setKeyboard()
+                    mainActivity.mainViewModel.ppCompCommands.showKBD(PinKbdActivity(), mainActivity, requireContext())
                 }
                 else -> {
                     binding.txtPin.text
@@ -185,11 +165,12 @@ class PinFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             mainActivity.mainViewModel.ppCompCommands.let {
                 result = it.goOnChip(
-                    "${am}000000000000001321000000000000000000000000000000001000003E820000003E880000",
+                    "${am}000000000000001101000000000000000000000000000000001000003E820000003E880000",//${am}000000000000001321000000000000000000000000000000001000003E820000003E880000
                     "0019B",
-                    "0119F0B1F813A9F6B9F6C9F66"
+                    "0119F0B1F813A9F6B9F6C9F66",
+                    requireContext()
                 )//Term floor lim: 000003E8 =
-                Log.d("msgg","GPC RES: $result")
+                Log.d("msgg","G0C RES: $result")
                 if(result == "GOC_NO_CARD"){
                     mainActivity.mainViewModel.processCompleted("GOC_NO_CARD")
                 } else if (result == "GOC_TO") {

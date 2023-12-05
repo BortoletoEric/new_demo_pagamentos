@@ -42,9 +42,12 @@ class CheckCardFragment : Fragment() {
         getCard()
 
         mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){ step ->
+            Log.d("msgg","process obs: $step")
             when(step){
                 "GCR" -> {
+                    Log.d("msgg","insite gcr step...")
                     if(cardType != "03"){
+                        Log.d("msgg","navigate init...")
                         view.findNavController().navigate(
                             CheckCardFragmentDirections.actionCheckCardFragmentToSucessPayFragment(cardType)
                         )
@@ -80,7 +83,7 @@ class CheckCardFragment : Fragment() {
                     it.abort() //pegar dados automaticamente
                 }
                 val result = it.getCard(
-                    "00${args.transactionType}${fixAmountInput(args.amount)}231122121636135799753100"
+                    "00${args.transactionType}${fixAmountInput(args.amount)}231122121636012345678900"
                 )//0099000000000100231122115800135799753100
 
                 if(!result.second.isNullOrEmpty()) {

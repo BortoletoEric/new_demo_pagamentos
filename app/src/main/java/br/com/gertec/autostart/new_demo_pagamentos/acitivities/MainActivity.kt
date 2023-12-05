@@ -1,9 +1,11 @@
 package br.com.gertec.autostart.new_demo_pagamentos.acitivities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -24,6 +26,7 @@ class MainActivity : AppCompatActivity(){
     lateinit var mainViewModel: MainViewModel
     private lateinit var navController: NavController
     val outputCallbacks = OutputCallbacks(this)
+    var pinActive = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,54 +35,31 @@ class MainActivity : AppCompatActivity(){
 
         setupViewModel()
         setupPPCompCommands()
-        //binding.touchPinKeyboard.visibility = View.GONE
 
         // Configurando o NavController
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
-//        binding.button1.setOnClickListener {
-//            Log.d("msgg","btn1 estuporado")
-//        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            pinActive = true
+            Log.d("msgg", "onActRes ok")
+            mainViewModel.ppCompCommands.setKbd()
+        }
     }
 
     private fun setupPPCompCommands() {
         CoroutineScope(Dispatchers.IO).launch{
             mainViewModel.ppCompCommands.let{
                 it.init(this@MainActivity)
-                it.open()
                 it.setDspCallback(outputCallbacks)
+                it.open()
             }
         }
     }
-
-//    fun setKeyboard(){
-//        val intent = Intent(this, PinKbdActivity::class.java)
-//        startActivity(intent)
-//
-//        Log.d("msgg", "wait activity PIN start")
-//        try {
-//            while (!PinKBDActivity.active) {
-//                Log.d(TAG, "waiting activity PIN")
-//            }
-//            Log.d(TAG, "wait activity PIN end")
-//        } catch (e: Exception) {
-//            Log.d(TAG, "wait activity PIN error")
-//            e.printStackTrace()
-//        }
-//
-//        val kbdActivity = PinKbdActivity()
-//        val kbdData = PinKbdActivity.KbdData()
-//
-//        mainViewModel.ppCompCommands.setPinKeyboard(
-//            kbdData.btn1!!,kbdData.btn2!!,kbdData.btn3!!,kbdData.btn4!!,
-//            kbdData.btn5!!,kbdData.btn6!!,kbdData.btn7!!,kbdData.btn8!!,
-//            kbdData.btn9!!,kbdData.btn0!!,kbdData.btnCancel!!,kbdData.btnConfirm!!,
-//            kbdData.btnClear!!,kbdActivity,
-//            true
-//        )
-//
-//    }
 
     private fun setupViewModel() {
         val viewModelProviderFactory = MainViewModelFactory()

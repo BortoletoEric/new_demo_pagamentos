@@ -1,6 +1,5 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,10 +15,6 @@ import br.com.gertec.gedi.GEDI
 import br.com.gertec.gedi.interfaces.IGEDI
 import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig //gpos760 apenas
 //import br.com.setis.gertec.bibliotecapinpad.BuildConfig //gpos720 apenas
-
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class CardTypeFragment : Fragment() {
 
