@@ -76,7 +76,8 @@ class SucessPayFragment : Fragment() {
                 .navigate(SucessPayFragmentDirections.actionSucessPayFragmentToAmountFragment())
         })
 
-//        getNS()
+        getNS()
+        setupObservers(view)
     }
 
     private fun setupObservers(view: View) {
@@ -112,13 +113,18 @@ class SucessPayFragment : Fragment() {
 
     private fun getNS(){
         Log.d("msgg","WD 0 <-------------")
-        val mGedi: IGEDI = GEDI.getInstance(requireContext())
+
+        GEDI.init(context)
+        val mGedi: IGEDI = GEDI.getInstance()
+//        val mGedi: IGEDI = GEDI.getInstance(requireContext())
 
         Log.d("msgg","WD 1 <-------------")
         try {
 
             Log.d("msgg","WD 2 <-------------")
-            numeroDeSerie = mGedi.info.ControlNumberGet(GEDI_INFO_e_ControlNumber.SN)
+//            numeroDeSerie = mGedi.info.ControlNumberGet(GEDI_INFO_e_ControlNumber.SN)
+            numeroDeSerie = mainActivity.mainViewModel.getNs()?:""
+            Log.d("msgg","NS ESPERADO = $numeroDeSerie <-------------")
             mainActivity.mainViewModel.postNs(numeroDeSerie)
         } catch (e: GediException) {
             Log.e("GediException", "Erro ao obter o número de série: ", e)

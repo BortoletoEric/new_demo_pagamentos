@@ -1,11 +1,15 @@
 package br.com.gertec.autostart.new_demo_pagamentos.viewmodels
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import br.com.gertec.autostart.new_demo_pagamentos.commands.PPCompCommands
+import br.com.gertec.gedi.GEDI
+import br.com.gertec.gedi.enums.GEDI_INFO_e_ControlNumber
+import br.com.gertec.gedi.interfaces.IGEDI
 import java.util.regex.Pattern
 
 class MainViewModel: ViewModel() {
@@ -31,6 +35,7 @@ class MainViewModel: ViewModel() {
     var pan = ""
     var transactionAmount = ""
     var applicationType = ""
+    private var iGedi: IGEDI? = null
 
     init {
         _processOk.postValue("AMOUNT")
@@ -52,6 +57,20 @@ class MainViewModel: ViewModel() {
     fun postNs(ns: String?){
         _ns.postValue(ns?:"")
     }
+
+    fun setupGedi(ctxt: Context){
+        GEDI.init(ctxt)
+        iGedi = GEDI.getInstance()
+    }
+
+    fun getNs(): String? {
+        return iGedi?.info?.ControlNumberGet(GEDI_INFO_e_ControlNumber.SN)
+    }
+
+//    fun gediBeep(ctxt: Context){
+//        GEDI.init(ctxt)
+//        iGedi?.audio?.Beep()
+//    }
 
 
 //    fun ppCompInput(command: String, input: String){

@@ -13,8 +13,6 @@ import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentPinBinding
-import br.com.gertec.gedi.GEDI
-import br.com.gertec.gedi.interfaces.IGEDI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
