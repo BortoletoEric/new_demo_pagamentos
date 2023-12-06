@@ -229,6 +229,10 @@ android {
         }
 
         gpos780 {
+            ndk.with {
+                abiFilters = ["armeabi-v7a"]
+            }
+
             dimension "version"
             //signingConfig signingConfigs.gpos780
 

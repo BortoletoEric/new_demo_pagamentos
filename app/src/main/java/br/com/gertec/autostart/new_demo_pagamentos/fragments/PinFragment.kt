@@ -97,6 +97,14 @@ class PinFragment : Fragment() {
                     binding.tvFinalMessage.text = "RETIRE O CARTÃO"
                 }
 
+                //GPOS780
+                724993L -> {
+                    if (BuildConfig.FLAVOR != "gpos780") return@observe
+                    Log.d("msgg","obs 724993")
+                    binding.removeCardContainer.visibility = View.VISIBLE
+                    binding.tvFinalMessage.text = "RETIRE O CARTÃO"
+                }
+
                 256L -> {
                     Log.d("msgg","obs 256")
                     if (transactionOk) return@observe
@@ -109,8 +117,8 @@ class PinFragment : Fragment() {
                 512L -> { //SE DER ERRO NO 720, TIRAR ESSA FLAG DAQUI
                     if(BuildConfig.FLAVOR == "gpos760"){
                         binding.txtPin.text = display[2].toString()
-                        beep()
                     }
+                    Log.i("512", "Callback 512")
                 }
                 else -> {
                     binding.txtPin.text

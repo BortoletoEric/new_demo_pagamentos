@@ -65,7 +65,7 @@ class AmountFragment : Fragment() {
             if (hasPhysicalKbd()) {
                 setupPhysicalKbd(view)
             }
-        }, 1000)
+        }, 1500)
 
     }
 
