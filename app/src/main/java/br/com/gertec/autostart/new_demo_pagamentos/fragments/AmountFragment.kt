@@ -65,7 +65,7 @@ class AmountFragment : Fragment() {
             if (hasPhysicalKbd()) {
                 setupPhysicalKbd(view)
             }
-        }, 1000)
+        }, 1500)
 
     }
 
@@ -164,7 +164,7 @@ class AmountFragment : Fragment() {
     private fun checkEvent() {
         CoroutineScope(Dispatchers.IO).launch {
             val resp =
-                mainActivity.mainViewModel.ppCompCommands.checkEvent("0110") //magnético e chip apenas
+                mainActivity.mainViewModel.ppCompCommands.checkEvent("0000") //magnético e chip apenas
             if (!resp.isNullOrEmpty()) {
                 if (resp == "CKE_MC_ERR") {
                     mainActivity.mainViewModel.processCompleted(resp)
