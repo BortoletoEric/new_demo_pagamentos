@@ -69,6 +69,8 @@ class OutputCallbacks(var mainActivity: MainActivity) :
                 PinKbdActivity.mKBDData?.amount?.text = mainActivity.mainViewModel.transactionAmount
                 PinKbdActivity.mKBDData?.textView?.text = sTxt2
             })
+
+            beep()
         }
 //        if (lFlags == 512L && sTxt2.length == 0 && sTxt2Pin == -1) {
 //            isClear = false
@@ -122,15 +124,6 @@ class OutputCallbacks(var mainActivity: MainActivity) :
         return mSelectedItem
     }
 
-    fun beep() {
-        try {
-            val toneGen = ToneGenerator(4, 100)
-            toneGen.startTone(93, 200)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
     //Mostra o teclado e PIN
     fun showKBD() {
         Log.d("msgg", "showKbd")
@@ -182,5 +175,15 @@ class OutputCallbacks(var mainActivity: MainActivity) :
             e.printStackTrace()
         }
         return 0
+    }
+
+    private fun beep() {
+        Log.d("msgg","beep!")
+        try {
+            val toneGen = ToneGenerator(4, 100)
+            toneGen.startTone(93, 200)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }

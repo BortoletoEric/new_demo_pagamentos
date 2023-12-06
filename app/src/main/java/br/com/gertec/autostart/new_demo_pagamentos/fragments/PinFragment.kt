@@ -1,6 +1,7 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
 //import br.com.setis.gertec.bibliotecapinpad.BuildConfig //gpos720 apenas
+import android.media.ToneGenerator
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,10 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
-import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentPinBinding
-import br.com.gertec.gedi.GEDI
-import br.com.gertec.gedi.interfaces.IGEDI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -74,13 +72,13 @@ class PinFragment : Fragment() {
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
                 }
-                "GOC_ERR" -> {
-                    if (transactionOk) return@observe
-                    mainActivity.showSnackBar("OPERAÇÃO CANCELADA", false)
-                    view.findNavController().navigate(
-                        PinFragmentDirections.actionPinFragmentToAmountFragment()
-                    )
-                }
+//                "GOC_ERR" -> {
+//                    if (transactionOk) return@observe
+//                    mainActivity.showSnackBar("OPERAÇÃO CANCELADA", false)
+//                    view.findNavController().navigate(
+//                        PinFragmentDirections.actionPinFragmentToAmountFragment()
+//                    )
+//                }
             }
         }
     }
@@ -91,19 +89,19 @@ class PinFragment : Fragment() {
 
         mainActivity.mainViewModel.display.observe(viewLifecycleOwner) { display -> //ATENÇÃO, ISSO ESTAVA GERANDO ERRO NO PIN KBD
             when (display[0]) {
-                720896L -> {
+                720896L, 724993L -> {
                     Log.d("msgg", "obs 720896")
                     binding.removeCardContainer.visibility = View.VISIBLE
                     binding.tvFinalMessage.text = "RETIRE O CARTÃO"
                 }
 
                 //GPOS780
-                724993L -> {
-                    if (BuildConfig.FLAVOR != "gpos780") return@observe
-                    Log.d("msgg","obs 724993")
-                    binding.removeCardContainer.visibility = View.VISIBLE
-                    binding.tvFinalMessage.text = "RETIRE O CARTÃO"
-                }
+//                724993L -> {
+//                    if (BuildConfig.FLAVOR != "gpos780") return@observe
+//                    Log.d("msgg","obs 724993")
+//                    binding.removeCardContainer.visibility = View.VISIBLE
+//                    binding.tvFinalMessage.text = "RETIRE O CARTÃO"
+//                }
 
                 256L -> {
                     Log.d("msgg", "obs 256")
@@ -117,9 +115,7 @@ class PinFragment : Fragment() {
                 512L -> { //SE DER ERRO NO 720, TIRAR ESSA FLAG DAQUI
                     if (BuildConfig.FLAVOR == "gpos760") {
                         binding.txtPin.text = display[2].toString()
-                        beep()
                     }
-                    beep()
                 }
 
                 else -> {
@@ -130,10 +126,7 @@ class PinFragment : Fragment() {
 
     }
 
-    private fun beep() {
-        val iGedi: IGEDI = GEDI.getInstance(context)
-        iGedi.audio.Beep()
-    }
+
     private fun setupButtons() {
 //        binding.button0.setOnClickListener { addDigitToPin("0") }
 //        binding.button1.setOnClickListener { addDigitToPin("1") }
