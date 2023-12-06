@@ -117,10 +117,6 @@ class PinFragment : Fragment() {
                         binding.txtPin.text = display[2].toString()
                     }
                 }
-
-                else -> {
-                    binding.txtPin.text
-                }
             }
         }
 
@@ -157,7 +153,7 @@ class PinFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             mainActivity.mainViewModel.ppCompCommands.let {
                 result = it.goOnChip(
-                    "${am}000000000000001101000000000000000000000000000000001000003E820000003E880000",//${am}000000000000001321000000000000000000000000000000001000003E820000003E880000
+                    "${am}000000000000011102000000000000000000000000000000001000003E820000003E880000",//${am}000000000000001321000000000000000000000000000000001000003E820000003E880000
                     "0019B",
                     "0119F0B1F813A9F6B9F6C9F66"
                 )//Term floor lim: 000003E8 =

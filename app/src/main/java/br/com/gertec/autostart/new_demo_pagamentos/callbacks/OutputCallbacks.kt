@@ -18,6 +18,7 @@ class OutputCallbacks(var mainActivity: MainActivity) :
     var wasCancelBefore = false
     var TAG = "ExemploGCR_GOC_OutputCallbacks"
     var txtPinDisplay = ""
+    var stopKBD = false
     override fun Text(lFlags: Long, sTxt1: String, sTxt2: String) {
         Log.d("msgg","($lFlags)OUT: $sTxt1\n$sTxt2")
         mainActivity.mainViewModel.updateDisplay(lFlags, sTxt1?:"", sTxt2?:"")
@@ -35,6 +36,7 @@ class OutputCallbacks(var mainActivity: MainActivity) :
             //PROCESSING
         } else if (lFlags == 724993L) {
             //REMOVE_CARD
+            stopKBD = false
         } else if (lFlags == 851968L) {
             val selected = sTxt1.split("\r".toRegex()).dropLastWhile { it.isEmpty() }
                 .toTypedArray()
@@ -53,6 +55,7 @@ class OutputCallbacks(var mainActivity: MainActivity) :
                 PinKbdActivity.mKBDData?.display?.text = sTxt1 + sTxt2
             })
         } else if (lFlags == 917504L) {
+            if(stopKBD) return
             if (sTxt2.length == 0) {
                 //PIN_STARTING
             } else {
@@ -63,6 +66,7 @@ class OutputCallbacks(var mainActivity: MainActivity) :
             Log.d(TAG, "SHOW KBD")
             Log.d("msgg", "flag 917504")
             showKBD()
+            stopKBD = true
         }
         if (lFlags == 512L) {
             PinKbdActivity.mKBDData?.activity?.runOnUiThread(Runnable {
