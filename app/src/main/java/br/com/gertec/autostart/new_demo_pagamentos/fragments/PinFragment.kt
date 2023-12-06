@@ -74,7 +74,6 @@ class PinFragment : Fragment() {
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
                 }
-
                 "GOC_ERR" -> {
                     if (transactionOk) return@observe
                     mainActivity.showSnackBar("OPERAÇÃO CANCELADA", false)
@@ -97,12 +96,11 @@ class PinFragment : Fragment() {
                     binding.removeCardContainer.visibility = View.VISIBLE
                     binding.tvFinalMessage.text = "RETIRE O CARTÃO"
                 }
+
+                //GPOS780
                 724993L -> {
                     if (BuildConfig.FLAVOR != "gpos780") return@observe
-                    Log.d(
-                        "msgg",
-                        "obs 720896"
-                    )
+                    Log.d("msgg","obs 724993")
                     binding.removeCardContainer.visibility = View.VISIBLE
                     binding.tvFinalMessage.text = "RETIRE O CARTÃO"
                 }
@@ -116,7 +114,6 @@ class PinFragment : Fragment() {
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
                 }
-
                 512L -> { //SE DER ERRO NO 720, TIRAR ESSA FLAG DAQUI
                     if (BuildConfig.FLAVOR == "gpos760") {
                         binding.txtPin.text = display[2].toString()
@@ -137,7 +134,6 @@ class PinFragment : Fragment() {
         val iGedi: IGEDI = GEDI.getInstance(context)
         iGedi.audio.Beep()
     }
-
     private fun setupButtons() {
 //        binding.button0.setOnClickListener { addDigitToPin("0") }
 //        binding.button1.setOnClickListener { addDigitToPin("1") }
