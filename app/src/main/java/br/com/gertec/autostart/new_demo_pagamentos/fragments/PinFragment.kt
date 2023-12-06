@@ -13,6 +13,8 @@ import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentPinBinding
+import br.com.gertec.gedi.GEDI
+import br.com.gertec.gedi.interfaces.IGEDI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -104,12 +106,23 @@ class PinFragment : Fragment() {
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
                 }
+                512L -> { //SE DER ERRO NO 720, TIRAR ESSA FLAG DAQUI
+                    if(BuildConfig.FLAVOR == "gpos760"){
+                        binding.txtPin.text = display[2].toString()
+                        beep()
+                    }
+                }
                 else -> {
                     binding.txtPin.text
                 }
             }
         }
 
+    }
+
+    private fun beep() {
+        val iGedi: IGEDI = GEDI.getInstance(context)
+        iGedi.audio.Beep()
     }
     private fun setupButtons() {
 //        binding.button0.setOnClickListener { addDigitToPin("0") }
@@ -131,25 +144,6 @@ class PinFragment : Fragment() {
 //            //goOnChip()
 //        }
 
-    }
-
-    private fun erasePin() {
-        if (pin.isEmpty()) return
-        var pinTv = ""
-        pin = pin.substring(0, pin.length - 1)
-        pin.forEach { _ ->
-            pinTv += "*"
-        }
-        binding.txtPin.text = pinTv
-    }
-
-    private fun addDigitToPin(digit: String) {
-        var pinTv = ""
-        pin += digit
-        pin.forEach { _ ->
-            pinTv += "*"
-        }
-        binding.txtPin.text = pinTv
     }
 
     private fun goOnChip() {
