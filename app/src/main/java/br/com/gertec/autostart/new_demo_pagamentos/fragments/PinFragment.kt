@@ -45,16 +45,16 @@ class PinFragment : Fragment() {
         if (args.cardType != "03") { // Se for diferente de EMV com contato, não precisa chamar o GOC
             mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
             mainActivity.mainViewModel.processCompleted("GOC")
-        }else{
+        } else {
             goOnChip()
         }
 
 
         mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner) { step ->
-            Log.d("msgg","step GOC: $step")
+            Log.d("msgg", "step GOC: $step")
             when (step) {
                 "GOC" -> {
-                    Log.d("msgg","step GOC: I'M IN!")
+                    Log.d("msgg", "step GOC: I'M IN!")
 
                     view.findNavController().navigate(
                         PinFragmentDirections.actionPinFragmentToSucessPayFragment(args.cardType)
@@ -74,6 +74,7 @@ class PinFragment : Fragment() {
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
                 }
+
                 "GOC_ERR" -> {
                     if (transactionOk) return@observe
                     mainActivity.showSnackBar("OPERAÇÃO CANCELADA", false)
@@ -92,34 +93,38 @@ class PinFragment : Fragment() {
         mainActivity.mainViewModel.display.observe(viewLifecycleOwner) { display -> //ATENÇÃO, ISSO ESTAVA GERANDO ERRO NO PIN KBD
             when (display[0]) {
                 720896L -> {
-                    Log.d("msgg","obs 720896")
+                    Log.d("msgg", "obs 720896")
                     binding.removeCardContainer.visibility = View.VISIBLE
                     binding.tvFinalMessage.text = "RETIRE O CARTÃO"
                 }
-
-                //GPOS780
                 724993L -> {
                     if (BuildConfig.FLAVOR != "gpos780") return@observe
-                    Log.d("msgg","obs 724993")
+                    Log.d(
+                        "msgg",
+                        "obs 720896"
+                    )
                     binding.removeCardContainer.visibility = View.VISIBLE
                     binding.tvFinalMessage.text = "RETIRE O CARTÃO"
                 }
 
                 256L -> {
-                    Log.d("msgg","obs 256")
+                    Log.d("msgg", "obs 256")
                     if (transactionOk) return@observe
-                    Log.d("msgg","obs 256 transNOK")
+                    Log.d("msgg", "obs 256 transNOK")
                     mainActivity.showSnackBar("OPERAÇÃO CANCELADA", false)
                     view.findNavController().navigate(
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
                 }
+
                 512L -> { //SE DER ERRO NO 720, TIRAR ESSA FLAG DAQUI
-                    if(BuildConfig.FLAVOR == "gpos760"){
+                    if (BuildConfig.FLAVOR == "gpos760") {
                         binding.txtPin.text = display[2].toString()
+                        beep()
                     }
-                    Log.i("512", "Callback 512")
+                    beep()
                 }
+
                 else -> {
                     binding.txtPin.text
                 }
@@ -132,6 +137,7 @@ class PinFragment : Fragment() {
         val iGedi: IGEDI = GEDI.getInstance(context)
         iGedi.audio.Beep()
     }
+
     private fun setupButtons() {
 //        binding.button0.setOnClickListener { addDigitToPin("0") }
 //        binding.button1.setOnClickListener { addDigitToPin("1") }
@@ -166,13 +172,13 @@ class PinFragment : Fragment() {
                     "0019B",
                     "0119F0B1F813A9F6B9F6C9F66"
                 )//Term floor lim: 000003E8 =
-                Log.d("msgg","G0C RES: $result")
+                Log.d("msgg", "G0C RES: $result")
 
-                if(result == "GOC_NO_CARD"){
+                if (result == "GOC_NO_CARD") {
                     mainActivity.mainViewModel.processCompleted("GOC_NO_CARD")
                 } else if (result == "GOC_TO") {
                     mainActivity.mainViewModel.processCompleted("GOC_TO")
-                }  else if(result == "GOC_ERR"){
+                } else if (result == "GOC_ERR") {
                     mainActivity.mainViewModel.processCompleted("GOC_ERR")
                 } else if (!result.isNullOrEmpty()) {
                     transactionOk = true
@@ -194,10 +200,9 @@ class PinFragment : Fragment() {
     }
 
 
-
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("msgg","pinFrgmt destroyed")
+        Log.d("msgg", "pinFrgmt destroyed")
         _binding = null
     }
 }
