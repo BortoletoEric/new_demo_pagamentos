@@ -219,6 +219,7 @@ class PPCompCommands private constructor() {
     }
 
     fun finishChip(){
+        Log.d("msgg","FNC <----")
         try {
             ppComp?.PP_FinishChip("0000000000","011829F279F269F36958F9F37")
             removeCard(" ")

@@ -42,16 +42,13 @@ class SucessPayFragment : Fragment() {
     private var numeroDeSerie: String = ""
     private var isPrintedLojista: Boolean = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("msgg","SucessFrag In")
         _binding = FragmentSucessPayBinding.inflate(inflater, container, false)
-
 
         cardInfoBinding = binding.displayCardInfo
         paymentInfoBinding = binding.displayPaymentInfo
@@ -63,14 +60,10 @@ class SucessPayFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        GEDI.init(context)
-        setupObservers(view)
-
         amount = mainActivity.mainViewModel.transactionAmount
         pan = mainActivity.mainViewModel.pan
         applicationType = mainActivity.mainViewModel.applicationType
         codSale = getRandomCodSale().toString()
-
 
         binding.displayPaymentInfo.txtAmount.setText(amount)
         binding.displayCardInfo.txtApplicationType.setText(applicationType)
@@ -83,7 +76,7 @@ class SucessPayFragment : Fragment() {
                 .navigate(SucessPayFragmentDirections.actionSucessPayFragmentToAmountFragment())
         })
 
-        getNS()
+//        getNS()
     }
 
     private fun setupObservers(view: View) {
@@ -118,12 +111,19 @@ class SucessPayFragment : Fragment() {
     }
 
     private fun getNS(){
-        val mGedi: IGEDI = GEDI.getInstance(context)
+        Log.d("msgg","WD 0 <-------------")
+        val mGedi: IGEDI = GEDI.getInstance(requireContext())
+
+        Log.d("msgg","WD 1 <-------------")
         try {
+
+            Log.d("msgg","WD 2 <-------------")
             numeroDeSerie = mGedi.info.ControlNumberGet(GEDI_INFO_e_ControlNumber.SN)
             mainActivity.mainViewModel.postNs(numeroDeSerie)
         } catch (e: GediException) {
             Log.e("GediException", "Erro ao obter o número de série: ", e)
+
+            Log.d("msgg","WD 3 <-------------")
             mainActivity.mainViewModel.postNs(null)
         }
     }

@@ -59,12 +59,14 @@ class OutputCallbacks(var mainActivity: MainActivity) :
                 //PIN_STARTING_S
             }
             txtPinDisplay = ""
+
             Log.d(TAG, "SHOW KBD")
             Log.d("msgg", "flag 917504")
             showKBD()
         }
         if (lFlags == 512L) {
             PinKbdActivity.mKBDData?.activity?.runOnUiThread(Runnable {
+                PinKbdActivity.mKBDData?.amount?.text = mainActivity.mainViewModel.transactionAmount
                 PinKbdActivity.mKBDData?.textView?.text = sTxt2
             })
         }

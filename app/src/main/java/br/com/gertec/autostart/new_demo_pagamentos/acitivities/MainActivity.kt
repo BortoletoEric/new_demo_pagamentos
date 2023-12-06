@@ -9,10 +9,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.callbacks.OutputCallbacks
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.ActivityMainBinding
+import br.com.gertec.autostart.new_demo_pagamentos.fragments.PinFragmentDirections
 import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModel
 import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModelFactory
 import com.google.android.material.snackbar.Snackbar
@@ -35,7 +37,7 @@ class MainActivity : AppCompatActivity(){
 
         setupViewModel()
         setupPPCompCommands()
-
+        Log.d("msgg","mainActivity Created")
         // Configurando o NavController
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -77,17 +79,17 @@ class MainActivity : AppCompatActivity(){
         message.show()
     }
 
-//    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-//        val currentDestination = navController.currentDestination
-//        mainViewModel.keyPressed(keyCode)
-//
-//        if(keyCode == 4){
-//            if (currentDestination?.id == R.id.amountFragment) {
-//                return false
-//            }
-//        }
-//        return super.onKeyDown(keyCode, event)
-//    }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        val currentDestination = navController.currentDestination
+        mainViewModel.keyPressed(keyCode)
+
+        if(keyCode == 4){
+            if (currentDestination?.id == R.id.amountFragment) {
+                return false
+            }
+        }
+        return super.onKeyDown(keyCode, event)
+    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -95,10 +97,11 @@ class MainActivity : AppCompatActivity(){
         _binding = null
     }
 
-//    override fun onBackPressed() {
-//        super.onBackPressed()
-//        navController.popBackStack(navController.graph.startDestinationId, false)
-//        mainViewModel.ppCompCommands.abort()
-//    }
+    override fun onBackPressed() {
+        super.onBackPressed()
+        navController.popBackStack(navController.graph.startDestinationId, false)
+        mainViewModel.ppCompCommands.abort()
+    }
+
 
 }

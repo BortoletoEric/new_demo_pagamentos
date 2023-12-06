@@ -40,6 +40,13 @@ class CheckCardFragment : Fragment() {
 
         setupViews()
         getCard()
+        //TESTE
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            view.findNavController().navigate(
+//                CheckCardFragmentDirections.actionCheckCardFragmentToSucessPayFragment(cardType)
+//            )
+//        }, 1800)
+
 
         mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){ step ->
             Log.d("msgg","process obs: $step")
@@ -52,6 +59,7 @@ class CheckCardFragment : Fragment() {
                             CheckCardFragmentDirections.actionCheckCardFragmentToSucessPayFragment(cardType)
                         )
                     }else{
+                        Log.d("msgg","navc GCR: ${view.findNavController()}")
                         view.findNavController().navigate(
                             CheckCardFragmentDirections.actionCheckCardFragmentToPinFragment(args.amount, cardType)
                         )

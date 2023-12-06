@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
+import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentPinBinding
 import br.com.gertec.gedi.GEDI
 import br.com.gertec.gedi.interfaces.IGEDI
@@ -53,6 +54,8 @@ class PinFragment : Fragment() {
             Log.d("msgg","step GOC: $step")
             when (step) {
                 "GOC" -> {
+                    Log.d("msgg","step GOC: I'M IN!")
+
                     view.findNavController().navigate(
                         PinFragmentDirections.actionPinFragmentToSucessPayFragment(args.cardType)
                     )
@@ -88,15 +91,6 @@ class PinFragment : Fragment() {
 
         mainActivity.mainViewModel.display.observe(viewLifecycleOwner) { display -> //ATENÇÃO, ISSO ESTAVA GERANDO ERRO NO PIN KBD
             when (display[0]) {
-//                512L -> {
-//                    Log.d("msgg","obs 512")
-//                    if (display[2].toString().length <= 4) {
-//                        val iGedi: IGEDI = GEDI.getInstance(context)
-//                        iGedi.audio.Beep()
-//                        binding.txtPin.text = display[2].toString()
-//                    }
-//                }
-
                 720896L -> {
                     Log.d("msgg","obs 720896")
                     binding.removeCardContainer.visibility = View.VISIBLE
@@ -106,15 +100,11 @@ class PinFragment : Fragment() {
                 256L -> {
                     Log.d("msgg","obs 256")
                     if (transactionOk) return@observe
+                    Log.d("msgg","obs 256 transNOK")
                     mainActivity.showSnackBar("OPERAÇÃO CANCELADA", false)
                     view.findNavController().navigate(
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
-                }
-                917504L -> {
-                    Log.d("msgg","obs 917504")
-//                    if (BuildConfig.FLAVOR == "gpos760") return@observe
-//                    mainActivity.mainViewModel.ppCompCommands.showKBD(PinKbdActivity(), mainActivity, requireContext())
                 }
                 else -> {
                     binding.txtPin.text
@@ -177,6 +167,7 @@ class PinFragment : Fragment() {
                     "0119F0B1F813A9F6B9F6C9F66"
                 )//Term floor lim: 000003E8 =
                 Log.d("msgg","G0C RES: $result")
+
                 if(result == "GOC_NO_CARD"){
                     mainActivity.mainViewModel.processCompleted("GOC_NO_CARD")
                 } else if (result == "GOC_TO") {

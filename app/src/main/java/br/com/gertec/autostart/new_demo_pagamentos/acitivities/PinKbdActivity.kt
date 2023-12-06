@@ -10,6 +10,13 @@ import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.model.KBDData
 
 class PinKbdActivity : Activity() {
+    companion object {
+        private val TAG = PinKbdActivity::class.java.name
+        var mKBDData: KBDData? = null
+        var active = false
+        val kBDData: KBDData?
+            get() = mKBDData
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.i(TAG, "onCreate: start")
         super.onCreate(savedInstanceState)
@@ -20,7 +27,6 @@ class PinKbdActivity : Activity() {
         var child: View? = null
         child = layoutInflater.inflate(R.layout.teclado_pin, null)
         frameLayout_pin.addView(child)
-        var display = rootView.findViewById<TextView>(R.id.txtManta)
         mKBDData = KBDData()
         mKBDData?.btn0 = rootView.findViewWithTag(getString(R.string.btn0Tag))
         mKBDData?.btn1 = rootView.findViewWithTag(getString(R.string.btn1Tag))
@@ -38,6 +44,7 @@ class PinKbdActivity : Activity() {
         mKBDData?.textView = rootView.findViewWithTag(getString(R.string.lblDigitsTag))
         mKBDData?.activity = this@PinKbdActivity
         mKBDData?.display = rootView.findViewWithTag(getString(R.string.display))
+        mKBDData?.amount = rootView.findViewWithTag("amount")
         Log.i(TAG, "onCreate: end")
 
     }
@@ -57,11 +64,5 @@ class PinKbdActivity : Activity() {
         active = false
     }
 
-    companion object {
-        private val TAG = PinKbdActivity::class.java.name
-        var mKBDData: KBDData? = null
-        var active = false
-        val kBDData: KBDData?
-            get() = mKBDData
-    }
+
 }
