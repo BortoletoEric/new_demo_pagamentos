@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentCheckCardBinding
 import kotlinx.coroutines.CoroutineScope
@@ -24,7 +25,7 @@ class CheckCardFragment : Fragment() {
     private val binding get() = _binding!!
     private val args: CheckCardFragmentArgs by navArgs()
     private lateinit var mainActivity: MainActivity
-    private var cardType =""
+    private var cardType = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,24 +51,41 @@ class CheckCardFragment : Fragment() {
 //        }, 1800)
 
 
-        mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner){ step ->
-            Log.d("msgg","process obs: $step")
-            when(step){
+        mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner) { step ->
+            Log.d("msgg", "process obs: $step")
+            when (step) {
                 "GCR" -> {
-                    Log.d("msgg","insite gcr step...")
-                    if(cardType != "03"){
-                        Log.d("msgg","navigate init...")
+                    Log.d("msgg", "insite gcr step...")
+                    if (cardType != "03") {
+                        Log.d("msgg", "navigate init...")
+
+                        Log.i("TAG", "FLAVOR: " + BuildConfig.FLAVOR)
+
+                        if (BuildConfig.FLAVOR.equals("gpos700mini")) {
+                            view.findNavController().navigate(
+                                CheckCardFragmentDirections.actionCheckCardFragmentToSucessPayMiniFragment(
+                                    cardType
+                                )
+                            )
+                        } else {
+                            view.findNavController().navigate(
+                                CheckCardFragmentDirections.actionCheckCardFragmentToSucessPayFragment(
+                                    cardType
+                                )
+                            )
+                        }
+                    } else {
+                        Log.d("msgg", "navc GCR: ${view.findNavController()}")
                         view.findNavController().navigate(
-                            CheckCardFragmentDirections.actionCheckCardFragmentToSucessPayFragment(cardType)
-                        )
-                    }else{
-                        Log.d("msgg","navc GCR: ${view.findNavController()}")
-                        view.findNavController().navigate(
-                            CheckCardFragmentDirections.actionCheckCardFragmentToPinFragment(args.amount, cardType)
+                            CheckCardFragmentDirections.actionCheckCardFragmentToPinFragment(
+                                args.amount,
+                                cardType
+                            )
                         )
                     }
 
                 }
+
                 "GCR_ERROR" -> {
                     view.findNavController().navigate(
 
@@ -80,7 +98,7 @@ class CheckCardFragment : Fragment() {
     }
 
     private fun setupViews() {
-        mainActivity.mainViewModel.display.observe(viewLifecycleOwner){ display ->
+        mainActivity.mainViewModel.display.observe(viewLifecycleOwner) { display ->
             binding.textView.text = "${display[1]}\n${display[2]}" //usar logica dos flags
         }
     }
@@ -90,8 +108,8 @@ class CheckCardFragment : Fragment() {
     private fun getCard() {
         CoroutineScope(Dispatchers.IO).launch {
             delay(1_000)
-            mainActivity.mainViewModel.ppCompCommands.let{
-                if(!args.isCke) {
+            mainActivity.mainViewModel.ppCompCommands.let {
+                if (!args.isCke) {
                     it.abort() //pegar dados automaticamente
                 }
                 val result = it.getCard(
@@ -99,16 +117,18 @@ class CheckCardFragment : Fragment() {
                     requireContext()
                 )//0099000000000100231122115800135799753100
 
-                if(!result.second.isNullOrEmpty()) {
-                    if(!result.first){
+                if (!result.second.isNullOrEmpty()) {
+                    if (!result.first) {
                         mainActivity.mainViewModel.processCompleted("GCR_ERROR")
                         mainActivity.showSnackBar(result.second!!, false)
-                    }else{
+                    } else {
                         try {
-                            val pan = result.second!!.substring(234,253)
-                            cardType = result.second!!.substring(0,2)
-                            mainActivity.mainViewModel.pan = hidePan(pan.trim())?:""
-                        }catch (e: Exception){e.printStackTrace()}
+                            val pan = result.second!!.substring(234, 253)
+                            cardType = result.second!!.substring(0, 2)
+                            mainActivity.mainViewModel.pan = hidePan(pan.trim()) ?: ""
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                         mainActivity.mainViewModel.processCompleted("GCR")
                     }
                 }
@@ -120,14 +140,14 @@ class CheckCardFragment : Fragment() {
     private fun fixAmountInput(amount: Long): String {
         var strAmount = amount.toString()
         val len = strAmount.length
-        for(i in 1..12-len){
+        for (i in 1..12 - len) {
             strAmount = "0$strAmount"
         }
         return strAmount
     }
 
     private fun hidePan(pan: String?): String? {
-        if(pan.isNullOrEmpty()) return null
+        if (pan.isNullOrEmpty()) return null
         return pan.substring(pan.length - 4, pan.length)
     }
 
