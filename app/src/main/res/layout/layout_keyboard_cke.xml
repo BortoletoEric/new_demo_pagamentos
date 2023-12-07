@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="@layout/fragment_amount"
+    tools:showIn="@layout/fragment_check_event"
     android:id="@+id/keyboard">
 
     <Button
@@ -88,9 +88,10 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button8" />
 
-    <Button
+    <ImageButton
         android:id="@+id/buttonClear"
         style="@style/CustomButtonKeyboardClear"
+        android:src="@drawable/keyboard_clear_settings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button0"
         app:layout_constraintHorizontal_bias="0.5"
@@ -105,10 +106,11 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/buttonClear" />
 
-    <Button
+    <ImageButton
         android:id="@+id/buttonConfirm"
         style="@style/CustomButtonKeyboardConfirm"
         android:focusable="true"
+        android:src="@drawable/keyboard_confirm_settings"
         android:focusableInTouchMode="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
