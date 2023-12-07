@@ -65,6 +65,7 @@ class SucessPayFragment : Fragment() {
         applicationType = mainActivity.mainViewModel.applicationType
         codSale = getRandomCodSale().toString()
 
+        binding.btnPrint.requestFocus()
         binding.displayPaymentInfo.txtAmount.setText(amount)
         binding.displayCardInfo.txtApplicationType.setText(applicationType)
         binding.displayCardInfo.txtCodeSaleValue.setText(codSale)
@@ -92,6 +93,7 @@ class SucessPayFragment : Fragment() {
             }
         }
         mainActivity.mainViewModel.ns.observe(viewLifecycleOwner){
+            Thread.sleep(500)
             if(!it.isNullOrEmpty() && !isPrintedLojista){
                 numeroDeSerie = it
                 printComprovante(VIA_LOJISTA, it)

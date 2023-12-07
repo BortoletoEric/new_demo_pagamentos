@@ -14,7 +14,7 @@
             layout="@layout/layout_payment_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="54dp"
+            android:layout_marginTop="50dp"
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
@@ -27,12 +27,14 @@
         <Button
             android:id="@+id/btnPrint"
             android:layout_width="328dp"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
             android:background="@drawable/rounded_button"
             android:fontFamily="@font/inter"
             android:text="Imprimir Via Cliente"
             android:textAllCaps="false"
             android:textColor="#001A45"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/displayCardInfo" />
@@ -40,13 +42,13 @@
         <Button
             android:id="@+id/btnFinish"
             android:layout_width="328dp"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
             android:background="@drawable/rounded_button"
             android:fontFamily="@font/inter"
             android:text="Finalizar"
             android:textAllCaps="false"
             android:textColor="#001A45"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnPrint" />
