@@ -88,9 +88,10 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button8" />
 
-    <Button
+    <ImageButton
         android:id="@+id/buttonClear"
         style="@style/CustomButtonKeyboardClear"
+        android:src="@drawable/keyboard_clear_settings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button0"
         app:layout_constraintHorizontal_bias="0.5"
@@ -105,9 +106,10 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/buttonClear" />
 
-    <Button
+    <ImageButton
         android:id="@+id/buttonConfirm"
         style="@style/CustomButtonKeyboardConfirm"
+        android:src="@drawable/keyboard_confirm_settings"
         android:focusable="true"
         android:focusableInTouchMode="true"
         app:layout_constraintBottom_toBottomOf="parent"
