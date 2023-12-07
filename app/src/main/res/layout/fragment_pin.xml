@@ -120,6 +120,21 @@
             </TextView>
 
             <TextView
+                android:id="@+id/txtPinFeedback"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text=""
+                android:textAlignment="center"
+                android:textColor="@color/errorRed"
+                android:textSize="10sp"
+                android:tag="@string/display"
+                app:layout_constraintBottom_toTopOf="@id/txtPin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtMsg"/>
+
+            <TextView
                 android:id="@+id/txtPin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

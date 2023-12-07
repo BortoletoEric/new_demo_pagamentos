@@ -75,7 +75,7 @@ class OutputCallbacks(var mainActivity: MainActivity) :
                 PinKbdActivity.mKBDData?.textView?.text = sTxt2
             })
             stopKBD = false
-            if(BuildConfig.FLAVOR == "gpos760") beep()
+            if(BuildConfig.FLAVOR == "gpos760" || BuildConfig.FLAVOR == "gpos700" || BuildConfig.FLAVOR == "gpos780") beep()
 
         }
 //        if (lFlags == 512L && sTxt2.length == 0 && sTxt2Pin == -1) {
