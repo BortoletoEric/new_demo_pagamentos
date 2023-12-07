@@ -55,6 +55,7 @@ class OutputCallbacks(var mainActivity: MainActivity) :
                 PinKbdActivity.mKBDData?.display?.text = sTxt1 + sTxt2
             })
         } else if (lFlags == 917504L) {
+            Log.d("msgg", "stopkbd $stopKBD")
             if(stopKBD) return
             if (sTxt2.length == 0) {
                 //PIN_STARTING
@@ -73,8 +74,9 @@ class OutputCallbacks(var mainActivity: MainActivity) :
                 PinKbdActivity.mKBDData?.amount?.text = mainActivity.mainViewModel.transactionAmount
                 PinKbdActivity.mKBDData?.textView?.text = sTxt2
             })
+            stopKBD = false
+            if(BuildConfig.FLAVOR == "gpos760") beep()
 
-            beep()
         }
 //        if (lFlags == 512L && sTxt2.length == 0 && sTxt2Pin == -1) {
 //            isClear = false

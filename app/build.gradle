@@ -13,14 +13,12 @@ android {
 
     defaultConfig {
         applicationId "br.com.gertec.autostart.new_demo_pagamentos"
-        minSdkVersion 26
+        minSdkVersion 26 //26 ou 22
         targetSdkVersion 33
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-
     }
 
     signingConfigs {
@@ -28,6 +26,12 @@ android {
             storeFile = file("AndroidDefaultDev_Enhanced.jks")
             storePassword = "GertecDefaultNDevelopmentKeyStore"
             keyAlias = "androidenhanceddev"
+            keyPassword = "Gertec"
+        }
+        create("gpos700") {
+            storeFile  = file("GPOS700DefaultDev.jks")
+            storePassword = "GertecDefaultNDevelopmentKeyStore"
+            keyAlias = "gpos700FactoryDev"
             keyPassword = "Gertec"
         }
     }
@@ -39,7 +43,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs["gpos720"]
+            signingConfig = signingConfigs["gpos700"]
         }
         debug {
             proguardFiles(
@@ -67,39 +71,39 @@ android {
     flavorDimensions "version"
 
     productFlavors {
-//        gpos700 {
-//            dimension = "version"
-//            //signingConfig signingConfigs.gpos700
-//
-//            packagingOptions {
-//                pickFirst 'wangpos/sdk4/base/IDecodeCallback.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/IDecodeCallback.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/keymanager/IBinderPool.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/keymanager/IKeyManagerService.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/IBaseService.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/ICallbackListener.aidl'
-//                pickFirst 'wangpos/sdk4/base/IBinderPool.aidl'
-//                pickFirst 'wangpos/sdk4/wangpos/sdk4/base/IBaseService.aidl'
-//                pickFirst 'wangpos/sdk4/base/IBaseService.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/IBinderPool.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/ICommonCallback.aidl'
-//                pickFirst 'wangpos/sdk4/base/ICommonCallback.aidl'
-//                pickFirst 'wangpos/sdk4/base/ICallbackListener.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/IScannerCallback.aidl'
-//                pickFirst 'wangpos/sdk4/base/IScannerCallback.aidl'
-//                exclude 'META-INF/MANIFEST.MF'
-//                exclude 'wangpos/sdk4/base/IWifiProbeListener.aidl'
-//                exclude  'wangpos/sdk4/base/config/ScanConfig.aidl'
-//                exclude  'wangpos/wangpos/sdk4/base/config/ScanConfig.aidl'
-//                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.aidl'
-//                exclude 'aidl/wangpos/sdk4/base/IWifiProbeListener.aidl'
-//                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.java'
-//                exclude 'wangpos/sdk4/base/config/ChipRecordData.aidl'
-//                exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.aidl'
-//                exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.java'
-//
-//            }
-//        }
+        gpos700 {
+            dimension = "version"
+            //signingConfig signingConfigs.gpos700
+
+            packagingOptions {
+                pickFirst 'wangpos/sdk4/base/IDecodeCallback.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/IDecodeCallback.aidl'
+                pickFirst 'aidl/wangpos/sdk4/keymanager/IBinderPool.aidl'
+                pickFirst 'aidl/wangpos/sdk4/keymanager/IKeyManagerService.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/IBaseService.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/ICallbackListener.aidl'
+                pickFirst 'wangpos/sdk4/base/IBinderPool.aidl'
+                pickFirst 'wangpos/sdk4/wangpos/sdk4/base/IBaseService.aidl'
+                pickFirst 'wangpos/sdk4/base/IBaseService.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/IBinderPool.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/ICommonCallback.aidl'
+                pickFirst 'wangpos/sdk4/base/ICommonCallback.aidl'
+                pickFirst 'wangpos/sdk4/base/ICallbackListener.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/IScannerCallback.aidl'
+                pickFirst 'wangpos/sdk4/base/IScannerCallback.aidl'
+                exclude 'META-INF/MANIFEST.MF'
+                exclude 'wangpos/sdk4/base/IWifiProbeListener.aidl'
+                exclude  'wangpos/sdk4/base/config/ScanConfig.aidl'
+                exclude  'wangpos/wangpos/sdk4/base/config/ScanConfig.aidl'
+                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.aidl'
+                exclude 'aidl/wangpos/sdk4/base/IWifiProbeListener.aidl'
+                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.java'
+                exclude 'wangpos/sdk4/base/config/ChipRecordData.aidl'
+                exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.aidl'
+                exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.java'
+
+            }
+        }
 
 //        gpos700x {
 //            dimension "version"
@@ -298,5 +302,8 @@ dependencies {
     gpos780Implementation(files("libs/gpos780/libgedi-1.16.19-gpos780-payment-release.aar",
             "libs/gpos780/libppcomp-001.31-230802-gpos780-release.aar", "libs/gpos780/libgandi-1.2.16-gpos780-payment-release.aar",
             "libs/gpos780/libhcl-1.0.6-gpos780-release.aar","libs/gpos780/android-easy-layer-release_gpos720.aar"))
+
+    gpos700Implementation(files("libs/gpos700/android-easy-layer-debug.aar",
+            "libs/gpos700/libgedi-1.16.14-gpos700-payment-release.aar", "libs/gpos700/libppcomp-001.35-230609-gpos700-logs.aar"))
 
 }
