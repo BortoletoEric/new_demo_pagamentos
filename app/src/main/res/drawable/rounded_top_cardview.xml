@@ -1,0 +1,13 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/blue_strong" />
+        </shape>
+    </item>
+    <item android:top="10dp"> <!-- Ajuste o valor conforme necessário para definir a altura da borda superior -->
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/white" /> <!-- Cor da borda -->
+            <corners android:topLeftRadius="16dp" android:topRightRadius="16dp" /> <!-- Ajuste o valor conforme necessário -->
+        </shape>
+    </item>
+</layer-list>
