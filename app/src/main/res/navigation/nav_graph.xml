@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_checkCardFragment_to_sucessPayFragment"
             app:destination="@id/sucessPayFragment" />
+        <action
+            android:id="@+id/action_checkCardFragment_to_sucessPayMiniFragment"
+            app:destination="@id/sucessPayMiniFragment" />
     </fragment>
 
     <fragment
@@ -68,6 +71,9 @@
         <action
             android:id="@+id/action_pinFragment_to_sucessPayFragment"
             app:destination="@id/sucessPayFragment" />
+        <action
+            android:id="@+id/action_pinFragment_to_sucessPayMiniFragment"
+            app:destination="@id/sucessPayMiniFragment" />
         <action
             android:id="@+id/action_pinFragment_to_amountFragment"
             app:destination="@id/amountFragment" />
@@ -90,6 +96,21 @@
             app:argType="string"
             app:nullable="true" />
     </fragment>
+
+    <fragment
+        android:id="@+id/sucessPayMiniFragment"
+        android:name="br.com.gertec.autostart.new_demo_pagamentos.fragments.SucessPayMiniFragment"
+        android:label="fragment_sucess_pay_mini"
+        tools:layout="@layout/fragment_sucess_pay_mini">
+        <action
+            android:id="@+id/action_sucessPayMiniFragment_to_amountFragment"
+            app:destination="@id/amountFragment" />
+        <argument
+            android:name="cardType"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
     <fragment
         android:id="@+id/checkEventFragment"
         android:name="br.com.gertec.autostart.new_demo_pagamentos.fragments.CheckEventFragment"

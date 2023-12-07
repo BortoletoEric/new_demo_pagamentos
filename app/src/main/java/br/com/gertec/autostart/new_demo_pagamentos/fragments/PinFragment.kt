@@ -54,9 +54,15 @@ class PinFragment : Fragment() {
                 "GOC" -> {
                     Log.d("msgg", "step GOC: I'M IN!")
 
-                    view.findNavController().navigate(
-                        PinFragmentDirections.actionPinFragmentToSucessPayFragment(args.cardType)
-                    )
+                    if (BuildConfig.FLAVOR.equals("gpos700mini")) {
+                        view.findNavController().navigate(
+                            PinFragmentDirections.actionPinFragmentToSucessPayMiniFragment(args.cardType)
+                        )
+                    } else {
+                        view.findNavController().navigate(
+                            PinFragmentDirections.actionPinFragmentToSucessPayFragment(args.cardType)
+                        )
+                    }
                 }
 
                 "GOC_NO_CARD" -> {
