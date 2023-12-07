@@ -265,5 +265,168 @@
         </RelativeLayout>
     </LinearLayout>
 
-
 </RelativeLayout>
+
+<!-- PROX VERSAO!
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:layout_width="match_parent"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:id="@+id/pinKeyboard">-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button1"-->
+<!--        style="@style/CustomButtonPinKeyboard"-->
+<!--        android:text="1"-->
+<!--        android:tag="@string/btn1Tag"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/button4"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/button2"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button2"-->
+<!--        style="@style/CustomButtonPinKeyboard"-->
+<!--        android:text="2"-->
+<!--        android:tag="@string/btn2Tag"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/button5"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/button3"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/button1" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button3"-->
+<!--        style="@style/CustomButtonPinKeyboard"-->
+<!--        android:text="3"-->
+<!--        android:tag="@string/btn3Tag"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/button6"-->
+<!--        app:layout_constraintEnd_toStartOf="@id/button_clear"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/button2" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button_clear"-->
+<!--        style="@style/CustomButtonPinKeyboard"-->
+<!--        android:background="@drawable/clearall"-->
+<!--        android:scaleY="0.5"-->
+<!--        android:scaleX="0.5"-->
+<!--        android:tag="@string/btnCancelTag"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/button_erase"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/button3" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button4"-->
+<!--        style="@style/CustomButtonPinKeyboard"-->
+<!--        android:text="4"-->
+<!--        android:tag="@string/btn4Tag"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/button7"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/button5"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button5"-->
+<!--        style="@style/CustomButtonPinKeyboard"-->
+<!--        android:text="5"-->
+<!--        android:tag="@string/btn5Tag"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/button8"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/button6"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/button4" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button6"-->
+<!--        style="@style/CustomButtonPinKeyboard"-->
+<!--        android:text="6"-->
+<!--        android:tag="@string/btn6Tag"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/button9"-->
+<!--        app:layout_constraintEnd_toStartOf="@id/button_erase"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/button5" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button_erase"-->
+<!--        style="@style/CustomButtonPinKeyboard"-->
+<!--        android:scaleY="0.5"-->
+<!--        android:scaleX="0.5"-->
+<!--        android:background="@drawable/erase"-->
+<!--        android:tag="@string/btnClearTag"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/button9"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/button6" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button7"-->
+<!--        style="@style/CustomButtonPinKeyboard"-->
+<!--        android:text="7"-->
+<!--        android:tag="@string/btn7Tag"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/button_null_0"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/button8"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button8"-->
+<!--        style="@style/CustomButtonPinKeyboard"-->
+<!--        android:text="8"-->
+<!--        android:tag="@string/btn8Tag"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/button0"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/button9"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/button7" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button9"-->
+<!--        style="@style/CustomButtonPinKeyboard"-->
+<!--        android:text="9"-->
+<!--        android:tag="@string/btn9Tag"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/button_null_1"-->
+<!--        app:layout_constraintEnd_toStartOf="@id/button_confirm"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/button8" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button_confirm"-->
+<!--        style="@style/CustomButtonKeyboardConfirmPin"-->
+<!--        android:tag="@string/btnEnterTag"-->
+<!--        android:background="@drawable/confirm"-->
+<!--        android:scaleY="0.5"-->
+<!--        android:scaleX="0.5"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/button_erase"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/button9" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button_null_0"-->
+<!--        style="@style/CustomButtonPinKeyboard"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/button0"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button0"-->
+<!--        style="@style/CustomButtonPinKeyboard"-->
+<!--        android:text="0"-->
+<!--        android:tag="@string/btn0Tag"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/button_null_1"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/button_null_0" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button_null_1"-->
+<!--        style="@style/CustomButtonPinKeyboard"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@id/button_confirm"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/button0" />-->
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
