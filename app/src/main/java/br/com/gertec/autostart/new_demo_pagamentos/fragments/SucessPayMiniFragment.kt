@@ -57,6 +57,7 @@ class SucessPayMiniFragment : Fragment() {
 
         amount = mainActivity.mainViewModel.transactionAmount
         pan = mainActivity.mainViewModel.pan
+        mainActivity.mainViewModel.pan = ""
         applicationType = mainActivity.mainViewModel.applicationType
         codSale = getRandomCodSale().toString()
 

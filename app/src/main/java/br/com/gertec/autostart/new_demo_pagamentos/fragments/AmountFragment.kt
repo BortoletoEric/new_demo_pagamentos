@@ -56,7 +56,6 @@ class AmountFragment : Fragment() {
 
         binding.keyboard.buttonConfirm.requestFocus()
 
-
         setupViews()
 
         Handler(Looper.getMainLooper()).postDelayed({
