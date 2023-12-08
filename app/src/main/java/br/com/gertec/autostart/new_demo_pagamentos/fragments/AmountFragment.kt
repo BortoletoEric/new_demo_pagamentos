@@ -25,6 +25,7 @@ import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
+import java.util.Locale
 
 class AmountFragment : Fragment() {
 
@@ -61,12 +62,28 @@ class AmountFragment : Fragment() {
         Handler(Looper.getMainLooper()).postDelayed({
             resetAllObservers()
             setupObservers(view)
+            setupPPCompLanguage()
             checkEvent()
             if (hasPhysicalKbd()) {
                 setupPhysicalKbd(view)
             }
         }, 1500)
+    }
 
+    private fun setupPPCompLanguage() {
+        CoroutineScope(Dispatchers.IO).launch {
+            mainActivity.mainViewModel.ppCompCommands.selectLanguage(getDeviceLanguage())
+        }
+    }
+
+    fun getDeviceLanguage(): String {
+        val locale: Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            resources.configuration.locales.get(0)
+        } else {
+            @Suppress("DEPRECATION")
+            resources.configuration.locale
+        }
+        return locale.language
     }
 
     private fun resetAllObservers() {
@@ -98,7 +115,7 @@ class AmountFragment : Fragment() {
 
                 "CKE_MC_ERR" -> {
                     checkEvent()
-                    mainActivity.showSnackBar("ERRO NA LEITURA DO CARTÃO", false)
+                    mainActivity.showSnackBar(getString(R.string.erro_na_leitura_do_cart_o), false)
                 }
             }
         }
@@ -141,7 +158,9 @@ class AmountFragment : Fragment() {
         binding.keyboard.buttonClear.setOnClickListener {
             binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()
         }
-        binding.keyboard.buttonConfirm.setOnClickListener { goToCardTypeFragment(it) }
+        binding.keyboard.buttonConfirm.setOnClickListener {it->
+            goToCardTypeFragment(it)
+        }
 
         binding.displayKeyboard.txtPriceValue.movementMethod = null
         binding.displayKeyboard.txtPriceValue.addTextChangedListener(object : TextWatcher {
@@ -210,7 +229,7 @@ class AmountFragment : Fragment() {
                 )
             )
         } else {
-            mainActivity.showSnackBar("Digite o valor", false)
+            mainActivity.showSnackBar(getString(R.string.digite_o_valor), false)
         }
     }
 

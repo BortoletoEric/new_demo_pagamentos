@@ -1,5 +1,6 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,12 +15,12 @@ import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentCardTypeB
 import br.com.gertec.gedi.GEDI
 import br.com.gertec.gedi.interfaces.IGEDI
 import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig //gpos760 apenas
+import java.util.Locale
+
 //import br.com.setis.gertec.bibliotecapinpad.BuildConfig //gpos720 apenas
 
 class CardTypeFragment : Fragment() {
 
-    private var DEBITO_TRANSACTION_TYPE = "Débito"
-    private var CREDITO_TRANSACTION_TYPE = "Crédito"
     private var _binding: FragmentCardTypeBinding? = null
     private val binding get() = _binding!!
     private val args: CardTypeFragmentArgs by navArgs()
@@ -47,6 +48,7 @@ class CardTypeFragment : Fragment() {
             binding.button2.background = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_button_credito_dgt2)
             setupPhysicalKbd(view)
         }
+
     }
 
     private fun resetAllObservers() {
@@ -55,10 +57,10 @@ class CardTypeFragment : Fragment() {
 
     private fun setupButtons() {
         binding.button1.setOnClickListener {
-            startCheckCardFragment(DEBITO_TRANSACTION_TYPE, it)
+            startCheckCardFragment(getString(R.string.d_bito), it)
         }
         binding.button2.setOnClickListener {
-            startCheckCardFragment(CREDITO_TRANSACTION_TYPE, it)
+            startCheckCardFragment(getString(R.string.cr_dito), it)
         }
     }
 
@@ -71,11 +73,11 @@ class CardTypeFragment : Fragment() {
         mainActivity.mainViewModel.kbdKeyPressed.observe(viewLifecycleOwner) { keyCode ->
             when (keyCode) {
                 8 -> {
-                    startCheckCardFragment(DEBITO_TRANSACTION_TYPE, view)
+                    startCheckCardFragment(getString(R.string.d_bito), view)
                     beep()
                 }//1
                 9 -> {
-                    startCheckCardFragment(CREDITO_TRANSACTION_TYPE, view)
+                    startCheckCardFragment(getString(R.string.cr_dito), view)
                     beep()
                 }//2
             }
@@ -85,7 +87,7 @@ class CardTypeFragment : Fragment() {
     private fun startCheckCardFragment(applicationType: String, view: View) {
 
         mainActivity.mainViewModel.applicationType = applicationType
-        if (applicationType == DEBITO_TRANSACTION_TYPE) {
+        if (applicationType == getString(R.string.d_bito)) {
             view.findNavController().navigate(
                 CardTypeFragmentDirections.actionCardTypeFragmentToCheckCardFragment(
                     args.amount,

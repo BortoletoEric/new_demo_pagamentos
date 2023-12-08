@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:fontFamily="@font/inter"
-        android:text="Insira, passe o cartão ou"
+        android:text="@string/insira_passe_o_cart_o_ou"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
