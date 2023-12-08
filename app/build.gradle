@@ -15,8 +15,8 @@ android {
         applicationId "br.com.gertec.autostart.new_demo_pagamentos"
         minSdkVersion 22 //26 para gpos760, o resto 22
         targetSdkVersion 33
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 100
+        versionName = "1.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
