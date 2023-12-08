@@ -137,37 +137,37 @@ android {
 //            }
 //        }
 
-//        gpos700mini {
-//            dimension "version"
-//            //signingConfig signingConfigs.gpos700mini
-//
-//            packagingOptions {
-//                pickFirst 'wangpos/sdk4/base/IDecodeCallback.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/IDecodeCallback.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/keymanager/IBinderPool.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/keymanager/IKeyManagerService.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/IBaseService.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/ICallbackListener.aidl'
-//                pickFirst 'wangpos/sdk4/base/IBinderPool.aidl'
-//                pickFirst 'wangpos/sdk4/wangpos/sdk4/base/IBaseService.aidl'
-//                pickFirst 'wangpos/sdk4/base/IBaseService.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/IBinderPool.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/ICommonCallback.aidl'
-//                pickFirst 'wangpos/sdk4/base/ICommonCallback.aidl'
-//                pickFirst 'wangpos/sdk4/base/ICallbackListener.aidl'
-//                pickFirst 'aidl/wangpos/sdk4/base/IScannerCallback.aidl'
-//                pickFirst 'wangpos/sdk4/base/IScannerCallback.aidl'
-//                exclude 'wangpos/sdk4/base/IWifiProbeListener.aidl'
-//                exclude  'wangpos/sdk4/base/config/ScanConfig.aidl'
-//                exclude  'wangpos/wangpos/sdk4/base/config/ScanConfig.aidl'
-//                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.aidl'
-//                exclude 'aidl/wangpos/sdk4/base/IWifiProbeListener.aidl'
-//                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.java'
-//                exclude 'wangpos/sdk4/base/config/ChipRecordData.aidl'
-//                exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.aidl'
-//                exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.java'
-//            }
-//        }
+        gpos700mini {
+            dimension "version"
+            //signingConfig signingConfigs.gpos700mini
+
+            packagingOptions {
+                pickFirst 'wangpos/sdk4/base/IDecodeCallback.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/IDecodeCallback.aidl'
+                pickFirst 'aidl/wangpos/sdk4/keymanager/IBinderPool.aidl'
+                pickFirst 'aidl/wangpos/sdk4/keymanager/IKeyManagerService.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/IBaseService.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/ICallbackListener.aidl'
+                pickFirst 'wangpos/sdk4/base/IBinderPool.aidl'
+                pickFirst 'wangpos/sdk4/wangpos/sdk4/base/IBaseService.aidl'
+                pickFirst 'wangpos/sdk4/base/IBaseService.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/IBinderPool.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/ICommonCallback.aidl'
+                pickFirst 'wangpos/sdk4/base/ICommonCallback.aidl'
+                pickFirst 'wangpos/sdk4/base/ICallbackListener.aidl'
+                pickFirst 'aidl/wangpos/sdk4/base/IScannerCallback.aidl'
+                pickFirst 'wangpos/sdk4/base/IScannerCallback.aidl'
+                exclude 'wangpos/sdk4/base/IWifiProbeListener.aidl'
+                exclude  'wangpos/sdk4/base/config/ScanConfig.aidl'
+                exclude  'wangpos/wangpos/sdk4/base/config/ScanConfig.aidl'
+                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.aidl'
+                exclude 'aidl/wangpos/sdk4/base/IWifiProbeListener.aidl'
+                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.java'
+                exclude 'wangpos/sdk4/base/config/ChipRecordData.aidl'
+                exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.aidl'
+                exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.java'
+            }
+        }
 
         gpos720 {
             dimension "version"
@@ -304,5 +304,8 @@ dependencies {
 
     gpos700Implementation(files("libs/gpos700/android-easy-layer-debug.aar",
             "libs/gpos700/libgedi-1.16.14-gpos700-payment-release.aar", "libs/gpos700/libppcomp-001.35-230609-gpos700-logs.aar"))
+
+    gpos700miniImplementation(files("libs/gpos700mini/android-easy-layer-debug.aar",
+            "libs/gpos700mini/libgedi-1.16.14-gpos700-payment-release.aar", "libs/gpos700mini/libppcomp-001.35-230609-gpos700-logs.aar"))
 
 }
