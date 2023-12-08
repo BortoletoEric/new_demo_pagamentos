@@ -1,5 +1,6 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -16,6 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class CheckCardFragment : Fragment() {
     private var _binding: FragmentCheckCardBinding? = null
@@ -83,6 +85,8 @@ class CheckCardFragment : Fragment() {
         }
     }
 
+
+
     private fun getCard() {
         CoroutineScope(Dispatchers.IO).launch {
             delay(1_000)
@@ -91,7 +95,8 @@ class CheckCardFragment : Fragment() {
                     it.abort() //pegar dados automaticamente
                 }
                 val result = it.getCard(
-                    "0002${fixAmountInput(args.amount)}231122121636012345678900"
+                    "0002${fixAmountInput(args.amount)}231122121636012345678900",
+                    requireContext()
                 )//0099000000000100231122115800135799753100
 
                 if(!result.second.isNullOrEmpty()) {

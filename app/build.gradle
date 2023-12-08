@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "br.com.gertec.autostart.new_demo_pagamentos"
-        minSdkVersion 26 //26 ou 22
+        minSdkVersion 22 //26 ou 22
         targetSdkVersion 33
         versionCode = 1
         versionName = "1.0"

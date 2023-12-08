@@ -1,5 +1,6 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.commands.PrinterCommands
 import br.com.gertec.autostart.new_demo_pagamentos.commands.Utils
@@ -21,6 +23,7 @@ import br.com.gertec.gedi.GEDI
 import br.com.gertec.gedi.enums.GEDI_INFO_e_ControlNumber
 import br.com.gertec.gedi.exceptions.GediException
 import br.com.gertec.gedi.interfaces.IGEDI
+import java.util.Locale
 import kotlin.random.Random
 
 class SucessPayFragment : Fragment() {
@@ -37,8 +40,6 @@ class SucessPayFragment : Fragment() {
     private lateinit var applicationType: String
     private lateinit var codSale: String
 
-    private val VIA_CLIENTE: String = "CLIENTE"
-    private val VIA_LOJISTA: String = "LOJISTA"
     private var numeroDeSerie: String = ""
     private var isPrintedLojista: Boolean = false
 
@@ -70,7 +71,7 @@ class SucessPayFragment : Fragment() {
         binding.displayCardInfo.txtApplicationType.setText(applicationType)
         binding.displayCardInfo.txtCodeSaleValue.setText(codSale)
         binding.displayCardInfo.txtFinalCardNumbers.setText(pan)
-        binding.btnPrint.setOnClickListener(View.OnClickListener { printComprovante(VIA_CLIENTE, numeroDeSerie) })
+        binding.btnPrint.setOnClickListener(View.OnClickListener { printComprovante(getString(R.string.cliente), numeroDeSerie) })
         binding.btnFinish.setOnClickListener(View.OnClickListener {
             //mainActivity.mainViewModel.ppCompCommands.removeCard("GERTEC APP DEMO")
             view.findNavController()
@@ -96,7 +97,10 @@ class SucessPayFragment : Fragment() {
             Thread.sleep(500)
             if(!it.isNullOrEmpty() && !isPrintedLojista){
                 numeroDeSerie = it
-                printComprovante(VIA_LOJISTA, it)
+                printComprovante(
+                    getString(R.string.lojista),
+                    it
+                )
                 isPrintedLojista = true
             }
         }
@@ -104,9 +108,19 @@ class SucessPayFragment : Fragment() {
 
     private fun printComprovante(user: String, ns: String) {
         val printerCommands = context?.let { PrinterCommands(it, mainActivity) }
-        val html = Utils.getPaymentReceiptHtmlModel(amount, applicationType, codSale, ns, pan, user)
-        val qrCode = Utils.getPaymentReceiptQrCode(amount, applicationType, codSale, ns)
+        val html = Utils.getPaymentReceiptHtmlModel(amount, applicationType, codSale, ns, pan, user, getDeviceLanguage())
+        val qrCode = Utils.getPaymentReceiptQrCode(amount, applicationType, codSale, ns, getDeviceLanguage())
         printerCommands?.printComprovante(html, qrCode)
+    }
+
+    fun getDeviceLanguage(): String {
+        val locale: Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            requireContext().resources.configuration.locales.get(0)
+        } else {
+            @Suppress("DEPRECATION")
+            requireContext().resources.configuration.locale
+        }
+        return locale.language
     }
 
     private fun getRandomCodSale(): Int {

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
+import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentPinBinding
 import kotlinx.coroutines.CoroutineScope
@@ -41,7 +42,7 @@ class PinFragment : Fragment() {
         setupButtons()
 
         if (args.cardType != "03") { // Se for diferente de EMV com contato, não precisa chamar o GOC
-            mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
+            mainActivity.showSnackBar(getString(R.string.venda_finalizada_com_sucesso), true)
             mainActivity.mainViewModel.processCompleted("GOC")
         } else {
             goOnChip()
@@ -60,17 +61,17 @@ class PinFragment : Fragment() {
                 }
 
                 "GOC_NO_CARD" -> {
-                    mainActivity.showSnackBar("Cartão removido", false)
+                    mainActivity.showSnackBar(getString(R.string.cart_o_removido), false)
                     view.findNavController().navigate(
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
                 }
 
                 "GOC_TO" -> {
-                    mainActivity.showSnackBar("TEMPO ESGOTADO", false)
-                    view.findNavController().navigate(
-                        PinFragmentDirections.actionPinFragmentToAmountFragment()
-                    )
+                    mainActivity.showSnackBar(getString(R.string.tempo_esgotado), false)
+//                    view.findNavController().navigate(
+//                        PinFragmentDirections.actionPinFragmentToAmountFragment()
+//                    )
                 }
 //                "GOC_ERR" -> {
 //                    if (transactionOk) return@observe
@@ -92,7 +93,7 @@ class PinFragment : Fragment() {
                 720896L, 724993L -> {
                     Log.d("msgg", "obs 720896")
                     binding.removeCardContainer.visibility = View.VISIBLE
-                    binding.tvFinalMessage.text = "RETIRE O CARTÃO"
+                    binding.tvFinalMessage.text = getString(R.string.retire_o_cart_o)
                 }
 
                 //GPOS780
@@ -107,7 +108,7 @@ class PinFragment : Fragment() {
                     Log.d("msgg", "obs 256")
                     if (transactionOk) return@observe
                     Log.d("msgg", "obs 256 transNOK")
-                    mainActivity.showSnackBar("OPERAÇÃO CANCELADA", false)
+                    mainActivity.showSnackBar(getString(R.string.opera_o_cancelada), false)
                     view.findNavController().navigate(
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
@@ -155,7 +156,8 @@ class PinFragment : Fragment() {
                 result = it.goOnChip(
                     "${am}000000000000011102000000000000000000000000000000001000003E820000003E880000",//${am}000000000000001321000000000000000000000000000000001000003E820000003E880000
                     "0019B",
-                    "0119F0B1F813A9F6B9F6C9F66"
+                    "0119F0B1F813A9F6B9F6C9F66",
+                    requireContext()
                 )//Term floor lim: 000003E8 =
                 Log.d("msgg", "G0C RES: $result")
 
@@ -167,7 +169,7 @@ class PinFragment : Fragment() {
                     mainActivity.mainViewModel.processCompleted("GOC_ERR")
                 } else if (!result.isNullOrEmpty()) {
                     transactionOk = true
-                    mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
+                    mainActivity.showSnackBar(getString(R.string.venda_finalizada_com_sucesso), true)
                     it.finishChip()
                     mainActivity.mainViewModel.processCompleted("GOC")
                 }

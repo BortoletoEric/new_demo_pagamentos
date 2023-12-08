@@ -145,14 +145,14 @@ class CheckEventFragment : Fragment() {
                 CheckEventFragmentDirections.actionCheckEventFragmentToCardTypeFragment((amount).toLong(),true)
             )
         } else {
-            mainActivity.showSnackBar("Digite o valor", false)
+            mainActivity.showSnackBar(getString(R.string.digite_o_valor), false)
         }
     }
 
     private fun showDialogEmptyAmount() {
         val builder = AlertDialog.Builder(context)
-        builder.setTitle("Por favor, remova o cartão!")
-            .setMessage("O valor não pode estar vazio, digite um valor e insira novamente o cartão.")
+        builder.setTitle(getString(R.string.por_favor_remova_o_cart_o))
+            .setMessage(getString(R.string.o_valor_n_o_pode_estar_vazio_digite_um_valor_e_insira_novamente_o_cart_o))
         builder.setCancelable(false)
         builder.setPositiveButton(
             "OK"

@@ -21,5 +21,35 @@
     <string name="btnEnterTag">btnEnterTag</string>
     <string name="lblDigitsTag">lblDigitsTag</string>
     <string name="display">display</string>
-
+    <string name="cart_o_removido">Cartão removido</string>
+    <string name="total_a_pagar">Total a pagar</string>
+    <string name="r">R$</string>
+    <string name="digite_a_senha">Digite a senha</string>
+    <string name="insira_passe_o_cart_o_ou">Insira, passe o cartão ou</string>
+    <string name="digite_o_valor_da_compra">Digite o valor da compra</string>
+    <string name="imprimir_via_cliente">Imprimir Via Cliente</string>
+    <string name="finalizar">Finalizar</string>
+    <string name="cart_o">Cartão</string>
+    <string name="_1234">1234</string>
+    <string name="_3457">3457</string>
+    <string name="formato">Formato</string>
+    <string name="cr_dito">Crédito</string>
+    <string name="c_d_venda">Cód. venda</string>
+    <string name="_73664829">73664829</string>
+    <string name="cnpj">CNPJ</string>
+    <string name="_21_090_404_0001_48">21.090.404/0001-48</string>
+    <string name="pagamento_realizado_com_sucesso">Pagamento realizado com sucesso</string>
+    <string name="valor_total">Valor Total</string>
+    <string name="retire_o_cartao">RETIRE O CARTAO</string>
+    <string name="erro_na_leitura_do_cart_o">ERRO NA LEITURA DO CARTÃO</string>
+    <string name="digite_o_valor">Digite o valor</string>
+    <string name="d_bito">Débito</string>
+    <string name="por_favor_remova_o_cart_o">Por favor, remova o cartão!</string>
+    <string name="o_valor_n_o_pode_estar_vazio_digite_um_valor_e_insira_novamente_o_cart_o">O valor não pode estar vazio, digite um valor e insira novamente o cartão.</string>
+    <string name="venda_finalizada_com_sucesso">Venda finalizada com sucesso!</string>
+    <string name="tempo_esgotado">TEMPO ESGOTADO</string>
+    <string name="opera_o_cancelada">OPERAÇÃO CANCELADA</string>
+    <string name="cliente">CLIENTE</string>
+    <string name="lojista">LOJISTA</string>
+    <string name="retire_o_cart_o">RETIRE O CARTÃO</string>
 </resources>

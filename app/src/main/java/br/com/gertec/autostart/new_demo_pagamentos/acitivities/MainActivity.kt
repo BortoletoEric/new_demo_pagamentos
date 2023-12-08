@@ -1,29 +1,25 @@
 package br.com.gertec.autostart.new_demo_pagamentos.acitivities
 
-import android.app.Activity
-import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.KeyEvent
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.callbacks.OutputCallbacks
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.ActivityMainBinding
-import br.com.gertec.autostart.new_demo_pagamentos.fragments.PinFragmentDirections
 import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModel
 import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModelFactory
-import br.com.gertec.gedi.GEDI
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class MainActivity : AppCompatActivity(){
     private var _binding: ActivityMainBinding? = null

@@ -2,21 +2,23 @@ package br.com.gertec.autostart.new_demo_pagamentos.commands
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
+import android.os.Build
 import android.util.Log
 import android.widget.Button
-import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
+import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
 import br.com.gertec.autostart.new_demo_pagamentos.model.KBDData
 import br.com.gertec.autostart.new_demo_pagamentos.model.Tabelas
 import br.com.gertec.ppcomp.IPPCompDSPCallbacks
 import br.com.gertec.ppcomp.PPComp
+import br.com.gertec.ppcomp.enums.LANGUAGE
 import br.com.gertec.ppcomp.exceptions.PPCompDumbCardException
 import br.com.gertec.ppcomp.exceptions.PPCompMCDataErrException
 import br.com.gertec.ppcomp.exceptions.PPCompNoCardException
 import br.com.gertec.ppcomp.exceptions.PPCompProcessingException
 import br.com.gertec.ppcomp.exceptions.PPCompTabExpException
 import br.com.gertec.ppcomp.exceptions.PPCompTimeoutException
+import java.util.Locale
 
 class PPCompCommands private constructor() {
     private var ppComp: PPComp? = null
@@ -37,6 +39,10 @@ class PPCompCommands private constructor() {
 
     fun init(context: Context){
         ppComp = PPComp(context)
+    }
+
+    fun selectLanguage(deviceLanguage: String){
+        if(deviceLanguage == "pt") ppComp?.PP_SelectLanguage(LANGUAGE.PT) else ppComp?.PP_SelectLanguage(LANGUAGE.EN)
     }
 
     fun open(){
@@ -92,7 +98,7 @@ class PPCompCommands private constructor() {
         }
     }
 
-    fun getCard(input: String): Pair<Boolean,String?>{
+    fun getCard(input: String, context: Context): Pair<Boolean,String?>{
         var gcrOut: String?
         try{
             ppComp?.PP_StartGetCard(input)
@@ -103,7 +109,7 @@ class PPCompCommands private constructor() {
                     Log.d("msgg","GCR RESP: $gcrOut")
                     return Pair(true,gcrOut)
                 } catch(e: PPCompTabExpException){
-                    if(tableLoad("010123456789")){  // se nao der, tenta esse kk   011357997531
+                    if(tableLoad("010123456789", context)){  // se nao der, tenta esse kk   011357997531
                         try{
                             ppComp?.PP_ResumeGetCard()
                         }catch (e:Exception){
@@ -112,7 +118,7 @@ class PPCompCommands private constructor() {
                     }
                 } catch(e: PPCompDumbCardException){
                     try{
-                        ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
+                        ppComp?.PP_StartRemoveCard(context.getString(R.string.retire_o_cartao))
                         ppComp?.PP_RemoveCard()
                         Log.i("msgg", "ABORT 5")
                         ppComp?.PP_Abort()
@@ -132,7 +138,7 @@ class PPCompCommands private constructor() {
         }
     }
 
-    private fun tableLoad(input: String): Boolean {
+    private fun tableLoad(input: String, context: Context): Boolean {
         try {
             Log.d("msgg","TABLE LOAD")
             ppComp?.PP_TableLoadInit(input)
@@ -141,8 +147,14 @@ class PPCompCommands private constructor() {
         }catch(e: Exception){
             e.printStackTrace()
             try {
-                tabelas.aidsList.forEach{ aid ->
-                    ppComp?.PP_TableLoadRec("01$aid")
+                if(getDeviceLanguage(context) == "pt"){
+                    tabelas.aidsList.forEach{ aid ->
+                        ppComp?.PP_TableLoadRec("01$aid")
+                    }
+                } else{
+                    tabelas.aidsListEnglish.forEach{ aid ->
+                        ppComp?.PP_TableLoadRec("01$aid")
+                    }
                 }
                 tabelas.capksList.forEach{ capk ->
                     ppComp?.PP_TableLoadRec("01$capk")
@@ -156,10 +168,21 @@ class PPCompCommands private constructor() {
         }
     }
 
+    fun getDeviceLanguage(context: Context): String {
+        val locale: Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            context.resources.configuration.locales.get(0)
+        } else {
+            @Suppress("DEPRECATION")
+            context.resources.configuration.locale
+        }
+        return locale.language
+    }
+
     fun goOnChip(
         input: String,
         tags: String? = null,
-        opTags: String? = null
+        opTags: String? = null,
+        context: Context
     ): String?{
         try {
 
@@ -179,7 +202,7 @@ class PPCompCommands private constructor() {
                     cancelCheckEvent = false
                     PinKbdActivity.kBDData?.activity?.finish()
                     try {
-                        ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
+                        ppComp?.PP_StartRemoveCard(context.getString(R.string.retire_o_cartao))
                         ppComp?.PP_RemoveCard()
                         Log.i("msgg", "ABORT 3")
                         ppComp?.PP_Abort()
@@ -193,7 +216,7 @@ class PPCompCommands private constructor() {
                     PinKbdActivity.kBDData?.activity?.finish()
                     e.printStackTrace()
                     try {
-                        ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
+                        ppComp?.PP_StartRemoveCard(context.getString(R.string.retire_o_cartao))
                         ppComp?.PP_RemoveCard()
                         Log.i("msgg", "ABORT 2")
                         ppComp?.PP_Abort()
@@ -209,7 +232,7 @@ class PPCompCommands private constructor() {
             cancelCheckEvent = false
             PinKbdActivity.kBDData?.activity?.finish()
             try {
-                ppComp?.PP_StartRemoveCard("RETIRE O CARTAO")
+                ppComp?.PP_StartRemoveCard(context.getString(R.string.retire_o_cartao))
                 ppComp?.PP_RemoveCard()
                 Log.i("msgg", "ABORT 1")
                 ppComp?.PP_Abort()
