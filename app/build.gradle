@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "br.com.gertec.autostart.new_demo_pagamentos"
-        minSdkVersion 22 //26 ou 22
+        minSdkVersion 22 //26 para gpos760, o resto 22
         targetSdkVersion 33
         versionCode = 1
         versionName = "1.0.0"
@@ -101,7 +101,6 @@ android {
                 exclude 'wangpos/sdk4/base/config/ChipRecordData.aidl'
                 exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.aidl'
                 exclude 'aidl/wangpos/sdk4/base/config/ChipRecordData.java'
-
             }
         }
 
