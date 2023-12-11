@@ -295,7 +295,7 @@ dependencies {
     gpos760Implementation(files("libs/gpos760/libgedi-0.18.8-gpos760-eng-release.aar","libs/gpos760/libgandi-0.3.5-gpos760-payment-release.aar",
         "libs/gpos760/PPCompGPOS760-v1.08-Complete-debug.aar", "libs/gpos760/android-easy-layer-gpos760-release.aar"))
 
-    gpos720Implementation(files("libs/gpos720/libgedi-0.16.9-beta.0-gpos720-payment-release.aar",
+    gpos720Implementation(files("libs/gpos720/libgedi-0.16.17-gpos720-payment-release.aar",
             "libs/gpos720/PPCompGPOS720-v1.12-Complete-debug.aar", "libs/gpos720/android-easy-layer-debug_gpos720.aar"))
 
     gpos780Implementation(files("libs/gpos780/libgedi-1.16.19-gpos780-payment-release.aar",
