@@ -3,18 +3,23 @@ package br.com.gertec.autostart.new_demo_pagamentos.acitivities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.callbacks.OutputCallbacks
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.ActivityMainBinding
+import br.com.gertec.autostart.new_demo_pagamentos.fragments.PinFragmentDirections
 import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModel
 import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModelFactory
+import br.com.gertec.gedi.GEDI
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +30,8 @@ class MainActivity : AppCompatActivity(){
     val binding get() = _binding!!
     lateinit var mainViewModel: MainViewModel
     private lateinit var navController: NavController
-    val outputCallbacks = OutputCallbacks(this)
+    lateinit var outputCallbacks : OutputCallbacks
+    var pinActive = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,33 +40,29 @@ class MainActivity : AppCompatActivity(){
 
         setupViewModel()
         setupPPCompCommands()
-        setupKdb()
-        //binding.touchPinKeyboard.visibility = View.GONE
-
+        Log.d("msgg","mainActivity Created")
         // Configurando o NavController
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
-//        binding.button1.setOnClickListener {
-//            Log.d("msgg","btn1 estuporado")
-//        }
     }
 
-    private fun setupKdb() {
-        mainViewModel.ppCompCommands.setPinKeyboard(
-            binding.btn1Tag,binding.btn2Tag,binding.btn3Tag,binding.btn4Tag,
-            binding.btn5Tag,binding.btn6Tag,binding.btn7Tag,binding.btn8Tag,
-            binding.btn9Tag,binding.btn0Tag,binding.btnCancelTag,binding.btnEnterTag,
-            binding.btnClearTag,this@MainActivity as Activity,true
-        )
+    override fun onStart() {
+        super.onStart()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            mainViewModel.setupGedi(this)
+        },1500)
+
     }
 
     private fun setupPPCompCommands() {
+        outputCallbacks = OutputCallbacks(this@MainActivity)
         CoroutineScope(Dispatchers.IO).launch{
             mainViewModel.ppCompCommands.let{
                 it.init(this@MainActivity)
-                it.open()
                 it.setDspCallback(outputCallbacks)
+                it.open()
             }
         }
     }
@@ -103,6 +105,7 @@ class MainActivity : AppCompatActivity(){
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.d("msgg","mainActivity destroyed")
         _binding = null
     }
 
@@ -112,13 +115,5 @@ class MainActivity : AppCompatActivity(){
         mainViewModel.ppCompCommands.abort()
     }
 
-    fun hidePinKeyboard(hide: Boolean) {
-        if(hide){
-            binding.pinKeyboard.visibility = View.INVISIBLE
-        }else{
-            Log.d("msgg","sAPARECA!")
-            binding.pinKeyboard.visibility = View.VISIBLE
-        }
-    }
 
 }

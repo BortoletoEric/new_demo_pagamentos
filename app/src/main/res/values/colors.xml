@@ -11,4 +11,7 @@
     <color name="successGreen">#28B404</color>
     <color name="errorRed">#B00020</color>
 
+    <color name="pinPasswordBackgroundColor">#f2f5f1</color>
+    <color name="colorPinDisplay">#00A868</color>
+
 </resources>

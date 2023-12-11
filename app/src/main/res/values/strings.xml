@@ -20,5 +20,6 @@
     <string name="btnClearTag">btnClearTag</string>
     <string name="btnEnterTag">btnEnterTag</string>
     <string name="lblDigitsTag">lblDigitsTag</string>
+    <string name="display">display</string>
 
 </resources>

@@ -1,13 +1,11 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
 //import br.com.setis.gertec.bibliotecapinpad.BuildConfig //gpos720 apenas
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
@@ -43,12 +41,21 @@ class PinFragment : Fragment() {
 
         setupViews(view)
         setupButtons()
-        goOnChip()
+
+        if (args.cardType != "03") { // Se for diferente de EMV com contato, não precisa chamar o GOC
+            mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
+            mainActivity.mainViewModel.processCompleted("GOC")
+        }else{
+            goOnChip()
+        }
+
 
         mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner) { step ->
-
+            Log.d("msgg","step GOC: $step")
             when (step) {
                 "GOC" -> {
+                    Log.d("msgg","step GOC: I'M IN!")
+
                     view.findNavController().navigate(
                         PinFragmentDirections.actionPinFragmentToSucessPayFragment(args.cardType)
                     )
@@ -67,6 +74,13 @@ class PinFragment : Fragment() {
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
                 }
+                "GOC_ERR" -> {
+                    if (transactionOk) return@observe
+                    mainActivity.showSnackBar("OPERAÇÃO CANCELADA", false)
+                    view.findNavController().navigate(
+                        PinFragmentDirections.actionPinFragmentToAmountFragment()
+                    )
+                }
             }
         }
     }
@@ -74,57 +88,37 @@ class PinFragment : Fragment() {
     private fun setupViews(view: View) {
         binding.txtPriceValue.text = mainActivity.mainViewModel.transactionAmount
         binding.removeCardContainer.visibility = View.GONE
-        if (BuildConfig.FLAVOR == "gpos760") {
-            //binding.touchPinKeyboard.visibility = View.GONE
-        } else {
-            mainActivity.hidePinKeyboard(false)
-            //binding.touchPinKeyboard.visibility = View.VISIBLE
-//            with(binding) {
-//                mainActivity.setKeyboard(
-//                    button1,
-//                    button2,
-//                    button3,
-//                    button4,
-//                    button5,
-//                    button6,
-//                    button7,
-//                    button8,
-//                    button9,
-//                    button0,
-//                    buttonErase,
-//                    buttonConfirm,
-//                    buttonClear,
-//                    true
-//                )
-//            }
-        }
 
-        mainActivity.mainViewModel.display.observe(viewLifecycleOwner) { display ->
-
+        mainActivity.mainViewModel.display.observe(viewLifecycleOwner) { display -> //ATENÇÃO, ISSO ESTAVA GERANDO ERRO NO PIN KBD
             when (display[0]) {
-                512L -> {
-                    if (display[2].toString().length <= 4) {
-                        val iGedi: IGEDI = GEDI.getInstance(context)
-                        iGedi.audio.Beep()
-                        binding.txtPin.text = display[2].toString()
-                    }
+                720896L -> {
+                    Log.d("msgg","obs 720896")
+                    binding.removeCardContainer.visibility = View.VISIBLE
+                    binding.tvFinalMessage.text = "RETIRE O CARTÃO"
                 }
 
-                720896L -> {
+                //GPOS780
+                724993L -> {
+                    if (BuildConfig.FLAVOR != "gpos780") return@observe
+                    Log.d("msgg","obs 724993")
                     binding.removeCardContainer.visibility = View.VISIBLE
                     binding.tvFinalMessage.text = "RETIRE O CARTÃO"
                 }
 
                 256L -> {
+                    Log.d("msgg","obs 256")
                     if (transactionOk) return@observe
+                    Log.d("msgg","obs 256 transNOK")
                     mainActivity.showSnackBar("OPERAÇÃO CANCELADA", false)
                     view.findNavController().navigate(
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
                 }
-                917504L -> {
-
-                    Toast.makeText(requireContext(),"917504L",Toast.LENGTH_LONG).show()
+                512L -> { //SE DER ERRO NO 720, TIRAR ESSA FLAG DAQUI
+                    if(BuildConfig.FLAVOR == "gpos760"){
+                        binding.txtPin.text = display[2].toString()
+                    }
+                    Log.i("512", "Callback 512")
                 }
                 else -> {
                     binding.txtPin.text
@@ -132,6 +126,11 @@ class PinFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun beep() {
+        val iGedi: IGEDI = GEDI.getInstance(context)
+        iGedi.audio.Beep()
     }
     private fun setupButtons() {
 //        binding.button0.setOnClickListener { addDigitToPin("0") }
@@ -155,31 +154,7 @@ class PinFragment : Fragment() {
 
     }
 
-    private fun erasePin() {
-        if (pin.isEmpty()) return
-        var pinTv = ""
-        pin = pin.substring(0, pin.length - 1)
-        pin.forEach { _ ->
-            pinTv += "*"
-        }
-        binding.txtPin.text = pinTv
-    }
-
-    private fun addDigitToPin(digit: String) {
-        var pinTv = ""
-        pin += digit
-        pin.forEach { _ ->
-            pinTv += "*"
-        }
-        binding.txtPin.text = pinTv
-    }
-
     private fun goOnChip() {
-        if (args.cardType != "03") { // Se for diferente de EMV com contato, não precisa chamar o GOC
-            mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
-            mainActivity.mainViewModel.processCompleted("GOC")
-            return
-        }
 
         val am = fixAmountSize(args.amount)
         var result: String? = ""
@@ -187,15 +162,18 @@ class PinFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             mainActivity.mainViewModel.ppCompCommands.let {
                 result = it.goOnChip(
-                    "${am}000000000000001321000000000000000000000000000000001000003E820000003E880000",
+                    "${am}000000000000001101000000000000000000000000000000001000003E820000003E880000",//${am}000000000000001321000000000000000000000000000000001000003E820000003E880000
                     "0019B",
                     "0119F0B1F813A9F6B9F6C9F66"
                 )//Term floor lim: 000003E8 =
-                Log.d("msgg","GPC RES: $result")
+                Log.d("msgg","G0C RES: $result")
+
                 if(result == "GOC_NO_CARD"){
                     mainActivity.mainViewModel.processCompleted("GOC_NO_CARD")
                 } else if (result == "GOC_TO") {
                     mainActivity.mainViewModel.processCompleted("GOC_TO")
+                }  else if(result == "GOC_ERR"){
+                    mainActivity.mainViewModel.processCompleted("GOC_ERR")
                 } else if (!result.isNullOrEmpty()) {
                     transactionOk = true
                     mainActivity.showSnackBar("Venda finalizada com sucesso!", true)
@@ -219,7 +197,7 @@ class PinFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mainActivity.hidePinKeyboard(true)
+        Log.d("msgg","pinFrgmt destroyed")
         _binding = null
     }
 }

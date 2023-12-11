@@ -2,73 +2,67 @@ package br.com.gertec.autostart.new_demo_pagamentos.acitivities
 
 import android.app.Activity
 import android.os.Bundle
-import android.widget.Button
+import android.util.Log
+import android.view.View
+import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import br.com.gertec.autostart.new_demo_pagamentos.databinding.ActivityPinKbdBinding
+import br.com.gertec.autostart.new_demo_pagamentos.R
+import br.com.gertec.autostart.new_demo_pagamentos.model.KBDData
 
-class PinKbdActivity : AppCompatActivity() {
-    var active = false
-    lateinit var mKBDData: KbdData
-    private var _binding: ActivityPinKbdBinding? = null
-    private val binding get() = _binding!!
+class PinKbdActivity : Activity() {
+    companion object {
+        private val TAG = PinKbdActivity::class.java.name
+        var mKBDData: KBDData? = null
+        var active = false
+        val kBDData: KBDData?
+            get() = mKBDData
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.i(TAG, "onCreate: start")
         super.onCreate(savedInstanceState)
-        _binding = ActivityPinKbdBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setFinishOnTouchOutside(false)
+        setContentView(R.layout.activity_manta)
+        val rootView = window.decorView.rootView
+        val frameLayout_pin = findViewById<FrameLayout>(R.id.frameMantaLayout_pin)
+        var child: View? = null
+        child = layoutInflater.inflate(R.layout.teclado_pin, null)
+        frameLayout_pin.addView(child)
+        mKBDData = KBDData()
+        mKBDData?.btn0 = rootView.findViewWithTag(getString(R.string.btn0Tag))
+        mKBDData?.btn1 = rootView.findViewWithTag(getString(R.string.btn1Tag))
+        mKBDData?.btn2 = rootView.findViewWithTag(getString(R.string.btn2Tag))
+        mKBDData?.btn3 = rootView.findViewWithTag(getString(R.string.btn3Tag))
+        mKBDData?.btn4 = rootView.findViewWithTag(getString(R.string.btn4Tag))
+        mKBDData?.btn5 = rootView.findViewWithTag(getString(R.string.btn5Tag))
+        mKBDData?.btn6 = rootView.findViewWithTag(getString(R.string.btn6Tag))
+        mKBDData?.btn7 = rootView.findViewWithTag(getString(R.string.btn7Tag))
+        mKBDData?.btn8 = rootView.findViewWithTag(getString(R.string.btn8Tag))
+        mKBDData?.btn9 = rootView.findViewWithTag(getString(R.string.btn9Tag))
+        mKBDData?.btnCancel = rootView.findViewWithTag(getString(R.string.btnCancelTag))
+        mKBDData?.btnClear = rootView.findViewWithTag(getString(R.string.btnClearTag))
+        mKBDData?.btnConfirm = rootView.findViewWithTag(getString(R.string.btnEnterTag))
+        mKBDData?.textView = rootView.findViewWithTag(getString(R.string.lblDigitsTag))
+        mKBDData?.activity = this@PinKbdActivity
+        mKBDData?.display = rootView.findViewWithTag(getString(R.string.display))
+        mKBDData?.amount = rootView.findViewWithTag("amount")
+        Log.i(TAG, "onCreate: end")
 
-//        val rootView = window.decorView.rootView
-
-        mKBDData = KbdData()
-        mKBDData.btn0 = binding.btn0Tag
-        mKBDData.btn1 = binding.btn1Tag
-        mKBDData.btn2 = binding.btn2Tag
-        mKBDData.btn3 = binding.btn3Tag
-        mKBDData.btn4 = binding.btn4Tag
-        mKBDData.btn5 = binding.btn5Tag
-        mKBDData.btn6 = binding.btn6Tag
-        mKBDData.btn7 = binding.btn7Tag
-        mKBDData.btn8 = binding.btn8Tag
-        mKBDData.btn9 = binding.btn9Tag
-        mKBDData.btnCancel = binding.btnCancelTag
-        mKBDData.btnClear = binding.btnClearTag
-        mKBDData.btnConfirm = binding.btnEnterTag
-        //mKBDData?.textView = rootView.findViewWithTag(getString(R.string.lblDigitsTag));
-        mKBDData.activity = this;
     }
 
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
+    }
 
-    override fun onStart() {
+    public override fun onStart() {
         super.onStart()
         active = true
     }
 
-    override fun onStop() {
+    public override fun onStop() {
         super.onStop()
         active = false
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
 
-    class KbdData {
-        var btn0: Button? = null
-        var btn1: Button? = null
-        var btn2: Button? = null
-        var btn3: Button? = null
-        var btn4: Button? = null
-        var btn5: Button? = null
-        var btn6: Button? = null
-        var btn7: Button? = null
-        var btn8: Button? = null
-        var btn9: Button? = null
-        var btnCancel: Button? = null
-        var btnClear: Button? = null
-        var btnConfirm: Button? = null
-        var textView: TextView? = null
-        var activity: Activity? = null
-    }
 }
-
