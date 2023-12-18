@@ -128,6 +128,7 @@ class PPCompCommands private constructor() {
                         return Pair(false,e.toString())
                     }
                 } catch (e: Exception){
+                    Log.i("msgg", "GCR EXCEPTION: $e")
                     e.printStackTrace()
                     return Pair(false,e.toString())
                 }
@@ -197,6 +198,7 @@ class PPCompCommands private constructor() {
                     cancelCheckEvent = false
                     PinKbdActivity.kBDData?.activity?.finish()
                     e.printStackTrace()
+                    Log.i("msgg", "GOC EXCEPTION: $e")
                     return "GOC_NO_CARD"
                 }catch(e: PPCompTimeoutException){
                     cancelCheckEvent = false
@@ -225,7 +227,6 @@ class PPCompCommands private constructor() {
                         e.printStackTrace()
                         return "GOC_ERR"
                     }
-
                 }
             }
         }catch (e: Exception){

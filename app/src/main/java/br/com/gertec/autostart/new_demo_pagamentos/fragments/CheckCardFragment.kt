@@ -1,5 +1,6 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
+import android.media.ToneGenerator
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -56,6 +57,10 @@ class CheckCardFragment : Fragment() {
             when (step) {
                 "GCR" -> {
                     Log.d("msgg", "insite gcr step...")
+
+                    if(BuildConfig.FLAVOR == "gpos780" && cardType == "06"){
+                        beep()
+                    }
                     if (cardType != "03") {
                         Log.d("msgg", "navigate init...")
 
@@ -103,9 +108,8 @@ class CheckCardFragment : Fragment() {
         }
     }
 
-
-
     private fun getCard() {
+        val timeNDate = mainActivity.mainViewModel.getDateAndTime()
         CoroutineScope(Dispatchers.IO).launch {
             delay(1_000)
             mainActivity.mainViewModel.ppCompCommands.let {
@@ -113,9 +117,14 @@ class CheckCardFragment : Fragment() {
                     it.abort() //pegar dados automaticamente
                 }
                 val result = it.getCard(
-                    "0002${fixAmountInput(args.amount)}231122121636012345678900",
+                    "00${args.transactionType}${fixAmountInput(args.amount)}${timeNDate}012345678900", //"0002${fixAmountInput(args.amount)}231122121636012345678900"
                     requireContext()
                 )//0099000000000100231122115800135799753100
+                //00 - Lista (a definir adiante)
+                //01 - Credito
+                //02 - Debito
+                //03 - Moedeiro
+                //99 - Qualquer (todas)
 
                 if (!result.second.isNullOrEmpty()) {
                     if (!result.first) {
@@ -134,6 +143,16 @@ class CheckCardFragment : Fragment() {
                 }
 
             }
+        }
+    }
+
+    private fun beep() {
+        Log.d("msgg","beep!")
+        try {
+            val toneGen = ToneGenerator(4, 100)
+            toneGen.startTone(93, 200)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

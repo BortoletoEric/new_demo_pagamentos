@@ -12,7 +12,7 @@ class Utils {
             amount: String,
             applicationType: String,
             codSale: String, ns: String?, pan: String,
-            user: String, language: String
+            user: String, language: String, timeNDate: Pair<String, String>
         ): String? {
             val head = "<!DOCTYPE html><html>" +
                     "<head> <meta charset='UTF-8'>                              " +
@@ -36,7 +36,7 @@ class Utils {
                     "<h4> " + applicationType + " <right> " + codSale + " </right> </h4> <br>" +
                     "<h4> CARTÃO <right> ************* " + pan + "</right> </h4>" +
                     "<hr></hr>" +
-                    "<b>25/09/20 - 11h09 <right> (C) </right> </b>" +
+                    "<b>"+timeNDate.first+" <right> (C) </right> </b>" +
                     "<b>Auto: 73664829 <right> Term: " + ns + "</right></b> </br>" +
                     "</body>" +
                     "</html>"
@@ -49,7 +49,7 @@ class Utils {
                     "<h4> " + applicationType + " <right> " + codSale + " </right> </h4> <br>" +
                     "<h4> CARD <right> ************* " + pan + "</right> </h4>" +
                     "<hr></hr>" +
-                    "<b>25/09/20 - 11h09 <right> (C) </right> </b>" +
+                    "<b>"+timeNDate.second+" <right> (C) </right> </b>" +
                     "<b>Auto: 73664829 <right> Term: " + ns + "</right></b> </br>" +
                     "</body>" +
                     "</html>"
@@ -71,7 +71,7 @@ class Utils {
                         "\nPagamento no: ${applicationType}" +
                         "\nCódigo da venda: ${codSale}" +
                         "\nTerminal: ${ns}")
-            } else{
+            } else {
                 ("Payment Voucher" +
                         "\nDemonstration - Gertec" +
                         "\nCNPJ: 03.654.119/0001-76" +

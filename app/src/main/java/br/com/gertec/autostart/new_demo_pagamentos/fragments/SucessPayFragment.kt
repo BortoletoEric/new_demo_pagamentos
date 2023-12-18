@@ -2,13 +2,10 @@ package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,7 +17,6 @@ import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentSucessPay
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutCardInfoBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutPaymentInfoBinding
 import br.com.gertec.gedi.GEDI
-import br.com.gertec.gedi.enums.GEDI_INFO_e_ControlNumber
 import br.com.gertec.gedi.exceptions.GediException
 import br.com.gertec.gedi.interfaces.IGEDI
 import java.util.Locale
@@ -78,9 +74,8 @@ class SucessPayFragment : Fragment() {
             view.findNavController()
                 .navigate(SucessPayFragmentDirections.actionSucessPayFragmentToAmountFragment())
         })
-
-        getNS()
         setupObservers(view)
+        getNS()
     }
 
     private fun setupObservers(view: View) {
@@ -109,7 +104,7 @@ class SucessPayFragment : Fragment() {
 
     private fun printComprovante(user: String, ns: String) {
         val printerCommands = context?.let { PrinterCommands(it, mainActivity) }
-        val html = Utils.getPaymentReceiptHtmlModel(amount, applicationType, codSale, ns, pan, user, getDeviceLanguage())
+        val html = Utils.getPaymentReceiptHtmlModel(amount, applicationType, codSale, ns, pan, user, getDeviceLanguage(),mainActivity.mainViewModel.timeBrAndUs)
         val qrCode = Utils.getPaymentReceiptQrCode(amount, applicationType, codSale, ns, getDeviceLanguage())
         printerCommands?.printComprovante(html, qrCode)
     }
@@ -130,10 +125,6 @@ class SucessPayFragment : Fragment() {
 
     private fun getNS(){
         Log.d("msgg","WD 0 <-------------")
-
-        GEDI.init(context)
-        val mGedi: IGEDI = GEDI.getInstance()
-//        val mGedi: IGEDI = GEDI.getInstance(requireContext())
 
         Log.d("msgg","WD 1 <-------------")
         try {

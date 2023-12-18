@@ -6,10 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.commands.PPCompCommands
 import br.com.gertec.gedi.GEDI
 import br.com.gertec.gedi.enums.GEDI_INFO_e_ControlNumber
 import br.com.gertec.gedi.interfaces.IGEDI
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import java.util.regex.Pattern
 
 class MainViewModel: ViewModel() {
@@ -35,6 +39,7 @@ class MainViewModel: ViewModel() {
     var pan = ""
     var transactionAmount = ""
     var applicationType = ""
+    var timeBrAndUs = Pair("","")
     private var iGedi: IGEDI? = null
 
     init {
@@ -59,12 +64,22 @@ class MainViewModel: ViewModel() {
     }
 
     fun setupGedi(ctxt: Context){
-        GEDI.init(ctxt)
+       GEDI.init(ctxt)
         iGedi = GEDI.getInstance()
+        Log.d("msgg","gediSetup = $iGedi")
     }
 
     fun getNs(): String? {
+        Log.d("msgg","gedi = $iGedi")
         return iGedi?.info?.ControlNumberGet(GEDI_INFO_e_ControlNumber.SN)
+    }
+
+    fun getDateAndTime(): String {
+        val dateFormatBr = SimpleDateFormat("dd/MM/yy", Locale.getDefault()).format(Calendar.getInstance().time)
+        val dateFormatUs = SimpleDateFormat("MM/dd/yy", Locale.getDefault()).format(Calendar.getInstance().time)
+        val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().time)
+        timeBrAndUs = Pair("$dateFormatBr - $timeFormat","$dateFormatUs - $timeFormat")
+        return SimpleDateFormat("yyMMdd", Locale.getDefault()).format(Calendar.getInstance().time) + SimpleDateFormat("HHmmss", Locale.getDefault()).format(Calendar.getInstance().time)
     }
 
 //    fun gediBeep(ctxt: Context){

@@ -64,7 +64,7 @@ class OutputCallbacks(var mainActivity: MainActivity) :
             }
             txtPinDisplay = ""
 
-            Log.d(TAG, "SHOW KBD")
+            Log.d("msgg", "SHOW KBD")
             Log.d("msgg", "flag 917504")
             showKBD()
             stopKBD = true
@@ -120,13 +120,13 @@ class OutputCallbacks(var mainActivity: MainActivity) :
     }
 
     override fun MenuShow(lFlags: Long, lsOpts: List<String>, iOptSel: Int): Int {
-        Log.d(TAG, "MenuShow() callback invoked.")
-        Log.d(TAG, "lFlags=$lFlags")
-        Log.d(TAG, "saOpts=")
+        Log.d("msgg", "MenuShow() callback invoked.")
+        Log.d("msgg", "lFlags=$lFlags")
+        Log.d("msgg", "saOpts=")
         for (opt in lsOpts) {
-            Log.d(TAG, "\t" + opt)
+            Log.d("msgg", "\t" + opt)
         }
-        Log.d(TAG, "iOptSel=$iOptSel")
+        Log.d("msgg", "iOptSel=$iOptSel")
         return mSelectedItem
     }
 
