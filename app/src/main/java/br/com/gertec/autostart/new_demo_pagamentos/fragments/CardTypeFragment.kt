@@ -98,11 +98,15 @@ class CardTypeFragment : Fragment() {
             when (keyCode) {
                 8 -> {
                     startCheckCardFragment(getString(R.string.d_bito), view)
-                    beep()
+                    mainActivity.mainViewModel.let{
+                        it.beep()
+                    }
                 }//1
                 9 -> {
                     startCheckCardFragment(getString(R.string.cr_dito), view)
-                    beep()
+                    mainActivity.mainViewModel.let{
+                        it.beep()
+                    }
                 }//2
             }
         }
@@ -128,11 +132,6 @@ class CardTypeFragment : Fragment() {
                 )
             )
         }
-    }
-
-    private fun beep() {
-        val iGedi: IGEDI = GEDI.getInstance(context)
-        iGedi.audio.Beep()
     }
 
     private fun hasPhysicalKbd(): Boolean {

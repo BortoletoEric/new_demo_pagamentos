@@ -62,6 +62,7 @@ class AmountFragment : Fragment() {
             resetAllObservers()
             setupObservers(view)
             setupPPCompLanguage()
+
             checkEvent()
             if (hasPhysicalKbd()) {
                 setupPhysicalKbd(view)
@@ -97,12 +98,14 @@ class AmountFragment : Fragment() {
                 "CKE" -> {
                     val amount = getAmount(binding.displayKeyboard.txtPriceValue.text)
                     if (amount == 0.0) {
+                        initGedi()
                         view.findNavController().navigate(
                             AmountFragmentDirections.actionAmountFragmentToCheckEventFragment()
                         )
 
                     }else{
                         mainActivity.mainViewModel.transactionAmount = currentFormattedAmount
+                        initGedi()
                         view.findNavController().navigate(
                             AmountFragmentDirections.actionAmountFragmentToCardTypeFragment(
                                 (amount).toLong(),
@@ -193,6 +196,10 @@ class AmountFragment : Fragment() {
         }
     }
 
+    private fun initGedi(){
+        mainActivity.mainViewModel.setupGedi(mainActivity.applicationContext)
+    }
+
     private fun addDigitToAmount(digit: String) {
         val currentAmount: String = binding.displayKeyboard.txtPriceValue.text.toString()
         if (currentAmount.length < 9) {
@@ -220,7 +227,7 @@ class AmountFragment : Fragment() {
 
         if (amount > 0) {
             mainActivity.mainViewModel.transactionAmount = currentFormattedAmount
-
+            initGedi()
             view.findNavController().navigate(
                 AmountFragmentDirections.actionAmountFragmentToCardTypeFragment(
                     (amount).toLong(),

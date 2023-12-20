@@ -6,11 +6,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.commands.PPCompCommands
 import br.com.gertec.gedi.GEDI
 import br.com.gertec.gedi.enums.GEDI_INFO_e_ControlNumber
 import br.com.gertec.gedi.interfaces.IGEDI
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -41,6 +46,7 @@ class MainViewModel: ViewModel() {
     var applicationType = ""
     var timeBrAndUs = Pair("","")
     private var iGedi: IGEDI? = null
+    private var gediOk = false
 
     init {
         _processOk.postValue("AMOUNT")
@@ -64,9 +70,23 @@ class MainViewModel: ViewModel() {
     }
 
     fun setupGedi(ctxt: Context){
-       GEDI.init(ctxt)
-        iGedi = GEDI.getInstance()
-        Log.d("msgg","gediSetup = $iGedi")
+        viewModelScope.launch {
+            if(!gediOk){
+                while (true){
+                    GEDI.init(ctxt)
+                    iGedi = GEDI.getInstance()
+                    delay(1000)
+                    if(iGedi != null) break
+                    Log.d("msgg","init gedi...")
+                }
+                Log.d("msgg","gediSetup = $iGedi")
+                gediOk = true
+            }
+        }
+    }
+
+    fun beep() {
+        iGedi?.audio?.Beep()
     }
 
     fun getNs(): String? {

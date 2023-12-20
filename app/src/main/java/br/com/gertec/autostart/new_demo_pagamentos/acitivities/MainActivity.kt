@@ -43,15 +43,6 @@ class MainActivity : AppCompatActivity(){
 
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            mainViewModel.setupGedi(this)
-        },1500)
-
-    }
-
     private fun setupPPCompCommands() {
         outputCallbacks = OutputCallbacks(this@MainActivity)
         CoroutineScope(Dispatchers.IO).launch{

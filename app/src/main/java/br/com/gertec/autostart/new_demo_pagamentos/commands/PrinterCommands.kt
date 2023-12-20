@@ -23,7 +23,7 @@ class PrinterCommands(private val context: Context, private val activity: MainAc
             }
         })
 
-        val barcodeFormat = BarcodeFormat(BarcodeType.QR_CODE, BarcodeFormat.Size.HALF_PAPER)
+        val barcodeFormat = BarcodeFormat(BarcodeType.QR_CODE, BarcodeFormat.Size.FULL_PAPER)
         if (html != null) {
             printer.printHtml(context, html)
             printer.printBarcode(barcodeFormat, barcode.toString())
