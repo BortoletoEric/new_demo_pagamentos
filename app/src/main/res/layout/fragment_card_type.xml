@@ -26,7 +26,6 @@
         />
 
     <LinearLayout
-        android:id="@+id/buttonContainer"
         android:layout_width="318dp"
         android:layout_height="140dp"
         android:layout_marginStart="50dp"

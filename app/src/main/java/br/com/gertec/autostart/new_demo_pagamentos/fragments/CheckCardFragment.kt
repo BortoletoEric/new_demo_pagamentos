@@ -1,15 +1,11 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
 import android.media.ToneGenerator
-import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
@@ -19,7 +15,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 class CheckCardFragment : Fragment() {
     private var _binding: FragmentCheckCardBinding? = null
@@ -44,28 +39,13 @@ class CheckCardFragment : Fragment() {
 
         setupViews()
         getCard()
-        //TESTE
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            view.findNavController().navigate(
-//                CheckCardFragmentDirections.actionCheckCardFragmentToSucessPayFragment(cardType)
-//            )
-//        }, 1800)
-
 
         mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner) { step ->
-            Log.d("msgg", "process obs: $step")
             when (step) {
                 "GCR" -> {
-                    Log.d("msgg", "insite gcr step...")
+                    if (BuildConfig.FLAVOR == "gpos780" && cardType == "06") beep()
 
-                    if(BuildConfig.FLAVOR == "gpos780" && cardType == "06"){
-                        beep()
-                    }
                     if (cardType != "03") {
-                        Log.d("msgg", "navigate init...")
-
-                        Log.i("TAG", "FLAVOR: " + BuildConfig.FLAVOR)
-
                         if (BuildConfig.FLAVOR.equals("gpos700mini")) {
                             view.findNavController().navigate(
                                 CheckCardFragmentDirections.actionCheckCardFragmentToSucessPayMiniFragment(
@@ -80,7 +60,6 @@ class CheckCardFragment : Fragment() {
                             )
                         }
                     } else {
-                        Log.d("msgg", "navc GCR: ${view.findNavController()}")
                         view.findNavController().navigate(
                             CheckCardFragmentDirections.actionCheckCardFragmentToPinFragment(
                                 args.amount,
@@ -93,7 +72,6 @@ class CheckCardFragment : Fragment() {
 
                 "GCR_ERROR" -> {
                     view.findNavController().navigate(
-
                         CheckCardFragmentDirections.actionCheckCardFragmentToAmountFragment()
                     )
                 }
@@ -114,12 +92,12 @@ class CheckCardFragment : Fragment() {
             delay(1_000)
             mainActivity.mainViewModel.ppCompCommands.let {
                 if (!args.isCke) {
-                    it.abort() //pegar dados automaticamente
+                    it.abort()
                 }
                 val result = it.getCard(
-                    "00${args.transactionType}${fixAmountInput(args.amount)}${timeNDate}012345678900", //"0002${fixAmountInput(args.amount)}231122121636012345678900"
+                    "00${args.transactionType}${fixAmountInput(args.amount)}${timeNDate}012345678900",
                     requireContext()
-                )//0099000000000100231122115800135799753100
+                )
                 //00 - Lista (a definir adiante)
                 //01 - Credito
                 //02 - Debito
@@ -147,7 +125,6 @@ class CheckCardFragment : Fragment() {
     }
 
     private fun beep() {
-        Log.d("msgg","beep!")
         try {
             val toneGen = ToneGenerator(4, 100)
             toneGen.startTone(93, 200)

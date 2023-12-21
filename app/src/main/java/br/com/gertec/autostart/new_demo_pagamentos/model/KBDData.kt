@@ -22,5 +22,4 @@ class KBDData {
     var activity: Activity? = null
     var display: TextView? = null
     var amount: TextView? = null
-    fun KBDData() {}
 }

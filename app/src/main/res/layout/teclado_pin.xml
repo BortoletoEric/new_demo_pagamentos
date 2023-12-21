@@ -286,8 +286,7 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/blue_strong"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pinKeyboard">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <Button
         android:id="@+id/button1"

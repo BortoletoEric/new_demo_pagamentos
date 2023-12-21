@@ -1,28 +1,15 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.navArgs
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
-import br.com.gertec.autostart.new_demo_pagamentos.commands.PrinterCommands
-import br.com.gertec.autostart.new_demo_pagamentos.commands.Utils
-import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentSucessPayBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentSucessPayMiniBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutCardInfoBinding
-import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutPaymentInfoBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutPaymentInfoMiniBinding
-import br.com.gertec.gedi.GEDI
-import br.com.gertec.gedi.enums.GEDI_INFO_e_ControlNumber
-import br.com.gertec.gedi.exceptions.GediException
-import br.com.gertec.gedi.interfaces.IGEDI
 import kotlin.random.Random
 
 class SucessPayMiniFragment : Fragment() {
@@ -32,7 +19,6 @@ class SucessPayMiniFragment : Fragment() {
     private lateinit var cardInfoBinding: LayoutCardInfoBinding
     private lateinit var paymentInfoBinding: LayoutPaymentInfoMiniBinding
     private lateinit var mainActivity: MainActivity
-
     private lateinit var amount: String
     private lateinit var pan: String
     private lateinit var applicationType: String
@@ -42,7 +28,6 @@ class SucessPayMiniFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("msgg","SucessFrag In")
         _binding = FragmentSucessPayMiniBinding.inflate(inflater, container, false)
 
         cardInfoBinding = binding.displayCardInfo
@@ -61,17 +46,20 @@ class SucessPayMiniFragment : Fragment() {
         applicationType = mainActivity.mainViewModel.applicationType
         codSale = getRandomCodSale().toString()
 
-        binding.displayPaymentInfo.txtAmount.setText(amount)
-        binding.displayCardInfo.txtApplicationType.setText(applicationType)
-        binding.displayCardInfo.txtCodeSaleValue.setText(codSale)
-        binding.displayCardInfo.txtFinalCardNumbers.setText(pan)
-        binding.btnFinish.setOnClickListener(View.OnClickListener {
-            view.findNavController()
-                .navigate(SucessPayMiniFragmentDirections.actionSucessPayMiniFragmentToAmountFragment())
-        })
+        setupViewsAndButtons(view)
     }
 
-    private fun getRandomCodSale(): Int {
-        return Random.nextInt(99999)
+    private fun setupViewsAndButtons(view: View) {
+        binding.displayPaymentInfo.txtAmount.text = amount
+        binding.displayCardInfo.txtApplicationType.text = applicationType
+        binding.displayCardInfo.txtCodeSaleValue.text = codSale
+        binding.displayCardInfo.txtFinalCardNumbers.text = pan
+        binding.btnFinish.setOnClickListener{
+            view.findNavController()
+                .navigate(SucessPayMiniFragmentDirections.actionSucessPayMiniFragmentToAmountFragment())
+        }
     }
+
+    private fun getRandomCodSale() = Random.nextInt(99999)
+
 }

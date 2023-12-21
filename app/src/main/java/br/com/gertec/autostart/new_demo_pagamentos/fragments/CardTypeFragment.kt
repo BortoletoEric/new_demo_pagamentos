@@ -12,12 +12,8 @@ import androidx.navigation.fragment.navArgs
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentCardTypeBinding
-import br.com.gertec.gedi.GEDI
-import br.com.gertec.gedi.interfaces.IGEDI
-import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig //gpos760 apenas
+import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import java.util.Locale
-
-//import br.com.setis.gertec.bibliotecapinpad.BuildConfig //gpos720 apenas
 
 class CardTypeFragment : Fragment() {
 
@@ -34,37 +30,16 @@ class CardTypeFragment : Fragment() {
         mainActivity = (activity as MainActivity)
 
         return binding.root
-
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupButtons()
         resetAllObservers()
-        if (hasPhysicalKbd()) {
-            if(getDeviceLanguage() == "en"){
-                binding.button1.background = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_button_debit_d1)
-                binding.button2.background = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_button_credit_d2)
-            }else{
-                binding.button1.background = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_button_credito_dgt1)
-                binding.button2.background = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_button_credito_dgt2)
-            }
-            setupPhysicalKbd(view)
-        }else{
-            if(getDeviceLanguage() == "en"){
-                binding.button1.background = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_button_debit)
-                binding.button2.background = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_button_credit)
-            }else{
-                binding.button1.background = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_button_debito)
-                binding.button2.background = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_button_credito)
-            }
-        }
-
+        setupButtons(view)
     }
 
-    fun getDeviceLanguage(): String {
+    private fun getDeviceLanguage(): String {
         val locale: Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             requireContext().resources.configuration.locales.get(0)
         } else {
@@ -78,19 +53,43 @@ class CardTypeFragment : Fragment() {
         mainActivity.mainViewModel.processCompleted("")
     }
 
-    private fun setupButtons() {
-
+    private fun setupButtons(view: View) {
         binding.button1.setOnClickListener {
             startCheckCardFragment(getString(R.string.d_bito), it)
         }
         binding.button2.setOnClickListener {
             startCheckCardFragment(getString(R.string.cr_dito), it)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+        if (hasPhysicalKbd()) {
+            if (getDeviceLanguage() == "en") {
+                binding.button1.background =
+                    AppCompatResources.getDrawable(requireContext(), R.drawable.ic_button_debit_d1)
+                binding.button2.background =
+                    AppCompatResources.getDrawable(requireContext(), R.drawable.ic_button_credit_d2)
+            } else {
+                binding.button1.background = AppCompatResources.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_button_credito_dgt1
+                )
+                binding.button2.background = AppCompatResources.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_button_credito_dgt2
+                )
+            }
+            setupPhysicalKbd(view)
+        } else {
+            if (getDeviceLanguage() == "en") {
+                binding.button1.background =
+                    AppCompatResources.getDrawable(requireContext(), R.drawable.ic_button_debit)
+                binding.button2.background =
+                    AppCompatResources.getDrawable(requireContext(), R.drawable.ic_button_credit)
+            } else {
+                binding.button1.background =
+                    AppCompatResources.getDrawable(requireContext(), R.drawable.ic_button_debito)
+                binding.button2.background =
+                    AppCompatResources.getDrawable(requireContext(), R.drawable.ic_button_credito)
+            }
+        }
     }
 
     private fun setupPhysicalKbd(view: View) {
@@ -98,13 +97,13 @@ class CardTypeFragment : Fragment() {
             when (keyCode) {
                 8 -> {
                     startCheckCardFragment(getString(R.string.d_bito), view)
-                    mainActivity.mainViewModel.let{
+                    mainActivity.mainViewModel.let {
                         it.beep()
                     }
                 }//1
                 9 -> {
                     startCheckCardFragment(getString(R.string.cr_dito), view)
-                    mainActivity.mainViewModel.let{
+                    mainActivity.mainViewModel.let {
                         it.beep()
                     }
                 }//2
@@ -136,5 +135,10 @@ class CardTypeFragment : Fragment() {
 
     private fun hasPhysicalKbd(): Boolean {
         return BuildConfig.FLAVOR == "gpos760"
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

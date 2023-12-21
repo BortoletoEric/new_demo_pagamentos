@@ -1,19 +1,13 @@
 package br.com.gertec.autostart.new_demo_pagamentos.commands
 
-import java.text.NumberFormat
-
 class Utils {
     companion object {
-        fun centsToCurrentString(cents: Double): String? {
-            return NumberFormat.getCurrencyInstance().format(cents.toFloat() / 100)
-        }
-
         fun getPaymentReceiptHtmlModel(
             amount: String,
             applicationType: String,
             codSale: String, ns: String?, pan: String,
             user: String, language: String, timeNDate: Pair<String, String>
-        ): String? {
+        ): String {
             val head = "<!DOCTYPE html><html>" +
                     "<head> <meta charset='UTF-8'>                              " +
                     "<style type='text/css'>                                    " +
@@ -36,7 +30,7 @@ class Utils {
                     "<h4> " + applicationType + " <right> " + codSale + " </right> </h4> <br>" +
                     "<h4> CARTÃO <right> ************* " + pan + "</right> </h4>" +
                     "<hr></hr>" +
-                    "<b>"+timeNDate.first+" <right> (C) </right> </b>" +
+                    "<b>" + timeNDate.first + " <right> (C) </right> </b>" +
                     "<b>Auto: 73664829 <right> Term: " + ns + "</right></b> </br>" +
                     "</body>" +
                     "</html>"
@@ -49,11 +43,11 @@ class Utils {
                     "<h4> " + applicationType + " <right> " + codSale + " </right> </h4> <br>" +
                     "<h4> CARD <right> ************* " + pan + "</right> </h4>" +
                     "<hr></hr>" +
-                    "<b>"+timeNDate.second+" <right> (C) </right> </b>" +
+                    "<b>" + timeNDate.second + " <right> (C) </right> </b>" +
                     "<b>Auto: 73664829 <right> Term: " + ns + "</right></b> </br>" +
                     "</body>" +
                     "</html>"
-            return head + if(language == "pt") body else bodyEnglish
+            return head + if (language == "pt") body else bodyEnglish
         }
 
         fun getPaymentReceiptQrCode(
@@ -62,8 +56,8 @@ class Utils {
             codSale: String,
             ns: String?,
             language: String
-        ): String? {
-            return if(language == "pt"){
+        ): String {
+            return if (language == "pt") {
                 ("Comprovante de pagamento" +
                         "\nDemonstração - Gertec" +
                         "\nCNPJ: 03.654.119/0001-76" +

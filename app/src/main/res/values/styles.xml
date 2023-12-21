@@ -31,37 +31,6 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="CustomButtonPinKeyboardCancel" parent="@android:style/Widget.Button">
-        <item name="android:background">@drawable/pin_keyboard_btn_settings</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">68dp</item>
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:textSize">36sp</item>
-        <item name="android:fontFamily">@font/roboto</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="CustomButtonPinKeyboardClear" parent="@android:style/Widget.Button">
-        <item name="android:background">@drawable/pin_keyboard_btn_settings</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">68dp</item>
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:textSize">36sp</item>
-        <item name="android:fontFamily">@font/roboto</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="CustomButtonPinKeyboardOk" parent="@android:style/Widget.Button">
-        <item name="android:background">@drawable/pin_keyboard_btn_settings</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">68dp</item>
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:textSize">36sp</item>
-        <item name="android:fontFamily">@font/roboto</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-   
 
     <style name="CustomButtonKeyboardConfirm" parent="@android:style/Widget.Button">
         <item name="android:layout_width">0dp</item>
@@ -81,33 +50,6 @@
         <item name="android:textSize">36sp</item>
         <item name="android:fontFamily">@font/roboto</item>
         <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="Button" parent="android:Widget.Material.Button.Colored">
-        <item name="android:colorControlHighlight">@android:color/black</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">20sp</item>
-    </style>
-
-    <style name="ButtonPINNumber" parent="Button">
-        <item name="android:colorAccent">@color/colorPinNumber</item>
-    </style>
-
-    <style name="ButtonPINCancel" parent="Button">
-        <item name="android:colorAccent">#FF0000</item>
-    </style>
-
-    <style name="ButtonPINClear" parent="Button">
-        <item name="android:colorAccent">#CCCC00</item>
-    </style>
-
-    <style name="ButtonPINConfirm" parent="Button">
-        <item name="android:colorAccent">#00BB00</item>
-    </style>
-
-    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:windowMinWidthMajor">98%</item>
-        <item name="android:windowMinWidthMinor">98%</item>
     </style>
 
 </resources>

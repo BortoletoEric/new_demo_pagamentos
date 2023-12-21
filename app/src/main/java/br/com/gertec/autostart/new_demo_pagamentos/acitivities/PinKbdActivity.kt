@@ -2,11 +2,8 @@ package br.com.gertec.autostart.new_demo_pagamentos.acitivities
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.TextView
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.model.KBDData
 
@@ -18,16 +15,42 @@ class PinKbdActivity : Activity() {
         val kBDData: KBDData?
             get() = mKBDData
     }
+
+    /******************** lifecycle functions ****************************/
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.i(TAG, "onCreate: start")
         super.onCreate(savedInstanceState)
         setFinishOnTouchOutside(false)
         setContentView(R.layout.activity_manta)
+
         val rootView = window.decorView.rootView
         val frameLayout_pin = findViewById<FrameLayout>(R.id.frameMantaLayout_pin)
         var child: View? = null
+
         child = layoutInflater.inflate(R.layout.teclado_pin, null)
         frameLayout_pin.addView(child)
+
+        setupKbdData(rootView)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        active = true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        active = false
+    }
+
+    /******************** other functions ****************************/
+
+    private fun setupKbdData(rootView: View) {
         mKBDData = KBDData()
         mKBDData?.btn0 = rootView.findViewWithTag(getString(R.string.btn0Tag))
         mKBDData?.btn1 = rootView.findViewWithTag(getString(R.string.btn1Tag))
@@ -46,24 +69,6 @@ class PinKbdActivity : Activity() {
         mKBDData?.activity = this@PinKbdActivity
         mKBDData?.display = rootView.findViewWithTag(getString(R.string.display))
         mKBDData?.amount = rootView.findViewWithTag("amount")
-        Log.i(TAG, "onCreate: end")
-
     }
-
-    override fun onPause() {
-        super.onPause()
-        overridePendingTransition(0, 0)
-    }
-
-    public override fun onStart() {
-        super.onStart()
-        active = true
-    }
-
-    public override fun onStop() {
-        super.onStop()
-        active = false
-    }
-
 
 }

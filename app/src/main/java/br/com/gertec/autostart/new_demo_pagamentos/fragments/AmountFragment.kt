@@ -1,6 +1,5 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -15,7 +14,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
-import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentAmountBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutDisplayKeyboardBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutKeyboardBinding
@@ -28,14 +26,13 @@ import java.text.NumberFormat
 import java.util.Locale
 
 class AmountFragment : Fragment() {
-
     private var _binding: FragmentAmountBinding? = null
     private val binding get() = _binding!!
     private lateinit var displayKeyboardBinding: LayoutDisplayKeyboardBinding
     private lateinit var keyboardBinding: LayoutKeyboardBinding
     private lateinit var mainActivity: MainActivity
     private var currentFormattedAmount = ""
-    lateinit var lifecycleOwner: LifecycleOwner
+    private lateinit var lifecycleOwner: LifecycleOwner
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,7 +73,7 @@ class AmountFragment : Fragment() {
         }
     }
 
-    fun getDeviceLanguage(): String {
+    private fun getDeviceLanguage(): String {
         val locale: Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             resources.configuration.locales.get(0)
         } else {
@@ -239,12 +236,12 @@ class AmountFragment : Fragment() {
         }
     }
 
+    private fun hasPhysicalKbd(): Boolean {
+        return Build.MODEL.equals("GPOS760")
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    private fun hasPhysicalKbd(): Boolean {
-        return Build.MODEL.equals("GPOS760")
     }
 }

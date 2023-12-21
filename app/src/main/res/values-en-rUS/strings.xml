@@ -3,9 +3,7 @@
     <string name="label_card_type_fragment">Select payment method</string>
     <string name="default_amount">0,00</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="aproxime">To continue payment, <b>Tap</b>, <b>Insert</b> or <b>Swipe</b> the card</string>
-    <string name="default_pin"> </string>
     <string name="btn0Tag">btn0Tag</string>
     <string name="btn1Tag">btn1Tag</string>
     <string name="btn2Tag">btn2Tag</string>
@@ -44,8 +42,6 @@
     <string name="erro_na_leitura_do_cart_o">ERROR WHEN READING THE CARD</string>
     <string name="digite_o_valor">Enter the value</string>
     <string name="d_bito">Debit</string>
-    <string name="por_favor_remova_o_cart_o">Please, remove the card!</string>
-    <string name="o_valor_n_o_pode_estar_vazio_digite_um_valor_e_insira_novamente_o_cart_o">The value cannot be empty, enter a value and reinsert the card.</string>
     <string name="venda_finalizada_com_sucesso">Sale completed successfully!</string>
     <string name="tempo_esgotado">TIME OUT</string>
     <string name="opera_o_cancelada">OPERATION CANCELED</string>

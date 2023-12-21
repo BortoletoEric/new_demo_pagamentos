@@ -1,10 +1,6 @@
 package br.com.gertec.autostart.new_demo_pagamentos.acitivities
 
-import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -19,15 +15,16 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.Locale
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     val binding get() = _binding!!
+
     lateinit var mainViewModel: MainViewModel
     private lateinit var navController: NavController
-    lateinit var outputCallbacks : OutputCallbacks
-    var pinActive = false
+    lateinit var outputCallbacks: OutputCallbacks
+
+    /******************** lifecycle functions ****************************/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,23 +33,16 @@ class MainActivity : AppCompatActivity(){
 
         setupViewModel()
         setupPPCompCommands()
-        Log.d("msgg","mainActivity Created")
+        setupNavControler()
         // Configurando o NavController
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
-        navController = navHostFragment.navController
-
     }
 
-    private fun setupPPCompCommands() {
-        outputCallbacks = OutputCallbacks(this@MainActivity)
-        CoroutineScope(Dispatchers.IO).launch{
-            mainViewModel.ppCompCommands.let{
-                it.init(this@MainActivity)
-                it.setDspCallback(outputCallbacks)
-                it.open()
-            }
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
+
+    /******************** Other functions ****************************/
 
     private fun setupViewModel() {
         val viewModelProviderFactory = MainViewModelFactory()
@@ -62,16 +52,33 @@ class MainActivity : AppCompatActivity(){
         )[MainViewModel::class.java]
     }
 
-    fun showSnackBar(msg: String, success: Boolean? = null){
+    private fun setupPPCompCommands() {
+        outputCallbacks = OutputCallbacks(this@MainActivity)
+        CoroutineScope(Dispatchers.IO).launch {
+            mainViewModel.ppCompCommands.let {
+                it.init(this@MainActivity)
+                it.setDspCallback(outputCallbacks)
+                it.open()
+            }
+        }
+    }
+
+    private fun setupNavControler() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+        navController = navHostFragment.navController
+    }
+
+    fun showSnackBar(msg: String, success: Boolean? = null) {
         val message = Snackbar.make(
             binding.mainContainer,
             msg,
             Snackbar.LENGTH_LONG
         )
 
-        if(success == true){
+        if (success == true) {
             message.setBackgroundTint(resources.getColor(R.color.successGreen))
-        }else if(success == false){
+        } else if (success == false) {
             message.setBackgroundTint(resources.getColor(R.color.errorRed))
         }
 
@@ -82,7 +89,7 @@ class MainActivity : AppCompatActivity(){
         val currentDestination = navController.currentDestination
         mainViewModel.keyPressed(keyCode)
 
-        if(keyCode == 4){
+        if (keyCode == 4) {
             if (currentDestination?.id == R.id.amountFragment) {
                 return false
             }
@@ -90,17 +97,10 @@ class MainActivity : AppCompatActivity(){
         return super.onKeyDown(keyCode, event)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("msgg","mainActivity destroyed")
-        _binding = null
-    }
-
     override fun onBackPressed() {
         super.onBackPressed()
         navController.popBackStack(navController.graph.startDestinationId, false)
         mainViewModel.ppCompCommands.abort()
     }
-
 
 }
