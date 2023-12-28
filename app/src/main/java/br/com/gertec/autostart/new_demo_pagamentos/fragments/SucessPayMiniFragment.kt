@@ -15,12 +15,14 @@ import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentSucessPay
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutCardInfoBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutPaymentInfoMiniBinding
 import br.com.gertec.gedi.exceptions.GediException
+import java.util.Locale
+import kotlin.random.Random
+//libs da zxing apenas para 700mini
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
-import java.util.Locale
-import kotlin.random.Random
+
 
 class SucessPayMiniFragment : Fragment() {
 
@@ -79,6 +81,7 @@ class SucessPayMiniFragment : Fragment() {
             if (!it.isNullOrEmpty()) {
                 numeroDeSerie = it
 
+                //usado apenas para gpos700 mini
                 binding.displayPaymentInfo.imageView3.setImageBitmap(
                     generateQRCode(
                         Utils.getPaymentReceiptQrCode(amount, applicationType, codSale, numeroDeSerie, getDeviceLanguage())
@@ -111,6 +114,7 @@ class SucessPayMiniFragment : Fragment() {
         return locale.language
     }
 
+      // usada apenas para gpos700mini
     fun generateQRCode(input: String): Bitmap? {
         val width = 500
         val height = 500

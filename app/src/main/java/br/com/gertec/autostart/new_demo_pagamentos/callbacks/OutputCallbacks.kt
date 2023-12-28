@@ -18,6 +18,7 @@ class OutputCallbacks(private var mainActivity: MainActivity) :
     private var wasCancelBefore = false
     private var txtPinDisplay = ""
     private var stopKBD = false
+    private var turnOnLed = true
 
     override fun Text(lFlags: Long, sTxt1: String, sTxt2: String) {
         mainActivity.mainViewModel.updateDisplay(lFlags, sTxt1, sTxt2)
@@ -55,6 +56,16 @@ class OutputCallbacks(private var mainActivity: MainActivity) :
             256L, 0L, 721153L -> {
                 Unit
             } //TEXT_S
+            64L -> { //LIGA E DESLIGA LED SIMULADO
+                mainActivity.runOnUiThread{
+                    mainActivity.turnOnSimulatedLed(turnOnLed)
+                    turnOnLed = !turnOnLed
+                }
+
+            }
+            72L -> { // LIGA LED AZUL SIMULADO
+//                mainActivity.turnOnSimulatedLed(false)
+            }
             790657L -> {
                 Unit
             } //UPDATING_TABLES
@@ -83,7 +94,8 @@ class OutputCallbacks(private var mainActivity: MainActivity) :
 
                 if (BuildConfig.FLAVOR == "gpos760" ||
                     BuildConfig.FLAVOR == "gpos700" ||
-                    BuildConfig.FLAVOR == "gpos780"
+                    BuildConfig.FLAVOR == "gpos780" ||
+                    BuildConfig.FLAVOR == "gpos700mini"
                 ) beep()
             }
         }

@@ -2,6 +2,7 @@ package br.com.gertec.autostart.new_demo_pagamentos.acitivities
 
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -14,6 +15,7 @@ import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModelFacto
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         setupViewModel()
         setupPPCompCommands()
         setupNavControler()
+
         // Configurando o NavController
     }
 
@@ -83,6 +86,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         message.show()
+    }
+
+    fun turnOnSimulatedLed(turnOn: Boolean){
+        if(BuildConfig.FLAVOR == "gpos700mini" || BuildConfig.FLAVOR == "gpos700"){
+            if(turnOn) {
+                binding.imageViewLedAzul.visibility = View.VISIBLE
+            }else{
+                binding.imageViewLedAzul.visibility = View.GONE
+            }
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

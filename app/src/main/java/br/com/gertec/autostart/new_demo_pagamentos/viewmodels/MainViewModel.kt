@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.gertec.autostart.new_demo_pagamentos.commands.PPCompCommands
 import br.com.gertec.gedi.GEDI
 import br.com.gertec.gedi.enums.GEDI_INFO_e_ControlNumber
+import br.com.gertec.gedi.enums.GEDI_LED_e_Id
 import br.com.gertec.gedi.interfaces.IGEDI
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -84,6 +85,10 @@ class MainViewModel : ViewModel() {
     }
 
     fun getNs() = iGedi?.info?.ControlNumberGet(GEDI_INFO_e_ControlNumber.SN)
+
+    fun tunrOnLed700(turnOn: Boolean){
+        iGedi?.led?.Set(GEDI_LED_e_Id.GEDI_LED_ID_1, turnOn)
+    }
 
     fun getDateAndTime(): String {
         val dateFormatBr =

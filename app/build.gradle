@@ -290,9 +290,13 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-common-java8:2.6.1")
     implementation("androidx.activity:activity-ktx:1.7.2")
 
-    //zxing
+    //zxing (usar apenas com a gpos700mini)
     implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
     implementation 'com.google.zxing:core:3.2.1'
+
+    //Lottie
+    implementation 'com.airbnb.android:lottie:6.2.0'
+
 
     //GERTEC SDK
     gpos760Implementation(files("libs/gpos760/libgedi-0.18.8-gpos760-eng-release.aar","libs/gpos760/libgandi-0.3.5-gpos760-payment-release.aar",
