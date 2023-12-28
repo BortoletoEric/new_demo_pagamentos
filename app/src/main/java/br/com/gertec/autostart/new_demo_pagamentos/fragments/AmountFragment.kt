@@ -178,7 +178,6 @@ class AmountFragment : Fragment() {
 
     }
 
-
     private fun checkEvent() {
         CoroutineScope(Dispatchers.IO).launch {
             val resp =

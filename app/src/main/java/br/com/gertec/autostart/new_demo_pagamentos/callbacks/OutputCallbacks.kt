@@ -2,6 +2,7 @@ package br.com.gertec.autostart.new_demo_pagamentos.callbacks
 
 import android.content.Intent
 import android.media.ToneGenerator
+import android.util.Log
 import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
@@ -20,6 +21,8 @@ class OutputCallbacks(private var mainActivity: MainActivity) :
 
     override fun Text(lFlags: Long, sTxt1: String, sTxt2: String) {
         mainActivity.mainViewModel.updateDisplay(lFlags, sTxt1, sTxt2)
+
+        Log.d("msgg","OUTPUT CALLBACK ($lFlags): $sTxt1 \n $sTxt2")
 
         when (lFlags) {
             135170L -> {

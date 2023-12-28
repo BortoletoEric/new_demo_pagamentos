@@ -2,6 +2,7 @@ package br.com.gertec.autostart.new_demo_pagamentos.commands
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
 import br.com.gertec.autostart.new_demo_pagamentos.model.KBDData
@@ -116,20 +117,22 @@ class PPCompCommands private constructor() {
         tags: String? = null,
         opTags: String? = null,
         context: Context
-    ): String? {
+    ): Pair<String?, String?> { //Pair: resposta, msg da resposta
         try {
+            Log.d("msgg","init GOC...")
             ppComp?.PP_StartGoOnChip(input, tags, opTags)
 
             while (true) {
                 try {
                     val g = ppComp?.PP_GoOnChip()
                     PinKbdActivity.kBDData?.activity?.finish()
-                    return g
+                    Log.d("msgg","GOC RESP: $g")
+                    return Pair(g, "")
                 } catch (e: PPCompNoCardException) {
                     cancelCheckEvent = false
                     PinKbdActivity.kBDData?.activity?.finish()
                     e.printStackTrace()
-                    return "GOC_NO_CARD"
+                    return Pair("GOC_NO_CARD", "")
                 } catch (e: PPCompTimeoutException) {
                     cancelCheckEvent = false
                     PinKbdActivity.kBDData?.activity?.finish()
@@ -137,7 +140,7 @@ class PPCompCommands private constructor() {
                         ppComp?.PP_StartRemoveCard(context.getString(R.string.retire_o_cartao))
                         ppComp?.PP_RemoveCard()
                         ppComp?.PP_Abort()
-                        return "GOC_TO"
+                        return Pair("GOC_TO", "")
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -150,10 +153,25 @@ class PPCompCommands private constructor() {
                         ppComp?.PP_StartRemoveCard(context.getString(R.string.retire_o_cartao))
                         ppComp?.PP_RemoveCard()
                         ppComp?.PP_Abort()
-                        return "GOC_ERR"
+                        Log.d("msgg","GOC_ERR: $e")
+                        return Pair("GOC_ERR", "$e")
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        return "GOC_ERR"
+                        return Pair("GOC_ERR", "$e")
+                    }
+                }catch (e: Exception) {
+                    cancelCheckEvent = false
+                    PinKbdActivity.kBDData?.activity?.finish()
+                    e.printStackTrace()
+                    try {
+                        ppComp?.PP_StartRemoveCard(context.getString(R.string.retire_o_cartao))
+                        ppComp?.PP_RemoveCard()
+                        ppComp?.PP_Abort()
+                        Log.d("msgg","GOC_ERR: $e")
+                        return Pair("GOC_ERR", "$e")
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        return Pair("GOC_ERR", "$e")
                     }
                 }
             }
@@ -167,7 +185,7 @@ class PPCompCommands private constructor() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            return ""
+            return Pair("", "")
         }
     }
 
@@ -192,10 +210,12 @@ class PPCompCommands private constructor() {
     }
 
     fun finishChip() {
+        Log.d("msgg","init FNC...")
         try {
             ppComp?.PP_FinishChip("0000000000", "011829F279F269F36958F9F37")
             removeCard()
         } catch (e: Exception) {
+            Log.d("msgg","erro FNC $e")
             e.printStackTrace()
         }
     }

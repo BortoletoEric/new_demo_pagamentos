@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "br.com.gertec.autostart.new_demo_pagamentos"
-        minSdkVersion 26 //26 para gpos760, o resto 22
+        minSdkVersion 26 //26 para gpos760 e mini, o resto 22
         targetSdkVersion 33
         versionCode = 101
         versionName = "1.1.1"
@@ -289,6 +289,10 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-common-java8:2.6.1")
     implementation("androidx.activity:activity-ktx:1.7.2")
+
+    //zxing
+    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+    implementation 'com.google.zxing:core:3.2.1'
 
     //GERTEC SDK
     gpos760Implementation(files("libs/gpos760/libgedi-0.18.8-gpos760-eng-release.aar","libs/gpos760/libgandi-0.3.5-gpos760-payment-release.aar",

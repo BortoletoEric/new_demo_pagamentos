@@ -1,6 +1,7 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,8 @@ class PinFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
     private val args: PinFragmentArgs by navArgs()
     private var transactionOk = false
+    private lateinit var result: Pair<String?,String?>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,8 +46,8 @@ class PinFragment : Fragment() {
             goOnChip()
         }
 
-
         mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner) { step ->
+            Log.d("msgg","obs GOC... $step")
             when (step) {
                 "GOC" -> {
                     if (BuildConfig.FLAVOR == "gpos700mini") {
@@ -77,6 +80,7 @@ class PinFragment : Fragment() {
         binding.removeCardContainer.visibility = View.GONE
 
         mainActivity.mainViewModel.display.observe(viewLifecycleOwner) { display -> //ATENÇÃO, ISSO ESTAVA GERANDO ERRO NO PIN KBD, ATENTE-SE AO MODIFICÁ-LO
+            Log.d("msgg","obs flags... ${display[0]}")
             when (display[0]) {
                 720896L, 724993L -> {
                     binding.removeCardContainer.visibility = View.VISIBLE
@@ -85,7 +89,15 @@ class PinFragment : Fragment() {
 
                 256L -> {
                     if (transactionOk) return@observe
-                    mainActivity.showSnackBar(getString(R.string.opera_o_cancelada), false)
+                    if(result != null){
+                        if(result.first == "GOC_ERR"){
+                            mainActivity.showSnackBar(result.second?:getString(R.string.opera_o_cancelada), false)
+                        }else{
+                            mainActivity.showSnackBar(getString(R.string.opera_o_cancelada), false)
+                        }
+                    }
+
+
                     view.findNavController().navigate(
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )
@@ -102,7 +114,6 @@ class PinFragment : Fragment() {
 
     private fun goOnChip() {
         val am = fixAmountSize(args.amount)
-        var result: String? = ""
 
         CoroutineScope(Dispatchers.IO).launch {
             mainActivity.mainViewModel.ppCompCommands.let {
@@ -113,27 +124,28 @@ class PinFragment : Fragment() {
                     requireContext()
                 )
 
-                if (!result.isNullOrEmpty()) {
-                    transactionOk = true
-                    mainActivity.showSnackBar(
-                        getString(R.string.venda_finalizada_com_sucesso),
-                        true
-                    )
-                    it.finishChip()
-                    mainActivity.mainViewModel.processCompleted("GOC")
-                }
+//                if (!result.isNullOrEmpty()) {
+//                    transactionOk = true
+//                    mainActivity.showSnackBar(
+//                        getString(R.string.venda_finalizada_com_sucesso),
+//                        true
+//                    )
+//                    it.finishChip()
+//                    mainActivity.mainViewModel.processCompleted("GOC")
+//                }
 
-                when (result) {
+                when (result.first) {
                     "GOC_NO_CARD" -> mainActivity.mainViewModel.processCompleted("GOC_NO_CARD")
                     "GOC_TO" -> mainActivity.mainViewModel.processCompleted("GOC_TO")
                     "GOC_ERR" -> mainActivity.mainViewModel.processCompleted("GOC_ERR")
                     else -> {
-                        if (!result.isNullOrEmpty()) {
+                        if (!result.first.isNullOrEmpty()) {
                             transactionOk = true
                             mainActivity.showSnackBar(
                                 getString(R.string.venda_finalizada_com_sucesso),
                                 true
                             )
+                            Log.d("msgg","RESP GOC: $result")
                             it.finishChip()
                             mainActivity.mainViewModel.processCompleted("GOC")
                         }

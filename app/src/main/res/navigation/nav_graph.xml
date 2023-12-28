@@ -8,9 +8,9 @@
         android:name="br.com.gertec.autostart.new_demo_pagamentos.fragments.AmountFragment"
         android:label="Amount Fragment"
         tools:layout="@layout/fragment_amount">
-    <action
-        android:id="@+id/action_amountFragment_to_cardTypeFragment"
-        app:destination="@id/cardTypeFragment" />
+        <action
+            android:id="@+id/action_amountFragment_to_cardTypeFragment"
+            app:destination="@id/cardTypeFragment" />
         <action
             android:id="@+id/action_amountFragment_to_checkEventFragment"
             app:destination="@id/checkEventFragment" />

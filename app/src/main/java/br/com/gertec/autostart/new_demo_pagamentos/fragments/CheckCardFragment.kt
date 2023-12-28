@@ -2,6 +2,7 @@ package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
 import android.media.ToneGenerator
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +42,7 @@ class CheckCardFragment : Fragment() {
         getCard()
 
         mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner) { step ->
+            Log.d("msgg","obs GRC... $step")
             when (step) {
                 "GCR" -> {
                     if (BuildConfig.FLAVOR == "gpos780" && cardType == "06") beep()
