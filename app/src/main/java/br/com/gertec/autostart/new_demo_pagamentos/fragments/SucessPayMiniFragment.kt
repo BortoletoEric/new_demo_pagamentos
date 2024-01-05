@@ -18,10 +18,10 @@ import br.com.gertec.gedi.exceptions.GediException
 import java.util.Locale
 import kotlin.random.Random
 //libs da zxing apenas para 700mini
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.MultiFormatWriter
-import com.google.zxing.WriterException
-import com.google.zxing.common.BitMatrix
+//import com.google.zxing.BarcodeFormat
+//import com.google.zxing.MultiFormatWriter
+//import com.google.zxing.WriterException
+//import com.google.zxing.common.BitMatrix
 
 
 class SucessPayMiniFragment : Fragment() {
@@ -82,11 +82,11 @@ class SucessPayMiniFragment : Fragment() {
                 numeroDeSerie = it
 
                 //usado apenas para gpos700 mini
-                binding.displayPaymentInfo.imageView3.setImageBitmap(
-                    generateQRCode(
-                        Utils.getPaymentReceiptQrCode(amount, applicationType, codSale, numeroDeSerie, getDeviceLanguage())
-                    )
-                )
+//                binding.displayPaymentInfo.imageView3.setImageBitmap(
+//                    generateQRCode(
+//                        Utils.getPaymentReceiptQrCode(amount, applicationType, codSale, numeroDeSerie, getDeviceLanguage())
+//                    )
+//                )
 
 
             }
@@ -115,26 +115,26 @@ class SucessPayMiniFragment : Fragment() {
     }
 
       // usada apenas para gpos700mini
-    fun generateQRCode(input: String): Bitmap? {
-        val width = 500
-        val height = 500
-
-        try {
-            val bitMatrix: BitMatrix = MultiFormatWriter().encode(input, BarcodeFormat.QR_CODE, width, height)
-            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-
-            for (x in 0 until width) {
-                for (y in 0 until height) {
-                    bitmap.setPixel(x, y, if (bitMatrix[x, y]) 0xFF000000.toInt() else 0xFFFFFFFF.toInt())
-                }
-            }
-
-            return bitmap
-        } catch (e: WriterException) {
-            e.printStackTrace()
-        }
-
-        return null
-    }
+//    fun generateQRCode(input: String): Bitmap? {
+//        val width = 500
+//        val height = 500
+//
+//        try {
+//            val bitMatrix: BitMatrix = MultiFormatWriter().encode(input, BarcodeFormat.QR_CODE, width, height)
+//            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+//
+//            for (x in 0 until width) {
+//                for (y in 0 until height) {
+//                    bitmap.setPixel(x, y, if (bitMatrix[x, y]) 0xFF000000.toInt() else 0xFFFFFFFF.toInt())
+//                }
+//            }
+//
+//            return bitmap
+//        } catch (e: WriterException) {
+//            e.printStackTrace()
+//        }
+//
+//        return null
+//    }
 
 }

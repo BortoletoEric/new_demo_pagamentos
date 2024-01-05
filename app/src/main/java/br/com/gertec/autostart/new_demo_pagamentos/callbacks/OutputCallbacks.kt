@@ -61,6 +61,8 @@ class OutputCallbacks(private var mainActivity: MainActivity) :
                     mainActivity.turnOnSimulatedLed(turnOnLed)
                     turnOnLed = !turnOnLed
                 }
+            }
+            68L -> { //LIGA LED CTLS
 
             }
             72L -> { // LIGA LED AZUL SIMULADO

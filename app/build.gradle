@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "br.com.gertec.autostart.new_demo_pagamentos"
-        minSdkVersion 26 //26 para gpos760 e mini, o resto 22
+        minSdkVersion 22 //26 para gpos760 e mini, o resto 22
         targetSdkVersion 33
         versionCode = 101
         versionName = "1.1.1"
@@ -291,8 +291,8 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.7.2")
 
     //zxing (usar apenas com a gpos700mini)
-    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
-    implementation 'com.google.zxing:core:3.2.1'
+//    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+//    implementation 'com.google.zxing:core:3.2.1'
 
     //Lottie
     implementation 'com.airbnb.android:lottie:6.2.0'
@@ -312,7 +312,7 @@ dependencies {
     gpos700Implementation(files("libs/gpos700/android-easy-layer-debug.aar",
             "libs/gpos700/libgedi-1.16.14-gpos700-payment-release.aar", "libs/gpos700/libppcomp-001.35-230609-gpos700-logs.aar"))
 
-    gpos700miniImplementation(files("libs/gpos700mini/android-easy-layer-debug.aar",
-            "libs/gpos700mini/libgedi-1.16.14-gpos700-payment-release.aar", "libs/gpos700mini/libppcomp-001.35-230609-gpos700-logs.aar"))
+    gpos700miniImplementation(files("libs/gpos700mini/android-easy-layer-debug.aar","libs/gpos700mini/libgandi-1.2.14-gpos700-payment-release.aar",
+            "libs/gpos700mini/libgedi-1.16.18-gpos700-payment-release.aar", "libs/gpos700mini/libppcomp-001.37-230712-gpos700-release.aar"))
 
 }

@@ -37,6 +37,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_rawRes="@raw/blueledlottie" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/imageViewLedAmarelo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:visibility="gone"
+        app:lottie_loop="true"
+        app:lottie_speed="1"
+        app:lottie_autoPlay="true"
+        android:layout_margin="20dp"
+        android:translationZ="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_rawRes="@raw/yellowledlottie" />
+
     <fragment
         android:id="@+id/navHostFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
