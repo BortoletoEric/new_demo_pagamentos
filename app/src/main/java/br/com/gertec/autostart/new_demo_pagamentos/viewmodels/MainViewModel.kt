@@ -1,11 +1,13 @@
 package br.com.gertec.autostart.new_demo_pagamentos.viewmodels
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.commands.PPCompCommands
 import br.com.gertec.gedi.GEDI
 import br.com.gertec.gedi.enums.GEDI_INFO_e_ControlNumber
@@ -84,11 +86,19 @@ class MainViewModel : ViewModel() {
         iGedi?.audio?.Beep()
     }
 
-    fun getNs() = iGedi?.info?.ControlNumberGet(GEDI_INFO_e_ControlNumber.SN)
-
-    fun tunrOnLed700(turnOn: Boolean){
-        iGedi?.led?.Set(GEDI_LED_e_Id.GEDI_LED_ID_1, turnOn)
+    fun turnOnLed(cor: GEDI_LED_e_Id, ligar: Boolean, turnOnLed: Boolean? = null){
+        Log.d("msgg","releaaaaaaaase ${BuildConfig.FLAVOR}")
+        if(BuildConfig.FLAVOR == "gpos700mini"){
+            Log.d("msgg","led -> $iGedi")
+            iGedi?.led?.Set(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL,false)
+            iGedi?.led?.Set(cor,ligar)
+            if(turnOnLed != null) {
+                if(!turnOnLed) iGedi?.led?.Set(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL,false)
+            }
+        }
     }
+
+    fun getNs() = iGedi?.info?.ControlNumberGet(GEDI_INFO_e_ControlNumber.SN)
 
     fun getDateAndTime(): String {
         val dateFormatBr =

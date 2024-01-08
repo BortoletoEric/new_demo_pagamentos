@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun turnOnSimulatedLed(turnOn: Boolean){
-        if(BuildConfig.FLAVOR == "gpos700mini" || BuildConfig.FLAVOR == "gpos700"){
+        if(BuildConfig.FLAVOR == "gpos700"){
             if(turnOn) {
                 binding.imageViewLedAzul.visibility = View.VISIBLE
             }else{

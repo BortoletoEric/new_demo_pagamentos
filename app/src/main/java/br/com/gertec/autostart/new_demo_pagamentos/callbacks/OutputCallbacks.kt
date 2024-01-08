@@ -6,6 +6,7 @@ import android.util.Log
 import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
+import br.com.gertec.gedi.enums.GEDI_LED_e_Id
 import br.com.gertec.ppcomp.IPPCompDSPCallbacks
 import java.util.concurrent.atomic.AtomicLong
 
@@ -59,14 +60,31 @@ class OutputCallbacks(private var mainActivity: MainActivity) :
             64L -> { //LIGA E DESLIGA LED SIMULADO
                 mainActivity.runOnUiThread{
                     mainActivity.turnOnSimulatedLed(turnOnLed)
+                    mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_3, true, turnOnLed)
                     turnOnLed = !turnOnLed
                 }
-            }
-            68L -> { //LIGA LED CTLS
 
             }
-            72L -> { // LIGA LED AZUL SIMULADO
+            72L -> { // LIGA LED AZUL - AGUARDANDO
 //                mainActivity.turnOnSimulatedLed(false)
+                mainActivity.runOnUiThread{
+                    mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_1, true)
+                }
+            }
+            68L -> { //LIGA LED LARANJA - LENDO
+                mainActivity.runOnUiThread{
+                    mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_4, true)
+                }
+            }
+            66L -> { //LIGA LED VERDE - OK
+                mainActivity.runOnUiThread{
+                    mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_3, true)
+                }
+            }
+            65L -> { //LIGA LED VERMELHO - GRANDE ERRO
+                mainActivity.runOnUiThread {
+                    mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_2, true)
+                }
             }
             790657L -> {
                 Unit

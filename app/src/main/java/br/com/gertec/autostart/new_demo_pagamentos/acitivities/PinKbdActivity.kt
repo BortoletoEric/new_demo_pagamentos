@@ -3,6 +3,7 @@ package br.com.gertec.autostart.new_demo_pagamentos.acitivities
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.model.KBDData
@@ -31,7 +32,24 @@ class PinKbdActivity : Activity() {
         frameLayout_pin.addView(child)
 
         setupKbdData(rootView)
+//        enablePinKbd(rootView)
     }
+//
+//    private fun enablePinKbd(rootView: View) {
+//        rootView.findViewWithTag<Button>(getString(R.string.btn0Tag))
+//        rootView.findViewWithTag<Button>(getString(R.string.btn1Tag)).isEnabled = true
+//        rootView.findViewWithTag<Button>(getString(R.string.btn2Tag)).isEnabled = true
+//        rootView.findViewWithTag<Button>(getString(R.string.btn3Tag)).isEnabled = true
+//        rootView.findViewWithTag<Button>(getString(R.string.btn4Tag)).isEnabled = true
+//        rootView.findViewWithTag<Button>(getString(R.string.btn5Tag)).isEnabled = true
+//        rootView.findViewWithTag<Button>(getString(R.string.btn6Tag)).isEnabled = true
+//        rootView.findViewWithTag<Button>(getString(R.string.btn7Tag)).isEnabled = true
+//        rootView.findViewWithTag<Button>(getString(R.string.btn8Tag)).isEnabled = true
+//        rootView.findViewWithTag<Button>(getString(R.string.btn9Tag)).isEnabled = true
+//        rootView.findViewWithTag<Button>(getString(R.string.btnCancelTag)).isEnabled = true
+//        rootView.findViewWithTag<Button>(getString(R.string.btnClearTag)).isEnabled = true
+//        rootView.findViewWithTag<Button>(getString(R.string.btnEnterTag)).isEnabled = true
+//    }
 
     override fun onStart() {
         super.onStart()
