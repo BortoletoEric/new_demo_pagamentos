@@ -2,6 +2,7 @@ package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,6 +83,7 @@ class SucessPayFragment : Fragment() {
             Thread.sleep(500)
             if (!it.isNullOrEmpty() && !isPrintedLojista) {
                 numeroDeSerie = it
+                Log.d("msgg","it a coisa = $it")
                 printComprovante(
                     getString(R.string.lojista),
                     it
@@ -125,6 +127,7 @@ class SucessPayFragment : Fragment() {
     private fun getNS() {
         try {
             numeroDeSerie = mainActivity.mainViewModel.getNs() ?: ""
+            Log.d("msgg","numSer $numeroDeSerie")
             mainActivity.mainViewModel.postNs(numeroDeSerie)
         } catch (e: GediException) {
             mainActivity.mainViewModel.postNs(null)

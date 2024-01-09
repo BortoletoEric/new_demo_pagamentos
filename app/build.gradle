@@ -13,10 +13,10 @@ android {
 
     defaultConfig {
         applicationId "br.com.gertec.autostart.new_demo_pagamentos"
-        minSdkVersion 22 //26 para gpos760 e mini, o resto 22
+        minSdkVersion 26 //26 para gpos760 e mini, o resto 22
         targetSdkVersion 33
-        versionCode = 101
-        versionName = "1.1.1"
+        versionCode = 102
+        versionName = "1.1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -313,6 +313,6 @@ dependencies {
             "libs/gpos700/libgedi-1.16.14-gpos700-payment-release.aar", "libs/gpos700/libppcomp-001.35-230609-gpos700-logs.aar"))
 
     gpos700miniImplementation(files("libs/gpos700mini/android-easy-layer-debug.aar","libs/gpos700mini/libgandi-1.2.14-gpos700-payment-release.aar",
-            "libs/gpos700mini/libgedi-1.16.18-gpos700-payment-release.aar", "libs/gpos700mini/libppcomp-001.37-230712-gpos700-release.aar"))
+            "libs/gpos700mini/libgedi-1.16.18-gpos700-payment-release.aar", "libs/gpos700mini/libppcomp-001.37-230712-gpos700-logs.aar"))
 
 }

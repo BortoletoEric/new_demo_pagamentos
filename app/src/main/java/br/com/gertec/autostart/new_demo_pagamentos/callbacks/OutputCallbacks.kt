@@ -10,7 +10,7 @@ import br.com.gertec.gedi.enums.GEDI_LED_e_Id
 import br.com.gertec.ppcomp.IPPCompDSPCallbacks
 import java.util.concurrent.atomic.AtomicLong
 
-class OutputCallbacks(private var mainActivity: MainActivity) :
+class OutputCallbacks(var mainActivity: MainActivity) :
     IPPCompDSPCallbacks {
 
     private var mMenuTitle = ""
@@ -20,6 +20,7 @@ class OutputCallbacks(private var mainActivity: MainActivity) :
     private var txtPinDisplay = ""
     private var stopKBD = false
     private var turnOnLed = true
+    private var kbdStarted = false
 
     override fun Text(lFlags: Long, sTxt1: String, sTxt2: String) {
         mainActivity.mainViewModel.updateDisplay(lFlags, sTxt1, sTxt2)
@@ -100,24 +101,24 @@ class OutputCallbacks(private var mainActivity: MainActivity) :
             917504L -> {
                 if (stopKBD) return
                 txtPinDisplay = ""
-                showKBD()
+                setupKBD()
                 stopKBD = true
             } //PIN_STARTING if sTxt2.isEmpty(), else //PIN_STARTING_S
-            512L -> {
-                PinKbdActivity.mKBDData.let {
-                    it?.activity?.runOnUiThread(Runnable {
-                        it.amount?.text = mainActivity.mainViewModel.transactionAmount
-                        it.textView?.text = sTxt2
-                    })
-                }
-                stopKBD = false
+        }
 
-                if (BuildConfig.FLAVOR == "gpos760" ||
-                    BuildConfig.FLAVOR == "gpos700" ||
-                    BuildConfig.FLAVOR == "gpos780" ||
-                    BuildConfig.FLAVOR == "gpos700mini"
-                ) beep()
-            }
+        if(lFlags==512L){
+            PinKbdActivity.mKBDData?.activity?.runOnUiThread(Runnable {
+                PinKbdActivity.mKBDData?.amount?.text = mainActivity.mainViewModel.transactionAmount
+                PinKbdActivity.mKBDData?.textView?.text = sTxt2
+                })
+
+            stopKBD = false
+
+            if (BuildConfig.FLAVOR == "gpos760" ||
+                BuildConfig.FLAVOR == "gpos700" ||
+                BuildConfig.FLAVOR == "gpos780" ||
+                BuildConfig.FLAVOR == "gpos700mini"
+            ) beep()
         }
     }
 
@@ -137,7 +138,7 @@ class OutputCallbacks(private var mainActivity: MainActivity) :
     override fun MenuShow(lFlags: Long, lsOpts: List<String>, iOptSel: Int) = mSelectedItem
 
     //Mostra o teclado e PIN
-    private fun showKBD() {
+    private fun setupKBD() {
         //Inicia a tela do teclado
         openPinKBD()
 
@@ -145,7 +146,10 @@ class OutputCallbacks(private var mainActivity: MainActivity) :
         waitActivityOpen()
 
         //Seta o teclado na PPComp
+        Log.d("msgg","kbdStarted = $kbdStarted")
         mainActivity.mainViewModel.ppCompCommands.setKbd()
+
+
     }
 
     private fun openPinKBD() {
@@ -160,7 +164,9 @@ class OutputCallbacks(private var mainActivity: MainActivity) :
 
     private fun waitActivityOpen(): Int {
         try {
-            while (!PinKbdActivity.active) Unit
+            while (!PinKbdActivity.active){
+                Log.d("msgg","pinKbd active = ${PinKbdActivity.active}")
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

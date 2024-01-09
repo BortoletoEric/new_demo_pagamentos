@@ -76,6 +76,7 @@ class MainViewModel : ViewModel() {
                     iGedi = GEDI.getInstance()
                     delay(1000)
                     if (iGedi != null) break
+                    Log.d("msgg","boa sorte kkk")
                 }
                 gediOk = true
             }

@@ -97,7 +97,6 @@ class PinFragment : Fragment() {
                         }
                     }
 
-
                     view.findNavController().navigate(
                         PinFragmentDirections.actionPinFragmentToAmountFragment()
                     )

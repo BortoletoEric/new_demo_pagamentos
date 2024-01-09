@@ -159,20 +159,6 @@ class PPCompCommands private constructor() {
                         e.printStackTrace()
                         return Pair("GOC_ERR", "$e")
                     }
-                }catch (e: Exception) {
-                    cancelCheckEvent = false
-                    PinKbdActivity.kBDData?.activity?.finish()
-                    e.printStackTrace()
-                    try {
-                        ppComp?.PP_StartRemoveCard(context.getString(R.string.retire_o_cartao))
-                        ppComp?.PP_RemoveCard()
-                        ppComp?.PP_Abort()
-                        Log.d("msgg","GOC_ERR: $e")
-                        return Pair("GOC_ERR", "$e")
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        return Pair("GOC_ERR", "$e")
-                    }
                 }
             }
         } catch (e: Exception) {
