@@ -22,7 +22,7 @@ class PinFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
     private val args: PinFragmentArgs by navArgs()
     private var transactionOk = false
-    private lateinit var result: Pair<String?,String?>
+    private var result: Pair<String?,String?>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,8 +90,8 @@ class PinFragment : Fragment() {
                 256L -> {
                     if (transactionOk) return@observe
                     if(result != null){
-                        if(result.first == "GOC_ERR"){
-                            mainActivity.showSnackBar(result.second?:getString(R.string.opera_o_cancelada), false)
+                        if(result!!.first == "GOC_ERR"){
+                            mainActivity.showSnackBar(result!!.second?:getString(R.string.opera_o_cancelada), false)
                         }else{
                             mainActivity.showSnackBar(getString(R.string.opera_o_cancelada), false)
                         }
@@ -133,12 +133,12 @@ class PinFragment : Fragment() {
 //                    mainActivity.mainViewModel.processCompleted("GOC")
 //                }
 
-                when (result.first) {
+                when (result?.first) {
                     "GOC_NO_CARD" -> mainActivity.mainViewModel.processCompleted("GOC_NO_CARD")
                     "GOC_TO" -> mainActivity.mainViewModel.processCompleted("GOC_TO")
                     "GOC_ERR" -> mainActivity.mainViewModel.processCompleted("GOC_ERR")
                     else -> {
-                        if (!result.first.isNullOrEmpty()) {
+                        if (!result?.first.isNullOrEmpty()) {
                             transactionOk = true
                             mainActivity.showSnackBar(
                                 getString(R.string.venda_finalizada_com_sucesso),
