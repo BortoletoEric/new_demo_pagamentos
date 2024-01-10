@@ -83,7 +83,6 @@ class SucessPayFragment : Fragment() {
             Thread.sleep(500)
             if (!it.isNullOrEmpty() && !isPrintedLojista) {
                 numeroDeSerie = it
-                Log.d("msgg","it a coisa = $it")
                 printComprovante(
                     getString(R.string.lojista),
                     it

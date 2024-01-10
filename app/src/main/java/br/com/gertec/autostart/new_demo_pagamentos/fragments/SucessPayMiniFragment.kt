@@ -14,6 +14,10 @@ import br.com.gertec.autostart.new_demo_pagamentos.commands.Utils
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentSucessPayMiniBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutCardInfoBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutPaymentInfoMiniBinding
+import br.com.gertec.easylayer.zxing.google.zxingcore.BarcodeFormat
+import br.com.gertec.easylayer.zxing.google.zxingcore.MultiFormatWriter
+import br.com.gertec.easylayer.zxing.google.zxingcore.WriterException
+import br.com.gertec.easylayer.zxing.google.zxingcore.common.BitMatrix
 import br.com.gertec.gedi.exceptions.GediException
 import java.util.Locale
 import kotlin.random.Random

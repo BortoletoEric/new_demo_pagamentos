@@ -76,7 +76,6 @@ class MainViewModel : ViewModel() {
                     iGedi = GEDI.getInstance()
                     delay(1000)
                     if (iGedi != null) break
-                    Log.d("msgg","boa sorte kkk")
                 }
                 gediOk = true
             }
@@ -88,7 +87,6 @@ class MainViewModel : ViewModel() {
     }
 
     fun turnOnLed(cor: GEDI_LED_e_Id, ligar: Boolean, turnOnLed: Boolean? = null){
-        Log.d("msgg","releaaaaaaaase ${BuildConfig.FLAVOR}")
         if(BuildConfig.FLAVOR == "gpos700mini"){
             Log.d("msgg","led -> $iGedi")
             iGedi?.led?.Set(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL,false)
