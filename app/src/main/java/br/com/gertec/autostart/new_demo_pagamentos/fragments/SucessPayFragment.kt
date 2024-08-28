@@ -104,9 +104,8 @@ class SucessPayFragment : Fragment() {
             getDeviceLanguage(),
             mainActivity.mainViewModel.timeBrAndUs
         )
-        val qrCode =
-            Utils.getPaymentReceiptQrCode(amount, applicationType, codSale, ns, getDeviceLanguage())
-        printerCommands?.printComprovante(html, qrCode)
+
+        printerCommands?.printComprovante(html)
     }
 
     private fun getDeviceLanguage(): String {

@@ -1,5 +1,7 @@
 package br.com.gertec.autostart.new_demo_pagamentos.commands
 
+import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
+
 class Utils {
     companion object {
         fun getPaymentReceiptHtmlModel(
@@ -32,6 +34,11 @@ class Utils {
                     "<hr></hr>" +
                     "<b>" + timeNDate.first + " <right> (C) </right> </b>" +
                     "<b>Auto: 73664829 <right> Term: " + ns + "</right></b> </br>" +
+                    if (BuildConfig.FLAVOR.equals("gpos760")) {
+                        "<br><br><br><br><br><br><br><br><br><br>"
+                    } else {
+                        "<br><br><br><br><br>"
+                    }
                     "</body>" +
                     "</html>"
             val bodyEnglish = "<body>" +
@@ -45,36 +52,14 @@ class Utils {
                     "<hr></hr>" +
                     "<b>" + timeNDate.second + " <right> (C) </right> </b>" +
                     "<b>Auto: 73664829 <right> Term: " + ns + "</right></b> </br>" +
+                    if (BuildConfig.FLAVOR.equals("gpos760")) {
+                        "<br><br><br><br><br><br><br><br><br><br>"
+                    } else {
+                        "<br><br><br><br><br>"
+                    }
                     "</body>" +
                     "</html>"
             return head + if (language == "pt") body else bodyEnglish
         }
-
-        fun getPaymentReceiptQrCode(
-            amount: String,
-            applicationType: String,
-            codSale: String,
-            ns: String?,
-            language: String
-        ): String {
-            return if (language == "pt") {
-                ("Comprovante de pagamento" +
-                        "\nDemonstração - Gertec" +
-                        "\nCNPJ: 03.654.119/0001-76" +
-                        "\nValor da compra: ${amount}" +
-                        "\nPagamento no: ${applicationType}" +
-                        "\nCódigo da venda: ${codSale}" +
-                        "\nTerminal: ${ns}")
-            } else {
-                ("Payment Voucher" +
-                        "\nDemonstration - Gertec" +
-                        "\nCNPJ: 03.654.119/0001-76" +
-                        "\nPurchase value: ${amount}" +
-                        "\nPayment method: ${applicationType}" +
-                        "\nSale code: ${codSale}" +
-                        "\nTerminal: ${ns}")
-            }
-        }
     }
-
 }

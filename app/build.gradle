@@ -15,8 +15,8 @@ android {
         applicationId "br.com.gertec.autostart.new_demo_pagamentos"
         minSdkVersion 26 //26 para gpos760 e mini, o resto 22
         targetSdkVersion 33
-        versionCode = 102
-        versionName = "1.1.2"
+        versionCode = 103
+        versionName = "1.1.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,7 +43,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs["gpos700"]
+            signingConfig = signingConfigs["gpos720"]
         }
         debug {
             proguardFiles(
@@ -228,6 +228,9 @@ android {
                 pickFirst 'aidl/com/ft/possystemapi/server/system/DefaultDataChangeResultListener.aidl'
                 pickFirst 'aidl/com/ft/possystemapi/server/system/ISystemManager.aidl'
                 pickFirst '***'
+            }
+            ndk.with {
+                abiFilters = ["armeabi-v7a"]
             }
         }
 

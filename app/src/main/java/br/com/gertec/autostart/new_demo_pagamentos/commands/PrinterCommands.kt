@@ -8,7 +8,7 @@ import br.com.gertec.easylayer.printer.Printer
 import br.com.gertec.easylayer.printer.PrinterError
 
 class PrinterCommands(private val context: Context, private val activity: MainActivity) {
-    fun printComprovante(html: String?, barcode: String?) {
+    fun printComprovante(html: String?) {
         val printer = Printer.getInstance(context, object : Printer.Listener {
             override fun onPrinterError(printerError: PrinterError) {
                 activity.showSnackBar(printerError.cause, false)
@@ -19,15 +19,6 @@ class PrinterCommands(private val context: Context, private val activity: MainAc
 
         })
 
-        val barcodeFormat = BarcodeFormat(BarcodeType.QR_CODE, BarcodeFormat.Size.FULL_PAPER)
-        if (html != null) {
-            printer.printHtml(context, html)
-            printer.printBarcode(barcodeFormat, barcode.toString())
-            try {
-                printer.scrollPaper(130)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+        printer.printHtml(context, html!!)
     }
 }
