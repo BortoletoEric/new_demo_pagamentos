@@ -34,7 +34,7 @@ class Utils {
                     "<hr></hr>" +
                     "<b>" + timeNDate.first + " <right> (C) </right> </b>" +
                     "<b>Auto: 73664829 <right> Term: " + ns + "</right></b> </br>" +
-                    if (BuildConfig.FLAVOR.equals("gpos760")) {
+                    if (BuildConfig.FLAVOR.equals("gpos760") || BuildConfig.FLAVOR.contains("gpos700")) {
                         "<br><br><br><br><br><br><br><br><br><br>"
                     } else {
                         "<br><br><br><br><br>"
