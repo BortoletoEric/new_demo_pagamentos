@@ -13,13 +13,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
+import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentAmountBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutDisplayKeyboardBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutKeyboardBinding
 import br.com.gertec.gedi.GEDI
-import br.com.gertec.gedi.interfaces.IGEDI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -199,8 +199,12 @@ class AmountFragment : Fragment() {
         }
     }
 
-    private fun initGedi(){
-        mainActivity.mainViewModel.setupGedi(mainActivity.applicationContext)
+    private fun initGedi() {
+        if(BuildConfig.FLAVOR.equals("gpos790")) {
+            mainActivity.mainViewModel.setupGediNeo(mainActivity.applicationContext)
+        } else {
+            mainActivity.mainViewModel.setupGedi(mainActivity.applicationContext)
+        }
     }
 
     private fun addDigitToAmount(digit: String) {

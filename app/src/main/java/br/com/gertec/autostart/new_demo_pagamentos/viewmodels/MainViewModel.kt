@@ -82,6 +82,20 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    fun setupGediNeo(ctxt: Context) {
+        viewModelScope.launch {
+            if (!gediOk) {
+                while (true) {
+                    //GEDI.init(ctxt) //Libs Gedi neo não precisa mais
+                    iGedi = GEDI.getInstance(ctxt)
+                    delay(1000)
+                    if (iGedi != null) break
+                }
+                gediOk = true
+            }
+        }
+    }
+
     fun beep() {
         iGedi?.audio?.Beep()
     }
