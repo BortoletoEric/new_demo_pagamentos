@@ -128,7 +128,8 @@ class OutputCallbacks(var mainActivity: MainActivity) :
                 BuildConfig.FLAVOR == "gpos780" ||
                 BuildConfig.FLAVOR == "gpos720" ||
                 BuildConfig.FLAVOR == "gpos790" ||
-                BuildConfig.FLAVOR == "gpos700mini") beep()
+                BuildConfig.FLAVOR == "gpos700mini")
+                beep()
         }
     }
 
