@@ -1,5 +1,6 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
@@ -77,6 +78,7 @@ class SucessPayMiniFragment : Fragment() {
             view.findNavController()
                 .navigate(SucessPayMiniFragmentDirections.actionSucessPayMiniFragmentToAmountFragment())
         }
+
     }
 
     private fun setupObservers() {

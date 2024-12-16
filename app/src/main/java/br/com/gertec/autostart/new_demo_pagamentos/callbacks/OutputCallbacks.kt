@@ -53,6 +53,15 @@ class OutputCallbacks(var mainActivity: MainActivity) :
                 Unit
             } //SELECTED_S
             200707L -> {
+                val txtFlag1 = "aproxime, insira"
+                val txtFlag2 = "ou passe o cartão"
+                mainActivity.runOnUiThread {
+                    mainActivity.mainViewModel.updateDisplay(
+                        lFlags,
+                        txtFlag1.uppercase(),
+                        txtFlag2.uppercase()
+                    )
+                }
                 Unit
             } //TAP_INSERT_SWIPE_CARD
             256L, 0L, 721153L -> {
@@ -110,15 +119,16 @@ class OutputCallbacks(var mainActivity: MainActivity) :
             PinKbdActivity.mKBDData?.activity?.runOnUiThread(Runnable {
                 PinKbdActivity.mKBDData?.amount?.text = mainActivity.mainViewModel.transactionAmount
                 PinKbdActivity.mKBDData?.textView?.text = sTxt2
-                })
+            })
 
             stopKBD = false
 
             if (BuildConfig.FLAVOR == "gpos760" ||
                 BuildConfig.FLAVOR == "gpos700" ||
                 BuildConfig.FLAVOR == "gpos780" ||
-                BuildConfig.FLAVOR == "gpos700mini"
-            ) beep()
+                BuildConfig.FLAVOR == "gpos720" ||
+                BuildConfig.FLAVOR == "gpos790" ||
+                BuildConfig.FLAVOR == "gpos700mini") beep()
         }
     }
 
@@ -182,3 +192,4 @@ class OutputCallbacks(var mainActivity: MainActivity) :
         }
     }
 }
+

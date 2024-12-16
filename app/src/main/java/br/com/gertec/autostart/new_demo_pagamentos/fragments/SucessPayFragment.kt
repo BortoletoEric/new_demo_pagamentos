@@ -15,6 +15,7 @@ import br.com.gertec.autostart.new_demo_pagamentos.commands.Utils
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentSucessPayBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutCardInfoBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutPaymentInfoBinding
+import br.com.gertec.gedi.GEDI
 import br.com.gertec.gedi.exceptions.GediException
 import java.util.Locale
 import kotlin.random.Random
@@ -31,7 +32,6 @@ class SucessPayFragment : Fragment() {
     private lateinit var codSale: String
     private var numeroDeSerie: String = ""
     private var isPrintedLojista: Boolean = false
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,6 +76,7 @@ class SucessPayFragment : Fragment() {
             view.findNavController()
                 .navigate(SucessPayFragmentDirections.actionSucessPayFragmentToAmountFragment())
         }
+//        mainActivity.mainViewModel.clearDisplay()
     }
 
     private fun setupObservers() {
@@ -93,7 +94,10 @@ class SucessPayFragment : Fragment() {
     }
 
     private fun printComprovante(user: String, ns: String) {
-        val printerCommands = context?.let { PrinterCommands(it, mainActivity) }
+//        GEDI.getInstance(this.context)
+        val printerCommands = context?.let {
+            PrinterCommands(it, mainActivity)
+        }
         val html = Utils.getPaymentReceiptHtmlModel(
             amount,
             applicationType,
@@ -104,7 +108,6 @@ class SucessPayFragment : Fragment() {
             getDeviceLanguage(),
             mainActivity.mainViewModel.timeBrAndUs
         )
-
         printerCommands?.printComprovante(html)
     }
 

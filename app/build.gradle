@@ -9,14 +9,13 @@ android {
     namespace = "br.com.gertec.autostart.new_demo_pagamentos"
 
     compileSdkVersion 33
-    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "br.com.gertec.autostart.new_demo_pagamentos"
-        minSdkVersion 26 //26 para gpos760 e mini, o resto 22
+        minSdkVersion 26 //26 para o gpos790, gpos760, e mini. O resto é 22
         targetSdkVersion 33
-        versionCode = 103
-        versionName = "1.1.3"
+        versionCode = 104
+        versionName = "1.1.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -274,30 +273,30 @@ android {
                 abiFilters = ["armeabi-v7a"]
             }
 
-            packagingOptions {
-                pickFirst 'wangpos/sdk4/base/IDecodeCallback.aidl'
-                pickFirst 'aidl/wangpos/sdk4/base/IDecodeCallback.aidl'
-                pickFirst 'aidl/wangpos/sdk4/keymanager/IBinderPool.aidl'
-                pickFirst 'aidl/wangpos/sdk4/keymanager/IKeyManagerService.aidl'
-                pickFirst 'aidl/wangpos/sdk4/base/IBaseService.aidl'
-                pickFirst 'aidl/wangpos/sdk4/base/ICallbackListener.aidl'
-                pickFirst 'wangpos/sdk4/base/IBinderPool.aidl'
-                pickFirst 'wangpos/sdk4/wangpos/sdk4/base/IBaseService.aidl'
-                pickFirst 'wangpos/sdk4/base/IBaseService.aidl'
-                pickFirst 'aidl/wangpos/sdk4/base/IBinderPool.aidl'
-                pickFirst 'aidl/wangpos/sdk4/base/ICommonCallback.aidl'
-                pickFirst 'wangpos/sdk4/base/ICommonCallback.aidl'
-                pickFirst 'wangpos/sdk4/base/ICallbackListener.aidl'
-                pickFirst 'wangpos/sdk4/base/config/ChipRecordData.aidl'
-                pickFirst 'aidl/wangpos/sdk4/base/config/ChipRecordData.aidl'
-                pickFirst 'aidl/wangpos/sdk4/base/config/ChipRecordData.java'
-                exclude 'wangpos/sdk4/base/IWifiProbeListener.aidl'
-                exclude  'wangpos/sdk4/base/config/ScanConfig.aidl'
-                exclude  'wangpos/wangpos/sdk4/base/config/ScanConfig.aidl'
-                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.aidl'
-                exclude 'aidl/wangpos/sdk4/base/IWifiProbeListener.aidl'
-                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.java'
-            }
+//            packagingOptions {
+//                pickFirst 'wangpos/sdk4/base/IDecodeCallback.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IDecodeCallback.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/keymanager/IBinderPool.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/keymanager/IKeyManagerService.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IBaseService.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/ICallbackListener.aidl'
+//                pickFirst 'wangpos/sdk4/base/IBinderPool.aidl'
+//                pickFirst 'wangpos/sdk4/wangpos/sdk4/base/IBaseService.aidl'
+//                pickFirst 'wangpos/sdk4/base/IBaseService.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/IBinderPool.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/ICommonCallback.aidl'
+//                pickFirst 'wangpos/sdk4/base/ICommonCallback.aidl'
+//                pickFirst 'wangpos/sdk4/base/ICallbackListener.aidl'
+//                pickFirst 'wangpos/sdk4/base/config/ChipRecordData.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/config/ChipRecordData.aidl'
+//                pickFirst 'aidl/wangpos/sdk4/base/config/ChipRecordData.java'
+//                exclude 'wangpos/sdk4/base/IWifiProbeListener.aidl'
+//                exclude  'wangpos/sdk4/base/config/ScanConfig.aidl'
+//                exclude  'wangpos/wangpos/sdk4/base/config/ScanConfig.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/IWifiProbeListener.aidl'
+//                exclude 'aidl/wangpos/sdk4/base/config/ScanConfig.java'
+//            }
         }
     }
 
@@ -332,7 +331,6 @@ dependencies {
 
     //Lottie
     implementation 'com.airbnb.android:lottie:6.2.0'
-
 
     //GERTEC SDK
     gpos760Implementation(files("libs/gpos760/libgedi-0.18.8-gpos760-eng-release.aar","libs/gpos760/libgandi-0.3.5-gpos760-payment-release.aar",

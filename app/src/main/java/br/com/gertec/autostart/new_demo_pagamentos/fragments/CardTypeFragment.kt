@@ -98,13 +98,13 @@ class CardTypeFragment : Fragment() {
                 8 -> {
                     startCheckCardFragment(getString(R.string.d_bito), view)
                     mainActivity.mainViewModel.let {
-                        it.beep()
+                        //it.beep()
                     }
                 }//1
                 9 -> {
                     startCheckCardFragment(getString(R.string.cr_dito), view)
                     mainActivity.mainViewModel.let {
-                        it.beep()
+                        //it.beep()
                     }
                 }//2
             }

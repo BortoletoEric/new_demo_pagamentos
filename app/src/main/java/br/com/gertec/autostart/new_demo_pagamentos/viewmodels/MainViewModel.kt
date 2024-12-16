@@ -72,8 +72,8 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
             if (!gediOk) {
                 while (true) {
-                    GEDI.init(ctxt)
-                    iGedi = GEDI.getInstance()
+                    //GEDI.init(ctxt) //Libs Gedi neo não precisa mais
+                    iGedi = GEDI.getInstance(ctxt)
                     delay(1000)
                     if (iGedi != null) break
                 }

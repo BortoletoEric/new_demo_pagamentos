@@ -116,5 +116,4 @@ class MainActivity : AppCompatActivity() {
         navController.popBackStack(navController.graph.startDestinationId, false)
         mainViewModel.ppCompCommands.abort()
     }
-
 }

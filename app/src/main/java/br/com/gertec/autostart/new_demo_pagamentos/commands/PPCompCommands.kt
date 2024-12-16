@@ -22,6 +22,7 @@ class PPCompCommands private constructor() {
     private var ppComp: PPComp? = null
     private var cancelCheckEvent = false
     private val tabelas = Tabelas()
+    var iStat = 0
 
     companion object {
         private var instance: PPCompCommands? = null
@@ -191,7 +192,8 @@ class PPCompCommands private constructor() {
             kbdData?.btnCancel,
             kbdData?.btnConfirm,
             kbdData?.btnClear,
-            kbdData?.activity
+            kbdData?.activity,
+            true
         )
     }
 

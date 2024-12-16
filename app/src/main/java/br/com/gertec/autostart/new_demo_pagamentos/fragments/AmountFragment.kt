@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,8 @@ import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentAmountBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutDisplayKeyboardBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutKeyboardBinding
+import br.com.gertec.gedi.GEDI
+import br.com.gertec.gedi.interfaces.IGEDI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +36,7 @@ class AmountFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
     private var currentFormattedAmount = ""
     private lateinit var lifecycleOwner: LifecycleOwner
+    private lateinit var iGedi: GEDI
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,7 +90,7 @@ class AmountFragment : Fragment() {
     private fun resetAllObservers() {
         mainActivity.mainViewModel.processCompleted("")
         mainActivity.mainViewModel.updateDisplay(-999L, "", "")
-        mainActivity.mainViewModel.keyPressed(-999)
+        mainActivity.mainViewModel.keyPressed(-9)
     }
 
     private fun setupObservers(view: View) {
@@ -122,6 +126,7 @@ class AmountFragment : Fragment() {
 
     private fun setupPhysicalKbd(view: View) {
         mainActivity.mainViewModel.kbdKeyPressed.observe(lifecycleOwner){ keyCode ->
+            Log.d("AmountFragment", "KeyPress: $keyCode")
             when(keyCode){
                 8 -> {addDigitToAmount("1")}//1
                 9 -> {addDigitToAmount("2")}//2
@@ -133,8 +138,8 @@ class AmountFragment : Fragment() {
                 15 -> {addDigitToAmount("8")}//8
                 16 -> {addDigitToAmount("9")}//9
                 7 -> {addDigitToAmount("0")}//0
-                4 ->{binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()}//anula
-                67 ->{binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()}//limpa
+                4 -> {binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()}//anula
+                67 -> {binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()}//limpa
                 66 -> {goToCardTypeFragment(view)}//enter
                 170 -> Unit
             }
@@ -157,8 +162,8 @@ class AmountFragment : Fragment() {
         binding.keyboard.buttonClear.setOnClickListener {
             binding.displayKeyboard.txtPriceValue.setText(R.string.default_amount).toString()
         }
-        binding.keyboard.buttonConfirm.setOnClickListener {it->
-            goToCardTypeFragment(it)
+        binding.keyboard.buttonConfirm.setOnClickListener {it ->
+                goToCardTypeFragment(it)
         }
 
         binding.displayKeyboard.txtPriceValue.movementMethod = null
@@ -172,10 +177,12 @@ class AmountFragment : Fragment() {
                     binding.displayKeyboard.txtPriceValue.text = currentFormattedAmount
                     binding.displayKeyboard.txtPriceValue.addTextChangedListener(this)
                 }
+
+                Log.d("AmountFragment", "TextWatcher: $currentFormattedAmount")
+
             }
             override fun afterTextChanged(s: Editable) {}
         })
-
     }
 
     private fun checkEvent() {
@@ -220,10 +227,12 @@ class AmountFragment : Fragment() {
 
     private fun goToCardTypeFragment(view: View) {
         val amount = getAmount(binding.displayKeyboard.txtPriceValue.text)
+        Log.i("AmountFragment", "Valor amount: $amount")
 
         if (amount > 0) {
             mainActivity.mainViewModel.transactionAmount = currentFormattedAmount
             initGedi()
+            Log.i("AmountFragment", "Instância GEDI iniciada: $amount")
             view.findNavController().navigate(
                 AmountFragmentDirections.actionAmountFragmentToCardTypeFragment(
                     (amount).toLong(),

@@ -88,6 +88,21 @@ class CheckCardFragment : Fragment() {
         }
     }
 
+//    private fun setupViews() {
+////       usar logica dos flags
+//        val textView = requireView().findViewById<TextView>(R.id.textView)
+//        mainActivity.mainViewModel.display.observe(viewLifecycleOwner) { display ->
+//
+//            if (display.isNotEmpty()) {
+//                val msg1 = display[1]
+//                val msg2 = display[2]
+//
+//                textView.text = "$msg1\n$msg2"
+//                Log.i("CheckCardFragment", "Flags: + $msg1\n$msg2")
+//            }
+//        }
+//    }
+
     private fun getCard() {
         val timeNDate = mainActivity.mainViewModel.getDateAndTime()
         CoroutineScope(Dispatchers.IO).launch {
