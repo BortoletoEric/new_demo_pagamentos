@@ -159,7 +159,6 @@ class OutputCallbacks(var mainActivity: MainActivity) :
         Log.d("msgg","kbdStarted = $kbdStarted")
         mainActivity.mainViewModel.ppCompCommands.setKbd()
 
-
     }
 
     private fun openPinKBD() {
