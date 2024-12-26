@@ -90,7 +90,7 @@ class AmountFragment : Fragment() {
     private fun resetAllObservers() {
         mainActivity.mainViewModel.processCompleted("")
         mainActivity.mainViewModel.updateDisplay(-999L, "", "")
-        mainActivity.mainViewModel.keyPressed(-9)
+        mainActivity.mainViewModel.keyPressed(-999)
     }
 
     private fun setupObservers(view: View) {
