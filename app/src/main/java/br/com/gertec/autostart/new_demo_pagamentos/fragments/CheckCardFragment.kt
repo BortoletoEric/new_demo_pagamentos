@@ -79,12 +79,11 @@ class CheckCardFragment : Fragment() {
                 }
             }
         }
-
     }
 
     private fun setupViews() {
         mainActivity.mainViewModel.display.observe(viewLifecycleOwner) { display ->
-            binding.textView.text = "${display[1]}\n${display[2]}" //usar logica dos flags
+            binding.txtInfo.text = "${display[1]}\n${display[2]}" //usar logica dos flags
         }
     }
 

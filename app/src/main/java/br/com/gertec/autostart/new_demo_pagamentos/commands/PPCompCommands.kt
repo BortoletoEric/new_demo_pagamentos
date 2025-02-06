@@ -7,15 +7,15 @@ import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
 import br.com.gertec.autostart.new_demo_pagamentos.model.KBDData
 import br.com.gertec.autostart.new_demo_pagamentos.model.Tabelas
-import br.com.gertec.ppcomp.IPPCompDSPCallbacks
-import br.com.gertec.ppcomp.PPComp
-import br.com.gertec.ppcomp.enums.LANGUAGE
-import br.com.gertec.ppcomp.exceptions.PPCompDumbCardException
-import br.com.gertec.ppcomp.exceptions.PPCompMCDataErrException
-import br.com.gertec.ppcomp.exceptions.PPCompNoCardException
-import br.com.gertec.ppcomp.exceptions.PPCompProcessingException
-import br.com.gertec.ppcomp.exceptions.PPCompTabExpException
-import br.com.gertec.ppcomp.exceptions.PPCompTimeoutException
+import br.com.gertec.gpos780.ppcomp.IPPCompDSPCallbacks
+import br.com.gertec.gpos780.ppcomp.PPComp
+import br.com.gertec.gpos780.ppcomp.enums.LANGUAGE
+import br.com.gertec.gpos780.ppcomp.exceptions.PPCompDumbCardException
+import br.com.gertec.gpos780.ppcomp.exceptions.PPCompMCDataErrException
+import br.com.gertec.gpos780.ppcomp.exceptions.PPCompNoCardException
+import br.com.gertec.gpos780.ppcomp.exceptions.PPCompProcessingException
+import br.com.gertec.gpos780.ppcomp.exceptions.PPCompTabExpException
+import br.com.gertec.gpos780.ppcomp.exceptions.PPCompTimeoutException
 import java.util.Locale
 
 class PPCompCommands private constructor() {

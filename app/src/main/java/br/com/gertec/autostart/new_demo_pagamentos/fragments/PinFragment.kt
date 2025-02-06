@@ -103,7 +103,7 @@ class PinFragment : Fragment() {
                 }
 
                 512L -> {
-                    if (BuildConfig.FLAVOR == "gpos760") {
+                    if (BuildConfig.FLAVOR == "gpos760" || BuildConfig.FLAVOR == "gpos790") {
                         binding.txtPin.text = display[2].toString()
                     }
                 }

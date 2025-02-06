@@ -15,6 +15,7 @@ import br.com.gertec.autostart.new_demo_pagamentos.commands.Utils
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentSucessPayBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutCardInfoBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutPaymentInfoBinding
+import br.com.gertec.gedi.enums.GEDI_LED_e_Id
 import br.com.gertec.gedi.exceptions.GediException
 import java.util.Locale
 import kotlin.random.Random
@@ -73,8 +74,22 @@ class SucessPayFragment : Fragment() {
             )
         }
         binding.btnFinish.setOnClickListener {
-            view.findNavController()
-                .navigate(SucessPayFragmentDirections.actionSucessPayFragmentToAmountFragment())
+            view.findNavController().navigate(SucessPayFragmentDirections.actionSucessPayFragmentToAmountFragment())
+            mainActivity.runOnUiThread{
+                try {
+                    //mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL, false)
+                    mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_BLUE, false)
+                    mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_GREEN, false)
+                    mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_ORANGE, false)
+                    mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_RED, false)
+                } catch (e: GediException) {
+                    e.printStackTrace()
+                    mainActivity.binding.imageViewLedAzul.visibility = View.GONE
+                    mainActivity.binding.imageViewLedVerde.visibility = View.GONE
+                    mainActivity.binding.imageViewLedLaranja.visibility = View.GONE
+                    mainActivity.binding.imageViewLedVermelho.visibility = View.GONE
+                }
+            }
         }
     }
 

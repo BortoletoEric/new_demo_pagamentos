@@ -87,14 +87,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun turnOnLed(cor: GEDI_LED_e_Id, ligar: Boolean, turnOnLed: Boolean? = null){
-        if(BuildConfig.FLAVOR == "gpos700mini"){
-            Log.d("msgg","led -> $iGedi")
-            iGedi?.led?.Set(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL,false)
-            iGedi?.led?.Set(cor,ligar)
-            if(turnOnLed != null) {
-                if(!turnOnLed) iGedi?.led?.Set(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL,false)
-            }
-        }
+        iGedi?.led?.Set(cor, ligar)
     }
 
     fun getNs() = iGedi?.info?.ControlNumberGet(GEDI_INFO_e_ControlNumber.SN)

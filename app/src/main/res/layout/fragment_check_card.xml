@@ -9,7 +9,7 @@
     android:background="@drawable/background_blue_gertec">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/txtInfo"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="@string/aproxime"
