@@ -7,7 +7,8 @@ import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
 import br.com.gertec.gedi.enums.GEDI_LED_e_Id
-import br.com.gertec.ppcomp.IPPCompDSPCallbacks
+import br.com.gertec.gpos780.ppcomp.IPPCompDSPCallbacks
+//import br.com.gertec.ppcomp.IPPCompDSPCallbacks
 import java.util.concurrent.atomic.AtomicLong
 
 class OutputCallbacks(var mainActivity: MainActivity) :
