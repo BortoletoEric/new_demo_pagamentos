@@ -2,13 +2,18 @@ package br.com.gertec.autostart.new_demo_pagamentos.callbacks
 
 import android.content.Intent
 import android.media.ToneGenerator
+import android.os.Build
 import android.util.Log
+import android.view.View
 import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
+import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModel
 import br.com.gertec.gedi.enums.GEDI_LED_e_Id
+import br.com.gertec.gedi.exceptions.GediException
 import br.com.gertec.ppcomp.IPPCompDSPCallbacks
 import java.util.concurrent.atomic.AtomicLong
+import kotlin.concurrent.thread
 
 class OutputCallbacks(var mainActivity: MainActivity) :
     IPPCompDSPCallbacks {
@@ -38,16 +43,28 @@ class OutputCallbacks(var mainActivity: MainActivity) :
                 Unit
             } //SECOND_TAP
             524292L -> {
-                Unit
+                mainActivity.mainViewModel.updatePinCallbackHelper("PIN_BLOCKED")
+                Log.d("724993L", "updating pinCallbackHelper ('PIN_BLOCKED'")
             } //PIN_BLOCKED
             589824L -> {
-                Unit
+                mainActivity.mainViewModel.updatePinCallbackHelper("PIN_LAST_TRY")
+                Log.d("724993L", "updating pinCallbackHelper ('PIN_LAST_TRY'")
             } //PIN_LAST_TRY
             69632L -> {
                 Unit
             } //PROCESSING
             724993L -> {
                 stopKBD = false
+                mainActivity.mainViewModel.updatePinCallbackHelper("REMOVE_CARD")
+                Log.d("724993L", "updating pinCallbackHelper ('REMOVE_CARD'")
+            } //REMOVE_CARD
+            720896L -> {
+                mainActivity.mainViewModel.updatePinCallbackHelper("REMOVE_CARD")
+                Log.d("724993L", "updating pinCallbackHelper ('REMOVE_CARD'")
+            } //REMOVE CARD
+            721153L -> {
+                mainActivity.mainViewModel.updatePinCallbackHelper("REMOVE_CARD")
+                Log.d("724993L", "updating pinCallbackHelper ('REMOVE_CARD'")
             } //REMOVE CARD
             851968L -> {
                 Unit
@@ -55,36 +72,159 @@ class OutputCallbacks(var mainActivity: MainActivity) :
             200707L -> {
                 Unit
             } //TAP_INSERT_SWIPE_CARD
-            256L, 0L, 721153L -> {
+            256L, 0L -> {
                 Unit
             } //TEXT_S
-            64L -> { //LIGA E DESLIGA LED SIMULADO
+            64L -> { // DESLIGA TODOS OS LEDS
+                Log.d("leds", "OutputCallBacks 64L: desliga todos")
                 mainActivity.runOnUiThread{
-                    mainActivity.turnOnSimulatedLed(turnOnLed)
-                    mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_3, true, turnOnLed)
-                    turnOnLed = !turnOnLed
+                    try {
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL, false)
+                    }
+                    catch (e: GediException){
+                        e.printStackTrace()
+                        Log.e("leds", e.message.toString())
+                        Log.d("leds", "terminal não tem leds físicos, portanto são emulados")
+                        setEmulatedLedsVisibilityAllGone()
+                    }
                 }
 
             }
             72L -> { // LIGA LED AZUL - AGUARDANDO
-//                mainActivity.turnOnSimulatedLed(false)
                 mainActivity.runOnUiThread{
-                    mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_1, true)
+                    Log.d("leds", "OutputCallBacks 72L: azul aguardando")
+                    try {
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL, false)
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_1, true)
+                    } catch (e: GediException) {
+                        e.printStackTrace()
+                        Log.e("leds", e.message.toString())
+                        Log.d("leds", "terminal não tem leds físicos, portanto são emulados")
+                        setEmulatedLedsVisibilityAllGone()
+                        mainActivity.binding.imageViewLedAzul.visibility = View.VISIBLE
+                    }
+                }
+            }
+            40L -> { //APARECE ENQUANTO AGUARDA CARTÃO
+                Log.d("leds", "OutputCallBacks 40L: azul aguardando")
+                mainActivity.runOnUiThread{
+                    try {
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL, false)
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_1, true)
+                    } catch (e: GediException) {
+                        e.printStackTrace()
+                        Log.e("leds", e.message.toString())
+                        Log.d("leds", "terminal não tem leds físicos, portanto são emulados")
+                        setEmulatedLedsVisibilityAllGone()
+                        mainActivity.binding.imageViewLedAzul.visibility = View.VISIBLE
+                    }
+                }
+            }
+            48L -> { //APARECE ENQUANTO AGUARDA CARTÃO
+                Log.d("leds", "OutputCallBacks 48L: apaga todos e liga azul")
+                mainActivity.runOnUiThread{
+                    try {
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL, false)
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_1, true)
+                    } catch (e: GediException) {
+                        e.printStackTrace()
+                        Log.e("leds", e.message.toString())
+                        Log.d("leds", "terminal não tem leds físicos, portanto são emulados")
+                        setEmulatedLedsVisibilityAllGone()
+                        mainActivity.binding.imageViewLedAzul.visibility = View.VISIBLE
+                    }
+                }
+            }
+            31003L -> { //APROXIME, INSIRA OU PASSE CARTÃO
+                Log.d("leds", "OutputCallBacks 31003L: azul aguardando")
+                mainActivity.runOnUiThread{
+                    try {
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL, false)
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_1, true)
+                    } catch (e: GediException) {
+                        e.printStackTrace()
+                        Log.e("leds", e.message.toString())
+                        Log.d("leds", "terminal não tem leds físicos, portanto são emulados")
+                        setEmulatedLedsVisibilityAllGone()
+                        mainActivity.binding.imageViewLedAzul.visibility = View.VISIBLE
+                    }
                 }
             }
             68L -> { //LIGA LED LARANJA - LENDO
                 mainActivity.runOnUiThread{
-                    mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_4, true)
+                    Log.d("leds", "OutputCallBacks 68L: laranja lendo")
+                    try {
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL, false)
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_4, true)
+                    } catch (e: GediException) {
+                        e.printStackTrace()
+                        Log.e("leds", e.message.toString())
+                        Log.d("leds", "terminal não tem leds físicos, portanto são emulados")
+                        setEmulatedLedsVisibilityAllGone()
+                        mainActivity.binding.imageViewLedLaranja.visibility = View.VISIBLE
+                    }
                 }
             }
             66L -> { //LIGA LED VERDE - OK
                 mainActivity.runOnUiThread{
-                    mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_3, true)
+                    Log.d("leds", "OutputCallBacks 66L: verde sucesso")
+                    try {
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL, false)
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_3, true)
+                    } catch (e: GediException) {
+                        e.printStackTrace()
+                        Log.e("leds", e.message.toString())
+                        Log.d("leds", "terminal não tem leds físicos, portanto são emulados")
+                        setEmulatedLedsVisibilityAllGone()
+                        mainActivity.binding.imageViewLedVerde.visibility = View.VISIBLE
+                    }
                 }
             }
             65L -> { //LIGA LED VERMELHO - GRANDE ERRO
                 mainActivity.runOnUiThread {
-                    mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_2, true)
+                    Log.d("leds", "OutputCallBacks 65L: vermelho erro")
+                    try {
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL, false)
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_2, true)
+                        Thread.sleep(2000)
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_2, false)
+                    } catch (e: GediException) {
+                        e.printStackTrace()
+                        Log.e("leds", e.message.toString())
+                        Log.d("leds", "terminal não tem leds físicos, portanto são emulados")
+                        setEmulatedLedsVisibilityAllGone()
+                        mainActivity.binding.imageViewLedVermelho.visibility = View.VISIBLE
+                        Thread.sleep(2000)
+                        mainActivity.binding.imageViewLedVermelho.visibility = View.GONE
+                    }
+                }
+            }
+            44L -> { //APARECE ENQUANTO AGUARDA CARTÃO
+                mainActivity.runOnUiThread{
+                    try {
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL, false)
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_1, true)
+                    } catch (e: GediException) {
+                        e.printStackTrace()
+                        Log.e("leds", e.message.toString())
+                        Log.d("leds", "terminal não tem leds físicos, portanto são emulados")
+                        setEmulatedLedsVisibilityAllGone()
+                        mainActivity.binding.imageViewLedAzul.visibility = View.VISIBLE
+                    }
+                }
+            }
+            41L -> { //APARECE ENQUANTO AGUARDA CARTÃO
+                mainActivity.runOnUiThread{
+                    try {
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL, false)
+                        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_1, true)
+                    } catch (e: GediException) {
+                        e.printStackTrace()
+                        Log.e("leds", e.message.toString())
+                        Log.d("leds", "terminal não tem leds físicos, portanto são emulados")
+                        setEmulatedLedsVisibilityAllGone()
+                        mainActivity.binding.imageViewLedAzul.visibility = View.VISIBLE
+                    }
                 }
             }
             790657L -> {
@@ -114,12 +254,15 @@ class OutputCallbacks(var mainActivity: MainActivity) :
 
             stopKBD = false
 
-            if (BuildConfig.FLAVOR == "gpos760" ||
-                BuildConfig.FLAVOR == "gpos700" ||
-                BuildConfig.FLAVOR == "gpos780" ||
-                BuildConfig.FLAVOR == "gpos700mini"
-            ) beep()
+            beep()
         }
+    }
+
+    fun setEmulatedLedsVisibilityAllGone() {
+        mainActivity.binding.imageViewLedAzul.visibility = View.GONE
+        mainActivity.binding.imageViewLedVerde.visibility = View.GONE
+        mainActivity.binding.imageViewLedLaranja.visibility = View.GONE
+        mainActivity.binding.imageViewLedVermelho.visibility = View.GONE
     }
 
     override fun Clear() {

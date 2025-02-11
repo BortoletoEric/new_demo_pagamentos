@@ -8,13 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
+import br.com.gertec.autostart.new_demo_pagamentos.callbacks.OutputCallbacks
 import br.com.gertec.autostart.new_demo_pagamentos.commands.PrinterCommands
 import br.com.gertec.autostart.new_demo_pagamentos.commands.Utils
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentSucessPayBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutCardInfoBinding
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.LayoutPaymentInfoBinding
+import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModel
+import br.com.gertec.gedi.enums.GEDI_LED_e_Id
 import br.com.gertec.gedi.exceptions.GediException
 import java.util.Locale
 import kotlin.random.Random
@@ -75,6 +79,14 @@ class SucessPayFragment : Fragment() {
         binding.btnFinish.setOnClickListener {
             view.findNavController()
                 .navigate(SucessPayFragmentDirections.actionSucessPayFragmentToAmountFragment())
+            mainActivity.runOnUiThread{
+                if (BuildConfig.FLAVOR.equals( "gpos780")) {
+                    mainActivity.binding.imageViewLedAzul.visibility = View.GONE
+                    mainActivity.binding.imageViewLedVerde.visibility = View.GONE
+                    mainActivity.binding.imageViewLedLaranja.visibility = View.GONE
+                    mainActivity.binding.imageViewLedVermelho.visibility = View.GONE
+                } else mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL, false)
+            }
         }
     }
 

@@ -15,6 +15,7 @@ import br.com.gertec.autostart.new_demo_pagamentos.databinding.FragmentPinBindin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.concurrent.thread
 
 class PinFragment : Fragment() {
     private var _binding: FragmentPinBinding? = null
@@ -55,6 +56,7 @@ class PinFragment : Fragment() {
                             PinFragmentDirections.actionPinFragmentToSucessPayMiniFragment(args.cardType)
                         )
                     } else {
+                        mainActivity.mainViewModel.beep()
                         view.findNavController().navigate(
                             PinFragmentDirections.actionPinFragmentToSucessPayFragment(args.cardType)
                         )
@@ -108,6 +110,50 @@ class PinFragment : Fragment() {
                     }
                 }
             }
+        }
+
+        mainActivity.mainViewModel.pinCallbackHelper.observe(viewLifecycleOwner) { pinCallbackHelper -> //ATENÇÃO, ISSO ESTAVA GERANDO ERRO NO PIN KBD, ATENTE-SE AO MODIFICÁ-LO
+            Log.d("msgg","obs pinCallbackHelper... ${pinCallbackHelper[0]}")
+            when (pinCallbackHelper[0]) {
+                "PIN_BLOCKED" -> {
+                    Log.d("pinCallbackHelper", "observing pinCallbackHelper(PIN_BLOCKED)")
+                    Thread.sleep(1000)
+                    view.findNavController().navigate(
+                        PinFragmentDirections.actionPinFragmentToAmountFragment()
+                    )
+                }
+
+                "PIN_LAST_TRY" -> {
+                    mainActivity.mainViewModel.processOk.observe(viewLifecycleOwner) { step ->
+                        Log.d("pinCallbackHelper", "observing pinCallbackHelper(PIN_LAST_TRY)")
+                        when (step) {
+                            "GOC" -> {
+                                if (BuildConfig.FLAVOR == "gpos700mini") {
+                                    view.findNavController().navigate(
+                                        PinFragmentDirections.actionPinFragmentToSucessPayMiniFragment(
+                                            args.cardType
+                                        )
+                                    )
+                                } else {
+                                    mainActivity.mainViewModel.beep()
+                                    view.findNavController().navigate(
+                                        PinFragmentDirections.actionPinFragmentToSucessPayFragment(
+                                            args.cardType
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                "REMOVE_CARD" -> {
+                    Log.d("pinCallbackHelper", "observing pinCallbackHelper(REMOVE_CARD)")
+                    binding.removeCardContainer.visibility = View.VISIBLE
+                    binding.tvFinalMessage.text = getString(R.string.retire_o_cart_o)
+                }
+            }
+
         }
     }
 

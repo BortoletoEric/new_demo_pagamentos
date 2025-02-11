@@ -1,6 +1,8 @@
 package br.com.gertec.autostart.new_demo_pagamentos.viewmodels
 
 import android.content.Context
+import android.os.Build
+import android.os.Message
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,6 +10,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
+import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
+import br.com.gertec.autostart.new_demo_pagamentos.callbacks.OutputCallbacks
 import br.com.gertec.autostart.new_demo_pagamentos.commands.PPCompCommands
 import br.com.gertec.gedi.GEDI
 import br.com.gertec.gedi.enums.GEDI_INFO_e_ControlNumber
@@ -34,6 +38,10 @@ class MainViewModel : ViewModel() {
     val display: LiveData<List<Any>>
         get() = _display
 
+    private var _pinCallbackHelper = MutableLiveData<List<Any>>()
+    val pinCallbackHelper: LiveData<List<Any>>
+        get() = _pinCallbackHelper
+
     private var _kbdKeyPressed = MutableLiveData<Int>()
     val kbdKeyPressed: LiveData<Int>
         get() = _kbdKeyPressed
@@ -59,6 +67,17 @@ class MainViewModel : ViewModel() {
     fun updateDisplay(flag: Long, msg1: String, msg2: String) {
         _display.postValue(listOf(flag, msg1, msg2))
     }
+
+    private var lastMessage: String? = null
+    fun updatePinCallbackHelper(message: String) {
+        if (lastMessage == null) {
+            _pinCallbackHelper.postValue(listOf(message, ""))
+        } else {
+            _pinCallbackHelper.postValue(listOf(message, lastMessage!!))
+        }
+        lastMessage = message
+    }
+
 
     fun keyPressed(keyCode: Int) {
         _kbdKeyPressed.postValue(keyCode)
@@ -87,14 +106,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun turnOnLed(cor: GEDI_LED_e_Id, ligar: Boolean, turnOnLed: Boolean? = null){
-        if(BuildConfig.FLAVOR == "gpos700mini"){
-            Log.d("msgg","led -> $iGedi")
-            iGedi?.led?.Set(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL,false)
-            iGedi?.led?.Set(cor,ligar)
-            if(turnOnLed != null) {
-                if(!turnOnLed) iGedi?.led?.Set(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL,false)
-            }
-        }
+        iGedi?.led?.Set(cor, ligar)
     }
 
     fun getNs() = iGedi?.info?.ControlNumberGet(GEDI_INFO_e_ControlNumber.SN)

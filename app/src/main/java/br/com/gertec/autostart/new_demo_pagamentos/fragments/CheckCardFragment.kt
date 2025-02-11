@@ -1,6 +1,7 @@
 package br.com.gertec.autostart.new_demo_pagamentos.fragments
 
 import android.media.ToneGenerator
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -45,10 +46,10 @@ class CheckCardFragment : Fragment() {
             Log.d("msgg","obs GRC... $step")
             when (step) {
                 "GCR" -> {
-                    if (BuildConfig.FLAVOR == "gpos780" && cardType == "06") beep()
+                    if (Build.MODEL == "GPOS780" && cardType == "06") beep()
 
                     if (cardType != "03") {
-                        if (BuildConfig.FLAVOR.equals("gpos700mini")) {
+                        if (Build.MODEL == "GPOS700mini") {
                             view.findNavController().navigate(
                                 CheckCardFragmentDirections.actionCheckCardFragmentToSucessPayMiniFragment(
                                     cardType

@@ -1,5 +1,6 @@
 package br.com.gertec.autostart.new_demo_pagamentos.acitivities
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -13,10 +14,15 @@ import br.com.gertec.autostart.new_demo_pagamentos.callbacks.OutputCallbacks
 import br.com.gertec.autostart.new_demo_pagamentos.databinding.ActivityMainBinding
 import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModel
 import br.com.gertec.autostart.new_demo_pagamentos.viewmodels.MainViewModelFactory
+import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
+import br.com.gertec.gedi.GEDI
+import br.com.gertec.gedi.enums.GEDI_LED_e_Id
+import br.com.gertec.gedi.interfaces.IGEDI
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -89,16 +95,6 @@ class MainActivity : AppCompatActivity() {
         message.show()
     }
 
-    fun turnOnSimulatedLed(turnOn: Boolean){
-        if(BuildConfig.FLAVOR == "gpos700"){
-            if(turnOn) {
-                binding.imageViewLedAzul.visibility = View.VISIBLE
-            }else{
-                binding.imageViewLedAzul.visibility = View.GONE
-            }
-        }
-    }
-
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         val currentDestination = navController.currentDestination
         mainViewModel.keyPressed(keyCode)
@@ -116,5 +112,4 @@ class MainActivity : AppCompatActivity() {
         navController.popBackStack(navController.graph.startDestinationId, false)
         mainViewModel.ppCompCommands.abort()
     }
-
 }
