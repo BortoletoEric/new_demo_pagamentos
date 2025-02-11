@@ -151,7 +151,13 @@ class OutputCallbacks(var mainActivity: MainActivity) :
     //Mostra o teclado e PIN
     private fun setupKBD() {
         //Inicia a tela do teclado
-        openPinKBD()
+
+        if (!PinKbdActivity.active){
+            openPinKBD()
+        } else {
+            Log.d("msgg","pinKbd active, won't open pin kbd")
+        }
+
 
         //Aguarda até que ela tenha sido iniciada
         waitActivityOpen()

@@ -336,12 +336,12 @@ dependencies {
     gpos760Implementation(files("libs/gpos760/libgedi-0.18.8-gpos760-eng-release.aar","libs/gpos760/libgandi-0.3.5-gpos760-payment-release.aar",
             "libs/gpos760/PPCompGPOS760-v1.08-Complete-debug.aar", "libs/gpos760/android-easy-layer-gpos760-release.aar"))
 
-    gpos720Implementation(files("libs/gpos720/libgedi-0.16.20.5df4155-gpos720-payment-release.aar",
-            "libs/gpos720/PPCompGPOS720-v1.12-Complete-debug.aar", "libs/gpos720/android-easy-layer-debug_gpos720.aar"))
+    gpos720Implementation(files("libs/gpos720/libgedi-2.0.6-965ae20-gposNeo-payment-release.aar",
+            "libs/gpos720/PPCompGPOS720-v1.42.aar", "libs/gpos720/android-easy-layer-debug_gpos720.aar"))
 
-    gpos780Implementation(files("libs/gpos780/libgedi-1.16.19-gpos780-payment-release.aar",
-            "libs/gpos780/libppcomp-001.31-230802-gpos780-release.aar", "libs/gpos780/libgandi-1.2.16-gpos780-payment-release.aar",
-            "libs/gpos780/libhcl-1.0.6-gpos780-release.aar","libs/gpos780/android-easy-layer-release_gpos720.aar"))
+    gpos780Implementation(files("libs/gpos780/libgedi-2.0.10-9e53cdd-gposNeo-payment-release.aar",
+            "libs/gpos780/libppcomp-001.33-240829-gpos780-release.aar", "libs/gpos780/libgandi-2.1.2-905a069-gposNeo-payment-release.aar",
+            "libs/gpos780/libhcl-1.0.10-gpos780-release.aar","libs/gpos780/android-easy-layer-release_gpos720.aar"))
 
     gpos700Implementation(files("libs/gpos700/android-easy-layer-debug.aar",
             "libs/gpos700/libgedi-1.16.14-gpos700-payment-release.aar", "libs/gpos700/libppcomp-001.35-230609-gpos700-logs.aar"))

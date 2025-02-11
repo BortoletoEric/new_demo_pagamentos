@@ -192,8 +192,7 @@ class PPCompCommands private constructor() {
             kbdData?.btnCancel,
             kbdData?.btnConfirm,
             kbdData?.btnClear,
-            kbdData?.activity,
-            true
+            kbdData?.activity
         )
     }
 
