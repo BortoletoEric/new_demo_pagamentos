@@ -1,8 +1,10 @@
 package br.com.gertec.autostart.new_demo_pagamentos.callbacks
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.ToneGenerator
 import android.util.Log
+import android.widget.Toast
 import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.MainActivity
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
@@ -23,6 +25,7 @@ class OutputCallbacks(var mainActivity: MainActivity) :
     private var turnOnLed = true
     private var kbdStarted = false
 
+    @SuppressLint("SetTextI18n")
     override fun Text(lFlags: Long, sTxt1: String, sTxt2: String) {
         mainActivity.mainViewModel.updateDisplay(lFlags, sTxt1, sTxt2)
 
@@ -39,10 +42,14 @@ class OutputCallbacks(var mainActivity: MainActivity) :
                 Unit
             } //SECOND_TAP
             524292L -> {
-                Unit
+                PinKbdActivity.mKBDData?.activity?.runOnUiThread(Runnable {
+                    PinKbdActivity.mKBDData?.display?.text = sTxt1 + sTxt2
+                })
             } //PIN_BLOCKED
             589824L -> {
-                Unit
+                PinKbdActivity.mKBDData?.activity?.runOnUiThread(Runnable {
+                    PinKbdActivity.mKBDData?.display?.text = sTxt1 + sTxt2
+                })
             } //PIN_LAST_TRY
             69632L -> {
                 Unit
@@ -70,9 +77,7 @@ class OutputCallbacks(var mainActivity: MainActivity) :
             } //TEXT_S
             64L -> { //LIGA E DESLIGA LED SIMULADO
                 mainActivity.runOnUiThread{
-                    mainActivity.turnOnSimulatedLed(turnOnLed)
-                    mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_3, true, turnOnLed)
-                    turnOnLed = !turnOnLed
+                  setAllLedsOff()
                 }
 
             }
@@ -132,6 +137,14 @@ class OutputCallbacks(var mainActivity: MainActivity) :
                 BuildConfig.FLAVOR == "gpos700mini")
                 beep()
         }
+    }
+
+    private fun  setAllLedsOff() {
+        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_1, false)
+        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_2, false)
+        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_3, false)
+        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_4, false)
+        mainActivity.mainViewModel.turnOnLed(GEDI_LED_e_Id.GEDI_LED_ID_CONTACTLESS_ALL, false)
     }
 
     override fun Clear() {
