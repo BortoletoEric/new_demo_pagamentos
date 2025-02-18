@@ -115,7 +115,7 @@ class PinFragment : Fragment() {
         val am = fixAmountSize(args.amount)
 
         CoroutineScope(Dispatchers.IO).launch {
-            mainActivity.mainViewModel.ppCompCommands.let {
+            mainActivity.mainViewModel.ppCompFactory.let {
                 result = it.goOnChip(
                     "${am}000000000000011102000000000000000000000000000000001000003E820000003E880000",//${am}000000000000001321000000000000000000000000000000001000003E820000003E880000
                     "0019B",

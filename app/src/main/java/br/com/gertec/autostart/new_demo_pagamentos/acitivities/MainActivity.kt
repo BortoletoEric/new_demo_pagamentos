@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupPPCompCommands() {
         outputCallbacks = OutputCallbacks(this@MainActivity)
         CoroutineScope(Dispatchers.IO).launch {
-            mainViewModel.ppCompCommands.let {
+            mainViewModel.ppCompFactory.let {
                 it.init(this@MainActivity)
                 it.setDspCallback(outputCallbacks)
                 it.open()
@@ -114,6 +114,6 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         navController.popBackStack(navController.graph.startDestinationId, false)
-        mainViewModel.ppCompCommands.abort()
+        mainViewModel.ppCompFactory.abort()
     }
 }

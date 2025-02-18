@@ -107,7 +107,7 @@ class CheckCardFragment : Fragment() {
         val timeNDate = mainActivity.mainViewModel.getDateAndTime()
         CoroutineScope(Dispatchers.IO).launch {
             delay(1_000)
-            mainActivity.mainViewModel.ppCompCommands.let {
+            mainActivity.mainViewModel.ppCompFactory.let {
                 if (!args.isCke) {
                     it.abort()
                 }

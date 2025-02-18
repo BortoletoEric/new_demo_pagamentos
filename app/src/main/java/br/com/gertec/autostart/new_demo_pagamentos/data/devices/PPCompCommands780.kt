@@ -1,10 +1,11 @@
-package br.com.gertec.autostart.new_demo_pagamentos.commands
+package br.com.gertec.autostart.new_demo_pagamentos.data.devices
 
 import android.content.Context
 import android.os.Build
 import android.util.Log
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
+import br.com.gertec.autostart.new_demo_pagamentos.data.wrapper.PPCompWrapper
 import br.com.gertec.autostart.new_demo_pagamentos.model.KBDData
 import br.com.gertec.autostart.new_demo_pagamentos.model.Tabelas
 import br.com.gertec.gpos780.ppcomp.IPPCompDSPCallbacks
@@ -16,40 +17,31 @@ import br.com.gertec.gpos780.ppcomp.exceptions.PPCompNoCardException
 import br.com.gertec.gpos780.ppcomp.exceptions.PPCompProcessingException
 import br.com.gertec.gpos780.ppcomp.exceptions.PPCompTabExpException
 import br.com.gertec.gpos780.ppcomp.exceptions.PPCompTimeoutException
-//import br.com.gertec.ppcomp.IPPCompDSPCallbacks
-//import br.com.gertec.ppcomp.PPComp
-//import br.com.gertec.ppcomp.enums.LANGUAGE
-//import br.com.gertec.ppcomp.exceptions.PPCompDumbCardException
-//import br.com.gertec.ppcomp.exceptions.PPCompMCDataErrException
-//import br.com.gertec.ppcomp.exceptions.PPCompNoCardException
-//import br.com.gertec.ppcomp.exceptions.PPCompProcessingException
-//import br.com.gertec.ppcomp.exceptions.PPCompTabExpException
-//import br.com.gertec.ppcomp.exceptions.PPCompTimeoutException
 import java.util.Locale
 
-class PPCompCommands private constructor() {
+class PPCompCommands780() : PPCompWrapper {
     private var ppComp: PPComp? = null
     private var cancelCheckEvent = false
     private val tabelas = Tabelas()
     var iStat = 0
 
     companion object {
-        private var instance: PPCompCommands? = null
+        private var instance: PPCompCommands780? = null
 
         // Método para obter a instância única da classe
-        fun getInstance(): PPCompCommands {
+        fun getInstance(): PPCompCommands780 {
             if (instance == null) {
-                instance = PPCompCommands()
+                instance = PPCompCommands780()
             }
             return instance!!
         }
     }
 
-    fun init(context: Context) {
+    override fun init(context: Context) {
         ppComp = PPComp(context)
     }
 
-    fun open() {
+    override fun open() {
         try {
             ppComp?.PP_Open()
         } catch (e: Exception) {
@@ -57,11 +49,11 @@ class PPCompCommands private constructor() {
         }
     }
 
-    fun setDspCallback(outputCallbacks: IPPCompDSPCallbacks) {
+    override fun setDspCallback(outputCallbacks: IPPCompDSPCallbacks) {
         ppComp?.PP_SetDspCallbacks(outputCallbacks)
     }
 
-    fun checkEvent(input: String): String? {
+    override fun checkEvent(input: String): String? {
         try {
             ppComp?.PP_StartCheckEvent(input)
             while (true) {
@@ -80,7 +72,7 @@ class PPCompCommands private constructor() {
         }
     }
 
-    fun getCard(input: String, context: Context): Pair<Boolean, String?> {
+    override fun getCard(input: String, requireContext: Context): Pair<Boolean, String?> {
         var gcrOut: String?
 
         try {
@@ -92,7 +84,7 @@ class PPCompCommands private constructor() {
                 } catch (e: PPCompTabExpException) {
                     if (tableLoad(
                             "010123456789",
-                            context
+                            requireContext
                         )
                     ) {  // se nao der, tenta esse kk   011357997531
                         try {
@@ -103,7 +95,7 @@ class PPCompCommands private constructor() {
                     }
                 } catch (e: PPCompDumbCardException) {
                     try {
-                        ppComp?.PP_StartRemoveCard(context.getString(R.string.retire_o_cartao))
+                        ppComp?.PP_StartRemoveCard(requireContext.getString(R.string.retire_o_cartao))
                         ppComp?.PP_RemoveCard()
                         ppComp?.PP_Abort()
                         return Pair(false, e.toString())
@@ -122,11 +114,11 @@ class PPCompCommands private constructor() {
         }
     }
 
-    fun goOnChip(
+    override fun goOnChip(
         input: String,
-        tags: String? = null,
-        opTags: String? = null,
-        context: Context
+        tags: String?,
+        opTags: String?,
+        requireContext: Context
     ): Pair<String?, String?> { //Pair: resposta, msg da resposta
         try {
             Log.d("msgg","init GOC...")
@@ -147,7 +139,7 @@ class PPCompCommands private constructor() {
                     cancelCheckEvent = false
                     PinKbdActivity.kBDData?.activity?.finish()
                     try {
-                        ppComp?.PP_StartRemoveCard(context.getString(R.string.retire_o_cartao))
+                        ppComp?.PP_StartRemoveCard(requireContext.getString(R.string.retire_o_cartao))
                         ppComp?.PP_RemoveCard()
                         ppComp?.PP_Abort()
                         return Pair("GOC_TO", "")
@@ -160,7 +152,7 @@ class PPCompCommands private constructor() {
                     PinKbdActivity.kBDData?.activity?.finish()
                     e.printStackTrace()
                     try {
-                        ppComp?.PP_StartRemoveCard(context.getString(R.string.retire_o_cartao))
+                        ppComp?.PP_StartRemoveCard(requireContext.getString(R.string.retire_o_cartao))
                         ppComp?.PP_RemoveCard()
                         ppComp?.PP_Abort()
                         Log.d("msgg","GOC_ERR: $e")
@@ -175,7 +167,7 @@ class PPCompCommands private constructor() {
             cancelCheckEvent = false
             PinKbdActivity.kBDData?.activity?.finish()
             try {
-                ppComp?.PP_StartRemoveCard(context.getString(R.string.retire_o_cartao))
+                ppComp?.PP_StartRemoveCard(requireContext.getString(R.string.retire_o_cartao))
                 ppComp?.PP_RemoveCard()
                 ppComp?.PP_Abort()
             } catch (e: Exception) {
@@ -185,7 +177,7 @@ class PPCompCommands private constructor() {
         }
     }
 
-    fun setKbd() {
+    override fun setKbd() {
         val kbdData: KBDData? = PinKbdActivity.kBDData
         ppComp?.PP_SetKbd(
             kbdData?.btn1,
@@ -205,7 +197,7 @@ class PPCompCommands private constructor() {
         )
     }
 
-    fun finishChip() {
+    override fun finishChip() {
         Log.d("msgg","init FNC...")
         try {
             ppComp?.PP_FinishChip("0000000000", "011829F279F269F36958F9F37")
@@ -254,7 +246,7 @@ class PPCompCommands private constructor() {
         }
     }
 
-    fun selectLanguage(deviceLanguage: String) {
+    override fun selectLanguage(deviceLanguage: String) {
         if (deviceLanguage == "pt") ppComp?.PP_SelectLanguage(LANGUAGE.PT) else ppComp?.PP_SelectLanguage(
             LANGUAGE.EN
         )
@@ -270,7 +262,7 @@ class PPCompCommands private constructor() {
         return locale.language
     }
 
-    fun abort() {
+    override fun abort() {
         cancelCheckEvent = true
         try {
             ppComp?.PP_Abort()

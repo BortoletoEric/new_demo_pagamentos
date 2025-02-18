@@ -73,7 +73,7 @@ class AmountFragment : Fragment() {
 
     private fun setupPPCompLanguage() {
         CoroutineScope(Dispatchers.IO).launch {
-            mainActivity.mainViewModel.ppCompCommands.selectLanguage(getDeviceLanguage())
+            mainActivity.mainViewModel.ppCompFactory.selectLanguage(getDeviceLanguage())
         }
     }
 
@@ -188,7 +188,7 @@ class AmountFragment : Fragment() {
     private fun checkEvent() {
         CoroutineScope(Dispatchers.IO).launch {
             val resp =
-                mainActivity.mainViewModel.ppCompCommands.checkEvent("0110") //magnético e chip apenas
+                mainActivity.mainViewModel.ppCompFactory.checkEvent("0110") //magnético e chip apenas
             if (!resp.isNullOrEmpty()) {
                 if (resp == "CKE_MC_ERR") {
                     mainActivity.mainViewModel.processCompleted(resp)

@@ -178,7 +178,7 @@ class OutputCallbacks(var mainActivity: MainActivity) :
 
         //Seta o teclado na PPComp
         Log.d("msgg","kbdStarted = $kbdStarted")
-        mainActivity.mainViewModel.ppCompCommands.setKbd()
+        mainActivity.mainViewModel.ppCompFactory.setKbd()
 
     }
 

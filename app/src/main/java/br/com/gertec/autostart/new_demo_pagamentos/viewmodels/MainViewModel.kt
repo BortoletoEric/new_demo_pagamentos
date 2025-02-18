@@ -8,7 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import br.com.gertec.autostart.new_demo_pagamentos.BuildConfig
-import br.com.gertec.autostart.new_demo_pagamentos.commands.PPCompCommands
+import br.com.gertec.autostart.new_demo_pagamentos.data.wrapper.PPCompFactory
+import br.com.gertec.autostart.new_demo_pagamentos.data.wrapper.PPCompWrapper
 import br.com.gertec.gedi.GEDI
 import br.com.gertec.gedi.enums.GEDI_INFO_e_ControlNumber
 import br.com.gertec.gedi.enums.GEDI_LED_e_Id
@@ -20,7 +21,7 @@ import java.util.Calendar
 import java.util.Locale
 
 class MainViewModel : ViewModel() {
-    val ppCompCommands: PPCompCommands = PPCompCommands.getInstance()
+    val ppCompFactory: PPCompWrapper = PPCompFactory.getInstance()
 
     private var _processOk = MutableLiveData<String>()
     val processOk: LiveData<String>
