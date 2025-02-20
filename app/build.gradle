@@ -333,13 +333,14 @@ dependencies {
     implementation 'com.airbnb.android:lottie:6.2.0'
 
     //GERTEC SDK
-    implementation files("libs/gpos720/PPCompGPOS720-v1.42.aar",
+    implementation files(
+            //"libs/gpos720/PPCompGPOS720-v1.42.aar",
             "libs/gpos780/libppcomp-001.33-240829-gpos780-release.aar",
+            "libs/gpos760/PPCompGPOS760-v1.08-Complete-debug.aar",
             //"libs/gpos700/libppcomp-001.35-230609-gpos700-logs.aar", "libs/gpos790/PPCompGPOS790-v1.00.aar"
     )
 
-    gpos760Implementation(files("libs/gpos760/libgedi-0.18.8-gpos760-eng-release.aar","libs/gpos760/libgandi-0.3.5-gpos760-payment-release.aar",
-            "libs/PPCompGPOS760-v1.08-Complete-debug.aar", "libs/gpos760/android-easy-layer-gpos760-release.aar"))
+    gpos760Implementation(files("libs/gpos760/libgedi-0.18.8-gpos760-eng-release.aar","libs/gpos760/libgandi-0.3.5-gpos760-payment-release.aar", "libs/gpos760/android-easy-layer-gpos760-release.aar"))
 
     gpos720Implementation(files("libs/gpos720/libgedi-2.0.6-965ae20-gposNeo-payment-release.aar",
             "libs/gpos720/android-easy-layer-debug_gpos720.aar"))

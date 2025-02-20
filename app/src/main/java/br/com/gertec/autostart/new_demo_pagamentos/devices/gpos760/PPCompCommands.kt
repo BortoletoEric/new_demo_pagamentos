@@ -1,14 +1,15 @@
-package br.com.gertec.autostart.new_demo_pagamentos.data.devices
+package br.com.gertec.autostart.new_demo_pagamentos.devices.gpos760
 
 import android.content.Context
 import android.os.Build
 import android.util.Log
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
-import br.com.gertec.autostart.new_demo_pagamentos.data.wrapper.PPCompWrapper
+import br.com.gertec.autostart.new_demo_pagamentos.devices.wrapper.PPCompWrapper
 import br.com.gertec.autostart.new_demo_pagamentos.model.KBDData
 import br.com.gertec.autostart.new_demo_pagamentos.model.Tabelas
-import br.com.gertec.ppcomp.IPPCompDSPCallbacks
+import java.util.Locale
+
 import br.com.gertec.ppcomp.PPComp
 import br.com.gertec.ppcomp.enums.LANGUAGE
 import br.com.gertec.ppcomp.exceptions.PPCompDumbCardException
@@ -17,21 +18,20 @@ import br.com.gertec.ppcomp.exceptions.PPCompNoCardException
 import br.com.gertec.ppcomp.exceptions.PPCompProcessingException
 import br.com.gertec.ppcomp.exceptions.PPCompTabExpException
 import br.com.gertec.ppcomp.exceptions.PPCompTimeoutException
-import java.util.Locale
 
-class PPCompCommands720() : PPCompWrapper {
+class PPCompCommands() : PPCompWrapper {
     private var ppComp: PPComp? = null
     private var cancelCheckEvent = false
     private val tabelas = Tabelas()
     var iStat = 0
 
     companion object {
-        private var instance: PPCompCommands720? = null
+        private var instance: PPCompCommands? = null
 
         // Método para obter a instância única da classe
-        fun getInstance(): PPCompCommands720 {
+        fun getInstance(): PPCompCommands {
             if (instance == null) {
-                instance = PPCompCommands720()
+                instance = PPCompCommands()
             }
             return instance!!
         }
@@ -39,10 +39,6 @@ class PPCompCommands720() : PPCompWrapper {
 
     override fun init(context: Context) {
         ppComp = PPComp(context)
-    }
-
-    override fun setDspCallback(outputCallbacks: br.com.gertec.gpos780.ppcomp.IPPCompDSPCallbacks) {
-        TODO("Not yet implemented")
     }
 
     override fun open() {
@@ -53,7 +49,7 @@ class PPCompCommands720() : PPCompWrapper {
         }
     }
 
-    fun setDspCallback(outputCallbacks: IPPCompDSPCallbacks) {
+    override fun setDspCallback(outputCallbacks: OutputCallbacks) {
         ppComp?.PP_SetDspCallbacks(outputCallbacks)
     }
 

@@ -1,4 +1,4 @@
-package br.com.gertec.autostart.new_demo_pagamentos.data.wrapper
+package br.com.gertec.autostart.new_demo_pagamentos.devices.wrapper
 
 import android.content.Context
 import br.com.gertec.gpos780.ppcomp.IPPCompDSPCallbacks

@@ -1,11 +1,12 @@
-package br.com.gertec.autostart.new_demo_pagamentos.data.devices
+package br.com.gertec.autostart.new_demo_pagamentos.devices.gpos780
 
 import android.content.Context
 import android.os.Build
 import android.util.Log
 import br.com.gertec.autostart.new_demo_pagamentos.R
 import br.com.gertec.autostart.new_demo_pagamentos.acitivities.PinKbdActivity
-import br.com.gertec.autostart.new_demo_pagamentos.data.wrapper.PPCompWrapper
+import br.com.gertec.autostart.new_demo_pagamentos.devices.wrapper.OutputCallbacksWrapper
+import br.com.gertec.autostart.new_demo_pagamentos.devices.wrapper.PPCompWrapper
 import br.com.gertec.autostart.new_demo_pagamentos.model.KBDData
 import br.com.gertec.autostart.new_demo_pagamentos.model.Tabelas
 import br.com.gertec.gpos780.ppcomp.IPPCompDSPCallbacks
@@ -19,19 +20,19 @@ import br.com.gertec.gpos780.ppcomp.exceptions.PPCompTabExpException
 import br.com.gertec.gpos780.ppcomp.exceptions.PPCompTimeoutException
 import java.util.Locale
 
-class PPCompCommands780() : PPCompWrapper {
+class PPCompCommands() : PPCompWrapper {
     private var ppComp: PPComp? = null
     private var cancelCheckEvent = false
     private val tabelas = Tabelas()
     var iStat = 0
 
     companion object {
-        private var instance: PPCompCommands780? = null
+        private var instance: PPCompCommands? = null
 
         // Método para obter a instância única da classe
-        fun getInstance(): PPCompCommands780 {
+        fun getInstance(): PPCompCommands {
             if (instance == null) {
-                instance = PPCompCommands780()
+                instance = PPCompCommands()
             }
             return instance!!
         }
@@ -49,7 +50,7 @@ class PPCompCommands780() : PPCompWrapper {
         }
     }
 
-    override fun setDspCallback(outputCallbacks: IPPCompDSPCallbacks) {
+    fun setDspCallback(outputCallbacks: IPPCompDSPCallbacks) {
         ppComp?.PP_SetDspCallbacks(outputCallbacks)
     }
 
